@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@lunair/core": "*",
+    "@sentry/node": "^10.70.0",
     "pg-boss": "^10.3.0"
   },
   "devDependencies": {
