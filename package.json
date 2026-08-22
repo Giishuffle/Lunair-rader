@@ -1,0 +1,22 @@
+{
+  "name": "lunair",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Lunair World - personalized US import-compliance radar for e-commerce sellers",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "dev:web": "npm run dev --workspace apps/web",
+    "dev:worker": "npm run dev --workspace apps/worker",
+    "db:generate": "npm run db:generate --workspace packages/core",
+    "db:migrate": "npm run db:migrate --workspace packages/core"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

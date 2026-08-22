@@ -1,0 +1,144 @@
+/* Lunair World design tokens - docs/design-system.md */
+:root {
+  /* grounds */
+  --bg: #0A1730;
+  --surface: #12244A;
+  --surface-2: #0F1F3F;
+  --line: #263B66;
+  /* ink */
+  --ink: #F4F6FB;
+  --ink-2: #B9C4D9;
+  --muted: #8493AE;
+  /* voice */
+  --amber: #F5A623;
+  --amber-2: #FFC461;
+  /* status */
+  --good: #2EC4B6;
+  --warn: #F5A623;
+  --bad: #E4572E;
+  /* charts */
+  --c1: #C57C0C;
+  --c2: #1FA394;
+  --c3: #5F82E8;
+  --c4: #D14E28;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-grotesk), var(--font-inter), sans-serif;
+  line-height: 1.2;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+.label {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Radar sweep - signature move #1, pure CSS, reduced-motion aware */
+.radar {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle, transparent 0 32%, var(--line) 32.5%, transparent 33%),
+    radial-gradient(circle, transparent 0 65%, var(--line) 65.5%, transparent 66%),
+    var(--surface-2);
+  overflow: hidden;
+}
+
+.radar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(245, 166, 35, 0.28), transparent 70deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .radar::before {
+    animation: sweep 8s linear infinite;
+  }
+  .ping {
+    animation: ping 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  }
+}
+
+@keyframes sweep {
+  to { transform: rotate(360deg); }
+}
+
+.dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.good { background: var(--good); box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.2); }
+.dot.warn { background: var(--amber); }
+
+.ping {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--amber);
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+}
+
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.btn-amber {
+  background: var(--amber);
+  color: #0B1B33;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.btn-amber:hover { background: var(--amber-2); }
+.btn-amber:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.input {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: var(--font-inter), sans-serif;
+  min-width: 0;
+}
+.input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.input::placeholder { color: var(--muted); }
