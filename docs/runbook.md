@@ -14,18 +14,31 @@ Note: `@lunair/core` and `@lunair/rules` must be built before app typechecks pas
 (`npm run build --workspace packages/core` etc.). CI does this via root `npm run build`.
 
 ## Database
+- Local dev: Docker Postgres on port 5433 -
+  `docker run -d --name lunair-pg -e POSTGRES_USER=lunair -e POSTGRES_PASSWORD=lunair -e POSTGRES_DB=lunair -p 5433:5432 postgres:16-alpine`
+  (`docker start lunair-pg` after reboots). `DATABASE_URL` in `.env.local` points at it.
+- Production: Railway Postgres service; same migrations.
 - Schema: `packages/core/src/schema.ts` (Drizzle). Migrations in `packages/core/drizzle/`.
 - Generate a migration after schema changes: `npm run db:generate` (root).
-- Apply migrations: `npm run db:migrate` (needs `DATABASE_URL`).
+- Apply migrations: `cd packages/core && DATABASE_URL=... npx drizzle-kit migrate`.
 - Never edit applied migration files; always generate a new one.
 
 ## Worker & watchers
 - Entry: `apps/worker/src/index.ts`. Queue = pg-boss on the same Postgres (no Redis).
-- Schedules: `federal_register:poll` hourly. (Phase 2 adds `usitc_hts:diff` daily,
-  `cbp_csms:ingest` hourly, weekly digest + newsletter jobs.)
+- Schedules (in `src/jobs.ts`): `federal_register:poll` hourly · `usitc_hts:diff` daily
+  06:30 UTC · `cpsc_recalls:poll` every 6h. (Phase 2 adds `cbp_csms:ingest` via email,
+  weekly digest + newsletter jobs.)
+- **Run any watcher once, manually:**
+  `DATABASE_URL=... node apps/worker/dist/index.js --once federal_register:poll`
+  (also `usitc_hts:diff`, `cpsc_recalls:poll`). Build first: `npm run build -w apps/worker`.
 - Every source failure increments `source_health.error_streak` and sets status
   `degraded`; success resets to `ok`. Alerting on error streaks -> Phase 2 watchdog.
-- Manual run: trigger the job handler once by temporarily calling `boss.send("federal_register:poll", {})`.
+- USITC gotcha: the exportList endpoint requires `styles=false` or it 400s. If it
+  regresses, check docs/data-access.md before touching the adapter.
+
+## Telegram
+- Bot: @lunairworldbot. Verify token / capture owner chat id: `node scripts/check-telegram.mjs`
+  (owner must have messaged the bot at least once for the chat id to appear).
 
 ## Deploy (to wire up when Railway project exists)
 - Two services from this repo: `web` (Next.js, `apps/web`) and `worker` (`apps/worker`).

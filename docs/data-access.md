@@ -21,12 +21,13 @@ here, and only then build its adapter.
 - https://hts.usitc.gov — site offers revision downloads (JSON/CSV export expected; the
   site is a JS app, so confirm the export endpoint from the network tab or docs).
 - Verify: download format, revision cadence, how §301/IEEPA columns appear, diffability.
-- Findings (partially verified 2026-08-22): `GET https://hts.usitc.gov/reststop/search?keyword=9503`
-  WORKS - returns JSON array of tariff lines (`htsno`, `description`, `indent`,
-  `footnotes`, `units`, rate fields). The `reststop/exportList` endpoint returned
-  HTTP 400 with every param combination tried; before building the diff watcher,
-  capture the real export request from the site's network tab (likely different param
-  names or a POST). Fallback: full revision CSV/JSON downloads from the site UI.
+- Findings (SOLVED 2026-08-22): `GET https://hts.usitc.gov/reststop/exportList?format=JSON&from=9503&to=9504&styles=false`
+  WORKS - the **`styles=false` param is required**; without it the endpoint returns 400.
+  Returns full JSON tariff lines: `htsno`, `indent`, `description`, `general`,
+  `special`, `other`, `footnotes`. Adapter built (`apps/worker/src/sources/usitcHts.ts`):
+  hash-dedup snapshots per range + pure diff engine, daily. Watched ranges include
+  Chapter 99 (9903) where §301/IEEPA/§232 additional duties live.
+  `reststop/search?keyword=...` also works (for Phase 1 HTS suggestion lookups).
   IMPORTANT: §301/IEEPA/§232 rates largely live in Chapter 99 lines and footnotes,
   not as clean columns on the base line - the duty-stack math must resolve Ch. 99
   references (see docs/plan-critique.md #3).
@@ -34,13 +35,16 @@ here, and only then build its adapter.
 ### 3. CBP CSMS bulletins
 - https://www.cbp.gov/trade/automated/cargo-systems-messaging-service — bulletins via
   GovDelivery. Verify: RSS/JSON feed availability vs email-only; message numbering; volume.
-- Findings (verified 2026-08-22): NO public machine feed. cbp.gov returns 403 to
-  non-browser fetchers (Akamai bot protection); the GovDelivery bulletin archive
-  (content.govdelivery.com/accounts/USDHSCBP/bulletins) requires a session (302 -> login).
-  PLAN: subscribe a dedicated inbox (e.g. csms@lunairworld.com via Resend inbound or
-  an IMAP mailbox) to the CSMS GovDelivery email list and parse bulletins from email.
-  Alternative to test in Phase 2: fetching cbp.gov with a realistic browser UA from a
-  residential-quality IP, but email ingestion is the reliable path.
+- Findings (verified 2026-08-22, extended): NO public machine feed. cbp.gov returns
+  403 to non-browser fetchers but **200 with a realistic Chrome user-agent** (usable
+  for full-text fetches). The GovDelivery bulletin archive requires a session
+  (302 -> login). CBP publishes **monthly CSMS archive PDFs** (e.g.
+  /sites/default/files/2026-08/26_0813_csms_archive_incl_july.pdf) - good for
+  backfill only, too slow for <6h alerts.
+  PLAN: subscribe a dedicated inbox (csms@lunairworld.com via Resend inbound) to the
+  GovDelivery email list (signup: public.govdelivery.com/accounts/USDHSCBP/subscriber/new)
+  and parse bulletins from email in near-real-time; browser-UA fetch for full text;
+  archive PDFs for historical backfill.
 
 ### 4. Secondary confirmation (optional)
 - Reed Smith Trade Compliance Resource Hub (RSS available), ST&R Trade Report.

@@ -1,7 +1,8 @@
-# LUNAIR WORLD — Master Plan (v2)
+# LUNAIR WORLD — Master Plan (v3)
 ### Personalized US import-compliance radar for e-commerce sellers.
 **Domain:** lunairworld.com · **Owner:** Guy (Wershuffle Inc) · **Goal:** $5,000+/mo net profit, ~98% automated
 **v2 — August 2026.** Changes from v1: payments moved to **Stripe** (existing Wershuffle Inc account); **AI support chat ships at launch**; **weekly newsletter system ("The Lunar Tide")** added with founder-approval workflow; **design language & motion system** added (see `docs/design-system.md` in the starter kit).
+**v3 — 22 August 2026 (applied by Claude Code; reasoning in `docs/plan-critique.md`).** Competitive repositioning (direct competitors now exist); growth model re-baselined ($5k profit at M12-15, churn is lever #1); duty engine split into two stages (event alerts at launch, full stacked-rate calculator after); HTS suggestions get legal guardrails (candidate codes + user confirmation, counsel question added); CSMS via email ingestion; **CPSC recalls added as a fourth data source** (verified free API, no competitor has it); AI budget raised to $250/mo; newsletter/SEO targets made realistic; email deliverability hardening (subdomain + SPF/DKIM/DMARC day one).
 **Purpose:** Complete handoff file for Claude Code — build from this document top to bottom, together with the other files in the starter kit.
 
 > **The product in one line:** A seller describes their product once ("Product Passport" — fun, 5 minutes), and Lunair World shows every US import requirement that appears to apply (duties, agency rules, labeling — the *old* laws) and pings them the moment anything changes (the *new* laws). Informational radar, never legal advice.
@@ -13,7 +14,7 @@
 - **Beachhead market:** US-based e-commerce importers (Amazon FBA + Shopify DTC brands sourcing from Asia). English-first, reachable via channels Guy already masters.
 - **Phase 2 market (month 5+):** Asia-based sellers exporting to the US, entered via the white-label Partner tier (freight forwarders, sourcing agents) + bilingual EN/中文 UI.
 - **Model:** Freemium SaaS. Free = 1 product, baseline audit teaser, weekly newsletter. Paid = full audit + real-time personalized alerts + dollar impact.
-- **Why we win:** Incumbents are enterprise (Descartes, $10k+/yr), brokerages (Importal), or free-but-generic feeds (CBP CSMS, law-firm trackers). Nobody personalizes to *your* HTS codes with dollar impact at SMB prices. Data is free government data (Federal Register API, USITC HTS, CBP CSMS) — no platform lock-out risk.
+- **Why we win (v3, honest version):** Incumbents are enterprise (Descartes, $10k+/yr), brokerages (Importal), or free-but-generic feeds. SMB tariff-alert tools now exist (TariffDesk, Tariff Sentinel, GingerControl Compliance Radar — Appendix A), but every one is **HTS-code-first and tariffs-only**: built for sellers who already know their codes. Lunair wins on (a) the Product Passport — plain English in, no customs knowledge needed; (b) **full agency requirements** (CPSC/FDA/FCC/DOT) plus **recall alerts in your category**, not just duty rates; (c) dollar impact on *your* import value; (d) the white-label Partner tier. Positioning: **"the only import radar that speaks seller, not broker."** Data is free government data — no platform lock-out risk.
 
 ---
 
@@ -63,13 +64,13 @@ US-registered e-commerce businesses importing physical goods, 1–50 employees, 
 
 ### 2.3 Unit economics & path to $5k/mo profit (Stripe)
 
-Target mix (~month 9–12): 90 Voyage ($2,610) + 30 Fleet ($2,370) + 6 Lighthouse ($1,194) = **$6,174 MRR**.
-Costs: Stripe fees ~3.2% (~$198) + infra/tools ~$250 + AI API ~$100 + paid ads ~$400 = ~$950.
-**Net ≈ $5,200/mo.**
+Target mix (~month 12–15): 90 Voyage ($2,610) + 30 Fleet ($2,370) + 6 Lighthouse ($1,194) = **$6,174 MRR**.
+Costs: Stripe fees ~3.8% all-in (~$235) + infra/tools ~$250 + AI API ~$250 + paid ads ~$400 = ~$1,135.
+**Net ≈ $5,000/mo.**
 
-Funnel assumptions: visitor→signup 6%, signup→activated (Passport completed) 60%, free→paid within 60 days 4–5%. Holding 126 paid subs at 7% monthly churn needs ~9 new paid/mo → ~200 new free signups/mo → ~3,300 visitors/mo.
+Funnel assumptions: visitor→signup 6%, signup→activated (Passport completed) 60%, free→paid within 60 days 4–5%. **v3 reality check:** at 3,300 visitors/mo these rates yield ~9 new paid/mo, which at 7% churn converges toward ~128 subs only asymptotically (~75 subs at M12). Reaching ~126 subs needs **churn as lever #1** (annual offered at signup, not month 3; Lighthouse partners churn least) plus **~6,000 visitors/mo from ~M6**. Every point of churn below 7% is worth more than a point of conversion.
 
-Milestones: M1–2 build + beta (20 sellers, free Fleet for feedback) → M3 public launch, 30 paid → M6 ~$2.5–3k MRR → M9–12 $5k+ profit. **Kill/pivot criterion:** if free→paid < 2% by M5 with ≥1,500 free users, fix packaging before spending more on traffic.
+Milestones (v3): M1–2 build + beta (20 sellers, free Fleet for feedback) → M3 public launch, 25–30 paid → M6 ~$2–2.5k MRR → M9 ~$3.5–4k MRR → **M12–15 $5k+/mo profit**. **Kill/pivot criterion:** if free→paid < 2% by M5 with ≥1,500 free users, fix packaging before spending more on traffic. **Earlier product gate (v3):** if beta activation < 60% or alert-usefulness < 80% by end of M3, fix product before buying traffic.
 
 ### 2.4 KPIs (tracked on the KPI Command Center artifact; live in admin from Phase 3)
 
@@ -88,8 +89,8 @@ Milestones: M1–2 build + beta (20 sellers, free Fleet for feedback) → M3 pub
 | CAC by channel | ad spend ÷ new paid (first-touch UTM) | ≤$60 blended; pause channel at >$120 |
 | LTV:CAC | (ARPU×margin÷churn) : CAC | ≥5:1 |
 | Alert usefulness | 👍 share on alerts | ≥80% |
-| Alert latency | rule published → alert sent | <6h median |
-| Newsletter subscribers / open rate | Lunar Tide list | 2,000 by M6 · ≥45% opens |
+| Alert latency | rule published → alert sent (auto-sent alerts only; gated events excluded) | <6h median |
+| Newsletter subscribers / open rate | Lunar Tide list | 1,200 by M6 · ≥38% opens |
 | Support automation | tickets resolved without Guy | ≥90% |
 | Source uptime | watcher health | ≥99% |
 | NPS | day-14 + quarterly | ≥40 |
@@ -98,7 +99,7 @@ Milestones: M1–2 build + beta (20 sellers, free Fleet for feedback) → M3 pub
 
 ## 3. TRAFFIC — six sources + tracking stack
 
-1. **Programmatic SEO.** Auto-generated pages from the rule library: "Current US import requirements: [category] from [country]" (~2,000 combos), "HTS [code] duty rate history". Each page = live data + "get alerted when this changes" capture. Target 2,500 organic visits/mo by M6.
+1. **Programmatic SEO.** Auto-generated pages from the rule library: "Current US import requirements: [category] from [country]", "HTS [code] duty rate history". **v3: roll out in batches of 100–200 pages**, each with real live data (current rates, latest changes, recall counts) and internal linking — never 2,000 thin pages at once on a fresh domain. Target 2,500 organic visits/mo by **M8–9** (not M6); SEO compounds later than the ads channel.
 2. **Paid social + search (Guy's superpower).** Meta lookalikes of FBA-seller interests; Google Search on high-intent terms ("fba tariff calculator", "section 301 alert"). Start $400/mo; scale only at CAC ≤ $60.
 3. **The Lunar Tide newsletter (see §11).** Free weekly digest anyone can join without an account — a standalone acquisition asset: every issue is forwardable, every story links a product page or SEO page. Newsletter subscribers are the warmest upgrade pool.
 4. **Niche media sponsorships.** FBA/e-comm newsletters, podcasts, YouTube. $200–500 test placements; unique UTMs + promo codes.
@@ -117,7 +118,8 @@ A conversational, game-like wizard — a travel passport application for your pr
 1. **Start:** "Let's get your product its US travel papers 🛂" — paste an Amazon/Shopify/Alibaba listing URL **or** drop a product photo **or** type what you sell. AI pre-fills everything it can.
 2. **Five friendly questions max** (only what AI couldn't infer): What is it made of? Who uses it (kids/adults)? Does it plug in / have a battery? Where is it made? Rough yearly import value (slider, optional).
 3. **Progress & delight:** the passport visual fills with "stamps" as sections complete; instant micro-reveals after each answer ("Battery? Noted — that wakes up 2 extra rules 👀").
-4. **The Wow screen:** "**Your Passport is ready.** Duty stack today: 7.5% + 25% §301 = 32.5%. **9 requirements found** — 6 all-clear, 3 flagged." Radar-sweep reveal animation, then a shareable branded summary card (auto-generated PNG).
+4. **The Wow screen:** "**Your Passport is ready.** Current duty picture per USITC (verify with your broker): base rate + additional duties that appear to apply. **9 requirements found** — 6 all-clear, 3 flagged. **2 recalls in your category this quarter.**" Radar-sweep reveal animation, then a shareable branded summary card (auto-generated PNG). **v3 duty display rule:** show rates as sourced facts with links, dollar impact as a clearly-labeled estimate range; the full stacked-rate calculator (Ch. 99 resolution) is a post-launch stage (§9.4).
+   **v3 HTS legal guardrail:** the customs-code step always shows 2–3 candidate codes as "codes commonly used for similar products" with the user picking/confirming their own — never one authoritative answer. The paid product monitors codes the USER selected (see §7).
 5. **The hook:** "We're now watching 14 rule sources for this product. We'll ping you the moment anything moves." → connect Telegram / confirm email → done.
 
 Rules: one question per screen, plain words ("your product's customs code," never "HTS classification"), skip-anything, save-and-resume, mobile-first, <5 minutes, every field explains *why we ask* in one line.
@@ -154,7 +156,7 @@ Modern, simple, dark, and quietly addictive — the pull comes from *anticipatio
 | Winback | Cancel → exit survey → 50% off 2 months (auto) → 60-day winback with "what changed since you left" |
 | Ops watchdog | Source-health pings to OWNER's Telegram; daily business KPI digest; Sentry alerts |
 
-**Honest number: ~95–98% automated.** Human steady state: ~30 min/wk (ads review + AI-queued support edge cases) + ~15 min/wk newsletter approval + ~2 hrs/mo maintenance via Claude Code sessions.
+**Honest number (v3): ~90% automated in months 1–3 while prompts tune; ~95–98% at steady state.** Human steady state: ~30 min/wk (ads review + AI-queued support edge cases) + ~15 min/wk newsletter approval + ~2 hrs/mo maintenance via Claude Code sessions. Low-confidence events queue for review; latency KPI counts auto-sent alerts only, and gated events may send a neutral holding alert ("a change affecting your category was published — we're reviewing it").
 
 ---
 
@@ -186,7 +188,7 @@ Modern, simple, dark, and quietly addictive — the pull comes from *anticipatio
 6. **Insurance:** Tech E&O + cyber (~$500–1,500/yr) at first revenue.
 7. **Data sourcing:** exclusively public US government publications (public domain). Listing-autofill fetches only pages the user pastes.
 8. **IP:** USPTO knockout search "Lunair"/"Lunair World" (classes 35, 42) pre-launch; file after first revenue.
-9. **Lawyer checklist:** ToS + Privacy review · DBA vs subsidiary · arbitration enforceability · insurance adequacy · trademark results · landing page + newsletter claims review.
+9. **Lawyer checklist:** **QUESTION #1 (v3): does suggesting HTS classification codes to paying users constitute "customs business" under 19 CFR 111, and how must code suggestions be presented to stay clearly informational?** (Product mitigation already specced: candidate codes only, user confirms their own, paid tier monitors user-selected codes.) · ToS + Privacy review · DBA vs subsidiary · arbitration enforceability · insurance adequacy · trademark results · landing page + newsletter claims review.
 
 ---
 
@@ -202,7 +204,7 @@ Modern, simple, dark, and quietly addictive — the pull comes from *anticipatio
 ## 9. ARCHITECTURE & CODEBASE PLAN
 
 ### 9.1 Stack
-Next.js 15 (App Router, TypeScript) · Postgres (Neon or Supabase) + Drizzle ORM · pg-boss job queue (no Redis) · Node worker · **Stripe** (Billing + Checkout + Customer Portal + Tax + webhooks) · Resend + React Email (alerts, lifecycle, newsletter) · Telegram via grammY (webhook) · Claude API (classification, summarization, Assistant, support drafts, newsletter drafts) · PostHog + Plausible + Sentry · Railway or Fly.io (~$40–80/mo).
+Next.js 15 (App Router, TypeScript) · Postgres (Railway Postgres in prod; Docker Postgres for local dev) + Drizzle ORM · pg-boss job queue (no Redis) · Node worker · **Stripe** (Billing + Checkout + Customer Portal + Tax + webhooks) · Resend + React Email (alerts, lifecycle, newsletter) — **v3: all mail from the `mail.lunairworld.com` subdomain with SPF/DKIM/DMARC configured day one; email is the primary alert channel, Telegram the power-user option** · Telegram via grammY (webhook) · Claude API (classification, summarization, Assistant, support drafts, newsletter drafts) — **v3: per-user daily caps on the Assistant (tight on free), small fast models for classification/triage, cached rule-library answers** · PostHog + Plausible + Sentry · Railway (~$40–80/mo).
 
 ### 9.2 Repo layout (monorepo)
 ```
@@ -245,12 +247,18 @@ admin_audit(id, actor, action, target, at)
 
 ### 9.4 Data pipeline (the engine)
 ```
-WATCHERS (pg-boss cron)
-  federal_register:poll   hourly   # free API, no key; agencies: USTR, CBP, ITA, Commerce,
+WATCHERS (pg-boss cron) — all verified live 2026-08-22, details in docs/data-access.md + docs/api-inventory.md
+  federal_register:poll   hourly   # ✅ BUILT. Free API; agencies: USTR, CBP, ITA, Commerce,
                                    # CPSC, FDA, FCC; types: rules, proposed rules, notices, proclamations
-  usitc_hts:diff          daily    # HTS revision download → diff duty columns → tariff_lines
-  cbp_csms:ingest         hourly   # CSMS bulletins → source_docs
-  (optional) lawfirm_rss  daily    # Reed Smith / ST&R as secondary confirmation
+  usitc_hts:diff          daily    # ✅ BUILT. exportList JSON (styles=false required!) → hash-dedup
+                                   # snapshots → diff rate fields. Watches Ch. 99 (9903) where
+                                   # §301/IEEPA/§232 duties live — this is how stacked-rate changes are caught
+  cpsc_recalls:poll       6-hourly # ✅ BUILT (v3 addition). SaferProducts.gov Recall API, free, no key —
+                                   # recall alerts in the seller's category; no competitor has this
+  cbp_csms:ingest         on-email # v3: no public feed (verified). Subscribe a dedicated inbox to the
+                                   # GovDelivery list; parse bulletins from email. Browser-UA fetch of
+                                   # cbp.gov works for full text; monthly archive PDFs for backfill
+  (optional) lawfirm_rss  daily    # Reed Smith / ST&R as secondary confirmation only
         ▼
 AI PIPELINE (worker, Claude API, strict JSON outputs)
   1. classify: relevant to importers? which HTS ranges / categories?
@@ -275,11 +283,11 @@ Passport autofill: user-pasted URL fetched server-side (best effort), text + ima
 
 **Phase 0 — Foundation (wk 1):** 1. Monorepo scaffold, schema migrations, pg-boss, CI/CD, Sentry, `docs/runbook.md`. 2. Auth.js (magic link + Google), **Stripe**: products/prices for all tiers (monthly+annual), Checkout, Customer Portal, webhook → plan state, Stripe Tax enabled; PostHog/Plausible with UTM capture.
 **Phase 1 — Passport, Audit & Assistant (wk 2–3):** 3. Rule library v1: top 20 e-comm categories in `packages/rules` (AI-drafted, founder-reviewed). 4. Product Passport wizard (§4.1 incl. autofill, animations per design-system.md, wow screen, share card). 5. HTS suggestion pipeline + duty-stack snapshot from USITC data. 6. **Lunair Assistant** (in-app chat: docs + rule library + user's own data; guardrails; escalation to email; 👍/👎). **→ Free tier live and valuable.**
-**Phase 2 — The Radar (wk 4–6):** 7. Watchers (Federal Register, HTS diff, CSMS) + source_health. 8. AI pipeline + events + confidence gate. 9. Alert router + Telegram bot + email templates + weekly All-Clear digest + streaks/badges. 10. Paywalls, upsell triggers, referral codes (Stripe promotion codes). 11. **Newsletter engine:** public subscribe page + double opt-in, Monday draft job, admin Newsletter Desk, Tuesday send job, public archive pages. **→ Public launch.**
+**Phase 2 — The Radar (wk 4–6):** 7. Watchers — Federal Register, HTS diff (incl. Ch. 99), CPSC recalls are ✅ built (Phase 0); remaining: CSMS email ingestion + watchdog pings. 8. AI pipeline + events + confidence gate. 9. Alert router + Telegram bot + email templates + weekly All-Clear digest + streaks/badges. 10. Paywalls, upsell triggers, referral codes (Stripe promotion codes). 11. **Newsletter engine:** public subscribe page + double opt-in, Monday draft job, admin Newsletter Desk, Tuesday send job, public archive pages. **→ Public launch.**
 **Phase 3 — Autonomy & Growth (M2–3):** 12. Admin console (full §6). 13. AI support email triage. 14. Lifecycle email engine. 15. Programmatic SEO pages + community roundup generator. 16. KPI pipeline → command deck + weekly founder digest.
 **Phase 4 — Expansion (M4–6):** 17. Lighthouse partner workspaces + white-label. 18. Bilingual EN/中文. 19. Winback + annual-plan engine. 20. Data-vendor fallback adapter.
 
-**Definition of done (launch):** new user reaches Wow screen <15 min · alert latency <6h on test events · zero uncaught alert errors in 7-day soak · confidence gate verified · Stripe live checkout all tiers (monthly + annual) with Tax enabled · newsletter loop tested end-to-end (draft → approve → send) · Assistant answers the 25 seed FAQs correctly · ToS/Privacy live · admin kill-switch works · `prefers-reduced-motion` honored everywhere.
+**Definition of done (launch, v3):** new user reaches Wow screen <15 min · alert latency <6h on test events (auto-sent) · zero uncaught alert errors in 7-day soak · confidence gate verified · duty display shows sourced current rates + estimate-labeled $ impact (full stacked-rate calculator NOT required for launch) · HTS step shows candidate codes with user confirmation · Stripe live checkout all tiers (monthly + annual) with Tax enabled · newsletter loop tested end-to-end (draft → approve → send) · Assistant answers the 25 seed FAQs correctly · ToS/Privacy live · SPF/DKIM/DMARC verified on mail.lunairworld.com · admin kill-switch works · `prefers-reduced-motion` honored everywhere.
 
 **Standing instructions to Claude Code:** read `CLAUDE.md` first · verify every government feed empirically before coding against it → `docs/data-access.md` · all AI outputs strict JSON with confidence, never free-form text into the alert path · every source adapter implements the shared interface + reports to source_health · UI copy follows §7.3 banned words · animations follow `docs/design-system.md` and respect reduced motion · seed script with 10 demo products · integration tests: HTS diff fixtures, event→alert routing, tier gating, newsletter approval gate.
 
@@ -322,8 +330,11 @@ Passport autofill: user-pasted URL fetched server-side (best effort), text + ima
 
 ---
 
-## APPENDIX A — Competitor snapshot (researched Aug 2026)
-Descartes CustomsInfo (enterprise, contact-sales) · Importal.ai (AI customs brokerage) · Zonos (outbound landed-cost APIs) · Flexport (freight-bundled) · Free: CBP CSMS bulletins, Reed Smith tariff tracker (active Aug 2026), ST&R daily report. **No personalized SMB alert product found** (caveat: web search unavailable during research — run a 30-min fresh search before build).
+## APPENDIX A — Competitor snapshot (v3, fresh search 22 Aug 2026)
+**Direct SMB competitors (new since v2 research):** TariffDesk (tariffdesk.com — HTS-code monitoring, §301/§232/IEEPA alerts, importer plans) · Tariff Sentinel (tariffsentinel.com — duty impact checker + source-linked email alerts per HTS code) · GingerControl "Compliance Radar" (launched May 2026 — personalized closed-loop tariff alerts with recommended actions). Comparison articles for the category already exist (ustariffrates.com).
+**All are HTS-code-first and tariffs-only** — none does plain-English onboarding, agency requirements (CPSC/FDA/FCC), recall alerts, or white-label. That is the wedge (§0).
+**Adjacent/enterprise:** Descartes CustomsInfo (enterprise, contact-sales) · Importal.ai (AI customs brokerage) · Zonos (landed-cost APIs) · Flexport (freight-bundled). **Free:** CBP CSMS bulletins, Reed Smith tariff tracker, ST&R daily report.
+**Standing task:** re-run the competitor search quarterly; do a 1-day teardown of the three direct competitors before writing landing copy.
 
 ## APPENDIX B — Starter kit contents
 `CLAUDE.md` (Claude Code instructions) · `README.md` (how to start) · `docs/master-plan.md` (this file) · `docs/design-system.md` · `docs/newsletter.md` · `docs/data-access.md` (verification checklist) · `docs/legal/tos-outline.md` · `.env.example` · `brand/` (3 logo SVGs) · `seed/rules.sample.json` · `seed/demo-products.json`

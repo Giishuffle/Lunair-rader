@@ -32,7 +32,7 @@ Every claim links a government source. Footer: physical address, one-click unsub
   Approve & schedule / Skip week buttons; stats (subs, opens, clicks) per issue.
 - `newsletter:send` job (Tue 14:00 UTC): render React Email template (dark-friendly,
   logo header, amber accents) → Resend broadcast → write stats back → publish archive page.
-- KPIs: subscribers (target 2,000 by M6), open rate ≥45%, CTR ≥5%, subscriber→signup ≥3%/mo.
+- KPIs (v3, realistic): subscribers 1,200 by M6, open rate ≥38%, CTR ≥5%, subscriber→signup ≥3%/mo.
 
 ## Pre-launch mode (already running)
 Until the engine ships, the same loop runs in Guy's Cowork workspace: a scheduled task
