@@ -4,6 +4,10 @@ import { schema, type Db, type SourceAdapter, type SourceName } from "@lunair/co
 import { FederalRegisterAdapter } from "./sources/federalRegister.js";
 import { UsitcHtsAdapter, diffHtsLines, type HtsLine } from "./sources/usitcHts.js";
 import { CpscRecallsAdapter } from "./sources/cpscRecalls.js";
+import { pingOwner } from "./notify/telegram.js";
+
+/** Ping the owner after this many consecutive failures of one source. */
+const ERROR_STREAK_PING_THRESHOLD = 3;
 
 async function recordSuccess(db: Db, source: SourceName) {
   await db
@@ -15,14 +19,23 @@ async function recordSuccess(db: Db, source: SourceName) {
     });
 }
 
-async function recordFailure(db: Db, source: SourceName) {
-  await db
+async function recordFailure(db: Db, source: SourceName, err: unknown) {
+  const [row] = await db
     .insert(schema.sourceHealth)
     .values({ source, errorStreak: 1, status: "degraded" })
     .onConflictDoUpdate({
       target: schema.sourceHealth.source,
       set: { errorStreak: sql`${schema.sourceHealth.errorStreak} + 1`, status: "degraded" },
-    });
+    })
+    .returning({ errorStreak: schema.sourceHealth.errorStreak });
+
+  // Watchdog: ping the owner on the threshold failure only, not every retry.
+  if (row && row.errorStreak === ERROR_STREAK_PING_THRESHOLD) {
+    const message = err instanceof Error ? err.message : String(err);
+    await pingOwner(
+      `⚠️ <b>Source degraded:</b> ${source}\n${row.errorStreak} consecutive failures.\n<code>${message.slice(0, 300)}</code>\n\nAlerts depending on this source are paused until it recovers.`,
+    ).catch((e) => console.error("[watchdog] owner ping failed", e));
+  }
 }
 
 /** Fetch via adapter, upsert into source_docs, maintain source_health. Returns inserted count. */
@@ -50,9 +63,27 @@ async function ingest(db: Db, adapter: SourceAdapter, since: Date | null): Promi
     console.log(`[${adapter.source}] ${docs.length} fetched, ${inserted} new`);
     return inserted;
   } catch (err) {
-    await recordFailure(db, adapter.source);
+    await recordFailure(db, adapter.source, err);
     throw err;
   }
+}
+
+/** Daily ops digest to the owner's Telegram: source health at a glance. */
+async function opsHealthDigest(db: Db): Promise<void> {
+  const rows = await db.select().from(schema.sourceHealth).orderBy(schema.sourceHealth.source);
+  const [{ count: docCount } = { count: 0 }] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(schema.sourceDocs);
+
+  const lines = rows.map((r) => {
+    const icon = r.status === "ok" ? "🟢" : r.status === "degraded" ? "🟠" : "🔴";
+    const last = r.lastSuccessAt ? `${Math.round((Date.now() - r.lastSuccessAt.getTime()) / 3.6e6)}h ago` : "never";
+    return `${icon} <b>${r.source}</b> - last ok ${last}${r.errorStreak > 0 ? ` (${r.errorStreak} errors)` : ""}`;
+  });
+
+  const allOk = rows.length > 0 && rows.every((r) => r.status === "ok");
+  const header = allOk ? "🌙 <b>Lunair watchers: all clear</b>" : "🌙 <b>Lunair watchers: attention needed</b>";
+  await pingOwner(`${header}\n\n${lines.join("\n")}\n\n${docCount} source documents on the radar.`);
 }
 
 /**
@@ -87,12 +118,17 @@ async function diffLatestHtsSnapshots(db: Db): Promise<void> {
   }
 }
 
-export type JobName = "federal_register:poll" | "usitc_hts:diff" | "cpsc_recalls:poll";
+export type JobName = "federal_register:poll" | "usitc_hts:diff" | "cpsc_recalls:poll" | "ops:health-digest";
 
+/**
+ * Cron is UTC. Israel is UTC+3 (IDT, summer) / UTC+2 (IST, winter) - times that
+ * matter to the founder are noted in Israel time beside each entry.
+ */
 export const JOB_SCHEDULES: Record<JobName, string> = {
   "federal_register:poll": "0 * * * *", // hourly
   "usitc_hts:diff": "30 6 * * *", // daily
   "cpsc_recalls:poll": "15 */6 * * *", // every 6h
+  "ops:health-digest": "0 6 * * *", // daily 09:00 Israel
 };
 
 export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
@@ -106,6 +142,9 @@ export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
     },
     "cpsc_recalls:poll": async () => {
       await ingest(db, new CpscRecallsAdapter(), new Date(Date.now() - 30 * 24 * 3600 * 1000));
+    },
+    "ops:health-digest": async () => {
+      await opsHealthDigest(db);
     },
   };
 }

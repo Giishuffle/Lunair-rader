@@ -195,7 +195,8 @@ Modern, simple, dark, and quietly addictive — the pull comes from *anticipatio
 ## 8. FOUNDER DECISION LOG — decisions only Guy can make
 
 **Pre-build (this week):** approve brand/tagline · buy domains · DBA vs subsidiary with counsel (§7.1) · confirm pricing table · approve kill/pivot criterion · confirm newsletter send day/time (§11).
-**Pre-launch (M1–2):** pick 20 beta users · refund policy (recommend 14-day no-questions) · support SLA (recommend 24h) · ad budget cap ($400/mo) + CAC ceiling ($60 target / $120 pause) · sign off ToS + Privacy · enable Stripe Tax + confirm with accountant · E&O insurance now or at first revenue.
+**Pre-launch (M1–2):** pick 20 beta users · ~~refund policy~~ **DECIDED 22 Aug 2026: 14-day no-questions** · support SLA (recommend 24h) · ad budget cap ($400/mo) + CAC ceiling ($60 target / $120 pause) · sign off ToS + Privacy · enable Stripe Tax + confirm with accountant · E&O insurance now or at first revenue.
+**Decided 22 Aug 2026:** refund = 14-day no-questions · newsletter = draft Sun 09:00, send **Mon 11:00** Israel · kill/pivot criterion + earlier M3 product gate accepted · pricing table unchanged ($29/$79/$199) with annual pushed at signup.
 **Scale (M3+):** affiliate % (25–30) · licensed data source if a gov feed degrades (trigger: >$1k MRR) · Asia phase timing + translation bar · VA hire when human support >3 hrs/wk · annual discount depth · price raise at 100 customers (+20% for new, grandfather existing).
 **Standing weekly (~45 min):** ads review · approve newsletter draft (15 min, §11) · approve AI-queued support edge cases · KPI digest glance.
 
@@ -320,9 +321,11 @@ Passport autofill: user-pasted URL fetched server-side (best effort), text + ima
 
 | When | What | Who |
 |---|---|---|
-| Monday 09:00 | Draft lands: AI aggregates the week's events (Federal Register, HTS diffs, CSMS) and writes the full issue | Claude (automated) |
-| Monday–Tuesday 16:00 | Review window: approve as-is, edit inline, regenerate a section, or skip the week | **Guy (~15 min)** |
-| Tuesday 17:00 (= 10:00 ET) | Send to list; archive page auto-published to site | Automated — sends **only if approved** |
+| **Sunday 09:00** | Draft lands: AI aggregates the week's events (Federal Register, HTS diffs, CPSC recalls, CSMS) and writes the full issue | Claude (automated) |
+| Sunday–Monday 10:00 | Review window: approve as-is, edit inline, regenerate a section, or skip the week | **Guy (~15 min)** |
+| **Monday 11:00** | Send to list; archive page auto-published to site | Automated — sends **only if approved** |
+
+_(v3: schedule confirmed by Guy 22 Aug 2026. Jobs run hourly and gate on real Israel local time — DST-proof. See `docs/newsletter.md` for the 04:00-ET trade-off note.)_
 
 **Compliance:** double opt-in, one-click unsubscribe, physical address footer, no tracking pixels beyond open/click counts.
 
