@@ -1,35 +1,99 @@
 import { NextResponse } from "next/server";
-import { createDb, schema } from "@lunair/core";
+import { createDb, schema, FOUNDING_SPOTS, isFoundingMember, foundingSpotsLeft } from "@lunair/core";
+import { and, eq, isNotNull, lte, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+const WAITLIST_SOURCE = "waitlist-prelaunch";
 
 /**
- * Pre-launch waitlist capture. Stores into newsletter_subscribers (double opt-in
- * confirmation flow lands with the newsletter engine, Phase 2 item 11).
- * Without DATABASE_URL (local preview) it accepts and logs only.
+ * Pre-launch waitlist. Assigns a join position from a Postgres sequence, so
+ * concurrent signups can never claim the same founding-member number.
+ * Positions 1..FOUNDING_SPOTS earn 50% off the first year of an annual plan.
+ *
+ * Re-submitting an address returns the position already held rather than
+ * consuming another one.
  */
 export async function POST(req: Request) {
   let email: unknown;
   try {
     ({ email } = (await req.json()) as { email?: unknown });
   } catch {
-    return NextResponse.json({ ok: false }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "invalid request" }, { status: 400 });
   }
-  if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
     return NextResponse.json({ ok: false, error: "invalid email" }, { status: 400 });
   }
+  const normalized = email.trim().toLowerCase();
 
   const url = process.env.DATABASE_URL;
   if (!url) {
-    console.log("[waitlist] no DATABASE_URL, skipping persist:", email);
-    return NextResponse.json({ ok: true, stored: false });
+    console.log("[waitlist] no DATABASE_URL, skipping persist:", normalized);
+    return NextResponse.json({ ok: true, stored: false, position: null, founding: false });
   }
 
   const db = createDb(url);
-  await db
-    .insert(schema.newsletterSubscribers)
-    .values({ id: randomUUID(), email: email.toLowerCase(), source: "waitlist-prelaunch" })
-    .onConflictDoNothing();
-  return NextResponse.json({ ok: true, stored: true });
+
+  const findExisting = async () =>
+    (
+      await db
+        .select({ position: schema.newsletterSubscribers.waitlistPosition })
+        .from(schema.newsletterSubscribers)
+        .where(eq(schema.newsletterSubscribers.email, normalized))
+        .limit(1)
+    )[0];
+
+  // Look first, insert second. Postgres evaluates nextval() before it detects a
+  // duplicate-key conflict, so inserting blindly would burn a founding spot every
+  // time someone re-submits their address.
+  let position = (await findExisting())?.position ?? null;
+
+  if (position === null) {
+    const [row] = await db
+      .insert(schema.newsletterSubscribers)
+      .values({
+        id: randomUUID(),
+        email: normalized,
+        source: WAITLIST_SOURCE,
+        waitlistPosition: sql`nextval('waitlist_position_seq')`,
+      })
+      .onConflictDoNothing({ target: schema.newsletterSubscribers.email })
+      .returning({ position: schema.newsletterSubscribers.waitlistPosition });
+
+    // onConflictDoNothing returns nothing if a concurrent request won the race.
+    position = row?.position ?? (await findExisting())?.position ?? null;
+  }
+
+  return NextResponse.json({
+    ok: true,
+    stored: true,
+    position,
+    founding: isFoundingMember(position),
+    foundingSpots: FOUNDING_SPOTS,
+  });
+}
+
+/** Live count of founding spots remaining, for the landing page. */
+export async function GET() {
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    return NextResponse.json({ spotsLeft: FOUNDING_SPOTS, foundingSpots: FOUNDING_SPOTS });
+  }
+  const db = createDb(url);
+  const [{ claimed = 0 } = {}] = await db
+    .select({ claimed: sql<number>`count(*)::int` })
+    .from(schema.newsletterSubscribers)
+    .where(
+      and(
+        isNotNull(schema.newsletterSubscribers.waitlistPosition),
+        lte(schema.newsletterSubscribers.waitlistPosition, FOUNDING_SPOTS),
+      ),
+    );
+
+  return NextResponse.json({
+    spotsLeft: foundingSpotsLeft(claimed),
+    foundingSpots: FOUNDING_SPOTS,
+  });
 }

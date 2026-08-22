@@ -186,6 +186,12 @@ export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   confirmToken: text("confirm_token"),
   confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
   unsubscribedAt: timestamp("unsubscribed_at", { withTimezone: true }),
+  /**
+   * Join order on the pre-launch waitlist, from the `waitlist_position_seq`
+   * sequence so concurrent signups can never collide. Positions 1..FOUNDING_SPOTS
+   * earn the founding-member discount. Null for people who arrived another way.
+   */
+  waitlistPosition: integer("waitlist_position").unique(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

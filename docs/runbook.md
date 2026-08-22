@@ -36,6 +36,27 @@ Note: `@lunair/core` and `@lunair/rules` must be built before app typechecks pas
 - USITC gotcha: the exportList endpoint requires `styles=false` or it 400s. If it
   regresses, check docs/data-access.md before touching the adapter.
 
+## Environment files
+- Secrets live in `/.env.local` at the repo root (gitignored).
+- `apps/web/.env.local` is a **symlink** to it, because Next.js only reads env files
+  from its own directory. Recreate it with:
+  `ln -sf ../../.env.local apps/web/.env.local`
+- The worker reads the root file directly via `node --env-file=.env.local`.
+- On Railway none of this applies: variables are set per service (see docs/deploy.md).
+
+## Founding-member offer
+- First 50 waitlist signups get 50% off their first year (`FOUNDING_SPOTS` in
+  `packages/core/src/plans.ts`).
+- Position comes from the Postgres sequence `waitlist_position_seq`. Never assign
+  positions with `count(*) + 1` - concurrent signups would collide.
+- The API checks for an existing email **before** inserting, because Postgres
+  evaluates `nextval()` before detecting a duplicate key, so a blind insert would
+  burn a founding spot on every repeat submission.
+- Stripe side: `node --env-file=.env.local scripts/stripe-founding-coupon.mjs`
+  creates coupon `founding50` and promotion code `FOUNDING50`, capped at 50
+  redemptions so the cap is enforced by Stripe as well as by us.
+- To check how many spots are gone: `GET /api/waitlist`.
+
 ## Telegram
 - Bot: @lunairworldbot. Verify token / capture owner chat id: `node scripts/check-telegram.mjs`
   (owner must have messaged the bot at least once for the chat id to appear).

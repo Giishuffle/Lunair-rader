@@ -17,6 +17,26 @@ export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
   lighthouse: { products: 50, teamSeats: 3, fullAudit: true, realtimeAlerts: true, csvExport: true, clientWorkspaces: 10 },
 };
 
+/**
+ * Founding-member offer: the first N people on the pre-launch waitlist get
+ * 50% off their first year on an annual plan.
+ *
+ * Scarcity here is real - the count comes from actual signups and the Stripe
+ * promotion code is capped at the same number - so displaying "N spots left"
+ * is honest, not the fake-urgency the design system bans.
+ */
+export const FOUNDING_SPOTS = 50;
+export const FOUNDING_PROMO_CODE = "FOUNDING50";
+export const FOUNDING_DISCOUNT_PERCENT = 50;
+
+export function isFoundingMember(waitlistPosition: number | null | undefined): boolean {
+  return typeof waitlistPosition === "number" && waitlistPosition >= 1 && waitlistPosition <= FOUNDING_SPOTS;
+}
+
+export function foundingSpotsLeft(claimed: number): number {
+  return Math.max(0, FOUNDING_SPOTS - claimed);
+}
+
 /** Words banned in all UI, emails, and marketing (master-plan §7.3). */
 export const BANNED_COPY = ["guaranteed", "certified", "legal advice", "we ensure compliance"] as const;
 
