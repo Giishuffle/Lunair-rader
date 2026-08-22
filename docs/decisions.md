@@ -13,6 +13,7 @@ and update this file.
 | 22 Aug 2026 | Pricing unchanged: $29 Voyage / $79 Fleet / $199 Lighthouse |
 | 22 Aug 2026 | Kill/pivot criterion and the earlier month-3 product gate: accepted |
 | 22 Aug 2026 | Hosting: Railway. Database: Postgres on Railway |
+| 22 Aug 2026 | **Founding-50 offer**: first 50 waitlist signups get 50% off their first year on an annual plan |
 
 ## Made by Claude Code (delegated)
 
@@ -32,6 +33,7 @@ and update this file.
 | Beta users | Same terms as everyone, free top tier for one month | A separate beta agreement is overhead we don't need; the ToS liability caps already do the work |
 | AI disclosure | Always disclose AI-generated summaries, whether or not required | Cheap to do, and consistent with the "trust is the moat" positioning |
 | AI training | Contractually confirm our AI vendor doesn't train on customer data, and say so in the privacy policy | Product descriptions are commercially sensitive to a seller. This is a selling point, not just compliance |
+| Founding discount shape | 50% off the **first year only**, annual plans only, capped at 50 in Stripe | Year two renews at full price, so the offer is sustainable. Annual-only because churn is the growth model's weakest link - 50 annual subscribers is 50 people who cannot churn monthly. Capping it inside Stripe means the promise cannot be oversold even if our own count is wrong |
 | Legal doc hosting | Rendered from `docs/legal/*.md` at build time | One source of truth: the file the lawyer reviews is the file customers read. Internal `[COUNSEL]` notes are stripped automatically and tested |
 | Insurance | Tech E&O + cyber at first revenue, not before | No revenue means little to lose and premiums are dead weight pre-launch |
 | Trademark | Proceed with the brand; file after first revenue | The USPTO screen came back clear in our classes (`docs/legal/trademark-search.md`) |
