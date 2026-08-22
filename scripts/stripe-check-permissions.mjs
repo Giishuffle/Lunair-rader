@@ -1,12 +1,14 @@
 /**
- * Probes the Stripe restricted key for the permissions Lunair needs and prints
- * exactly which toggles are missing, so the key gets fixed in one pass.
+ * Probes the Stripe restricted key for every permission Lunair needs - READ and
+ * WRITE separately - and prints exactly which toggles are missing.
  *
  * Usage: node --env-file=.env.local scripts/stripe-check-permissions.mjs
  *
- * Read access is probed directly. Write access can't be probed without creating
- * objects, so it's inferred: Stripe's "Write" setting always includes read, and
- * a resource that fails the read probe cannot have write either.
+ * Write probing without creating anything: we POST with a deliberately invalid
+ * body. Stripe checks permissions BEFORE validating parameters, so
+ *   403 "Permission denied"        -> the key lacks write
+ *   400 "Missing required param"   -> the key has write, the call just failed validation
+ * Either way no object is ever created.
  */
 
 const KEY = process.env.STRIPE_SECRET_KEY;
@@ -16,48 +18,79 @@ if (!KEY) {
 }
 
 const PROBES = [
-  { label: "Products", path: "products?limit=1", need: "Write" },
-  { label: "Prices", path: "prices?limit=1", need: "Write" },
-  { label: "Customers", path: "customers?limit=1", need: "Write" },
-  { label: "Subscriptions", path: "subscriptions?limit=1", need: "Write" },
-  { label: "Checkout Sessions", path: "checkout/sessions?limit=1", need: "Write" },
-  { label: "Billing Portal", path: "billing_portal/configurations?limit=1", need: "Write" },
-  { label: "Webhook Endpoints", path: "webhook_endpoints?limit=1", need: "Write" },
-  { label: "Coupons", path: "coupons?limit=1", need: "Write" },
-  { label: "Promotion Codes", path: "promotion_codes?limit=1", need: "Write" },
-  { label: "Invoices", path: "invoices?limit=1", need: "Read" },
-  { label: "Tax Settings", path: "tax/settings", need: "Read" },
+  { label: "Products", read: "products?limit=1", write: "products" },
+  { label: "Prices", read: "prices?limit=1", write: "prices" },
+  { label: "Customers", read: "customers?limit=1", write: null },
+  { label: "Subscriptions", read: "subscriptions?limit=1", write: null },
+  { label: "Checkout Sessions", read: "checkout/sessions?limit=1", write: "checkout/sessions" },
+  { label: "Billing Portal", read: "billing_portal/configurations?limit=1", write: null },
+  { label: "Webhook Endpoints", read: "webhook_endpoints?limit=1", write: "webhook_endpoints" },
+  { label: "Coupons", read: "coupons?limit=1", write: null },
+  { label: "Promotion Codes", read: "promotion_codes?limit=1", write: null },
+  { label: "Invoices", read: "invoices?limit=1", write: null },
+  { label: "Tax Settings", read: "tax/settings", write: null },
 ];
 
-console.log(`Key: ${KEY.slice(0, 8)}…${KEY.slice(-4)}  (${KEY.startsWith("rk_test") || KEY.startsWith("sk_test") ? "TEST mode" : "LIVE mode"})\n`);
+async function call(path, method) {
+  const res = await fetch(`https://api.stripe.com/v1/${path}`, {
+    method,
+    headers: {
+      authorization: `Bearer ${KEY}`,
+      ...(method === "POST" ? { "content-type": "application/x-www-form-urlencoded" } : {}),
+    },
+    // Empty body on purpose: fails validation, never creates anything.
+    ...(method === "POST" ? { body: "" } : {}),
+  });
+  const json = await res.json().catch(() => ({}));
+  return { status: res.status, message: json.error?.message ?? "", ok: res.ok };
+}
 
-const missing = [];
+function isPermissionDenied(r) {
+  return r.status === 403 || /permission/i.test(r.message);
+}
+
+/** Extract the permission names Stripe itself names in its error message. */
+function neededPermissions(message) {
+  return [...message.matchAll(/"([^"]+)"\s*\('([a-z_]+)'\)/g)].map((m) => `${m[1]} (${m[2]})`);
+}
+
+console.log(
+  `Key: ${KEY.slice(0, 8)}…${KEY.slice(-4)}  (${/^(rk|sk)_test/.test(KEY) ? "TEST mode" : "LIVE mode"})\n`,
+);
+
+const missing = new Set();
+let allGood = true;
 
 for (const probe of PROBES) {
-  const res = await fetch(`https://api.stripe.com/v1/${probe.path}`, {
-    headers: { authorization: `Bearer ${KEY}` },
-  });
-  if (res.ok) {
-    console.log(`  ok       ${probe.label}`);
+  const r = await call(probe.read, "GET");
+  if (isPermissionDenied(r)) {
+    console.log(`  MISSING READ   ${probe.label}`);
+    neededPermissions(r.message).forEach((p) => missing.add(p));
+    allGood = false;
     continue;
   }
-  const body = await res.json().catch(() => ({}));
-  const msg = body.error?.message ?? `HTTP ${res.status}`;
-  if (res.status === 403 || /permission/i.test(msg)) {
-    console.log(`  MISSING  ${probe.label}  (needs ${probe.need})`);
-    missing.push(probe);
+
+  if (!probe.write) {
+    console.log(`  ok             ${probe.label}`);
+    continue;
+  }
+
+  const w = await call(probe.write, "POST");
+  if (isPermissionDenied(w)) {
+    console.log(`  MISSING WRITE  ${probe.label}`);
+    neededPermissions(w.message).forEach((p) => missing.add(p));
+    allGood = false;
   } else {
-    // e.g. tax/settings 400 when Stripe Tax isn't configured yet - not a permission problem
-    console.log(`  ok?      ${probe.label} - ${msg.slice(0, 80)}`);
+    console.log(`  ok  read+write ${probe.label}`);
   }
 }
 
-if (missing.length === 0) {
+if (allGood) {
   console.log("\nAll required permissions present. Ready to run stripe-bootstrap.mjs.");
 } else {
-  console.log(`\n${missing.length} permission(s) to fix. In the Stripe dashboard:`);
-  console.log("Developers -> API keys -> your restricted key -> Edit, then set:");
-  for (const m of missing) console.log(`   ${m.label}  ->  ${m.need}`);
+  console.log("\nStripe reports these permissions are missing. In the dashboard:");
+  console.log("Developers -> API keys -> your restricted key -> Edit\n");
+  for (const p of [...missing].sort()) console.log(`   ${p}`);
   console.log("\nSave, then re-run this script.");
   process.exit(1);
 }
