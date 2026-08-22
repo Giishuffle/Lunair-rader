@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { WaitlistForm } from "./waitlist-form";
 
 export default function Home() {
@@ -43,6 +44,17 @@ export default function Home() {
           decisions with your licensed customs broker.
         </p>
         <p style={{ marginTop: 8 }}>A Wershuffle Inc product.</p>
+        <p style={{ marginTop: 12, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/terms" style={{ color: "var(--muted)" }}>
+            Terms
+          </Link>
+          <Link href="/privacy" style={{ color: "var(--muted)" }}>
+            Privacy
+          </Link>
+          <a href="mailto:guy@wershuffle.com" style={{ color: "var(--muted)" }}>
+            Contact
+          </a>
+        </p>
       </footer>
     </main>
   );

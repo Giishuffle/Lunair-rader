@@ -178,9 +178,15 @@ addendum cover it?
 
 ## I. IP, insurance and housekeeping
 
-**I1.** Trademark. I own the domain lunairworld.com. I'd like a knockout search on
-"Lunair" and "Lunair World" in classes 35 and 42 before I spend on advertising, plus
-your view on whether to file now or after first revenue.
+**I1.** Trademark. I own the domain lunairworld.com. We ran a preliminary USPTO screen
+(attached as a separate note): **no LUNAIR or LUNAIRE mark exists in class 35 or 42,
+live or dead, and "LUNAIR WORLD" has never been filed.** Live LUNAIR marks exist in
+other classes - respiratory masks (class 9, Reg. 6429430), medical devices (10), air
+conditioners (11, published for opposition Feb 2026), and apparel (25). Three questions:
+(a) does the class 9 registration create any real 2(d) risk for a class 42 SaaS filing,
+given that class 9 also covers downloadable software? (b) should we file LUNAIR as well
+as LUNAIR WORLD, since "World" likely adds little distinctiveness? (c) file now to
+secure priority, or wait for first revenue?
 
 **I2.** Our data is entirely US government publication, which I understand to be public
 domain. Is there any restriction on how we redistribute or reformat it commercially, and

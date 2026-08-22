@@ -1,0 +1,118 @@
+/* Long-form legal reading: generous measure, quiet type, clear hierarchy. */
+.legal {
+  max-width: 74ch;
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+}
+
+.legal-notice {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--amber);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 40px;
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+.legal h1 {
+  font-size: 31px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.legal h2 {
+  font-family: var(--font-grotesk), sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 40px 0 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.legal h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.legal h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+}
+
+.legal p,
+.legal li {
+  color: var(--ink-2);
+  margin-bottom: 12px;
+}
+
+.legal strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.legal ul,
+.legal ol {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.legal a {
+  color: var(--amber-2);
+}
+
+.legal hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 32px 0;
+}
+
+.legal blockquote {
+  border-left: 3px solid var(--line);
+  padding-left: 16px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.legal-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.legal table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 15px;
+}
+
+.legal th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.legal td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--ink-2);
+}
+
+.legal-footer {
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
