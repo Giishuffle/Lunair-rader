@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
+  <title>Lunair World logo — light backgrounds</title>
+  <!-- icon -->
+  <g transform="translate(20,20) scale(0.625)">
+    <circle cx="128" cy="128" r="120" fill="#0B1B33"/>
+    <circle cx="110" cy="142" r="62" fill="#F4F6FB"/>
+    <circle cx="138" cy="118" r="58" fill="#0B1B33"/>
+    <circle cx="172" cy="84" r="18" fill="none" stroke="#F5A623" stroke-width="7" stroke-linecap="round"
+            stroke-dasharray="28.3 84.8" transform="rotate(-90 172 84)"/>
+    <circle cx="172" cy="84" r="32" fill="none" stroke="#FFC461" stroke-width="6" stroke-linecap="round"
+            stroke-dasharray="50.3 150.8" transform="rotate(-90 172 84)"/>
+    <circle cx="172" cy="84" r="9" fill="#F5A623"/>
+  </g>
+  <!-- wordmark -->
+  <text x="210" y="112" font-family="'Space Grotesk','Arial',sans-serif" font-weight="700"
+        font-size="72" letter-spacing="4" fill="#0B1B33">LUNAIR</text>
+  <text x="214" y="156" font-family="'Space Grotesk','Arial',sans-serif" font-weight="500"
+        font-size="30" letter-spacing="16" fill="#F5A623">WORLD</text>
+</svg>

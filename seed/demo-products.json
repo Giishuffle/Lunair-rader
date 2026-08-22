@@ -1,0 +1,57 @@
+[
+  {
+    "name": "GlowPals LED Night Light for Kids",
+    "description": "Silicone tap-activated night light for children, USB-C rechargeable lithium battery, ages 3+",
+    "materials": ["silicone", "ABS plastic", "lithium battery"],
+    "audience": "kids",
+    "has_battery": true,
+    "has_plug": false,
+    "origin_country": "CN",
+    "annual_import_value": 120000,
+    "expected_hts_prefix": "9405"
+  },
+  {
+    "name": "TrailBrew Portable Espresso Maker",
+    "description": "Manual stainless-steel portable espresso press for camping, no electronics",
+    "materials": ["stainless steel", "PP plastic", "silicone gasket"],
+    "audience": "adults",
+    "has_battery": false,
+    "has_plug": false,
+    "origin_country": "CN",
+    "annual_import_value": 250000,
+    "expected_hts_prefix": "8419"
+  },
+  {
+    "name": "DriftCast Bluetooth Fishing Speaker",
+    "description": "Waterproof floating Bluetooth speaker, lithium battery, USB-C",
+    "materials": ["ABS plastic", "lithium battery"],
+    "audience": "adults",
+    "has_battery": true,
+    "has_plug": false,
+    "origin_country": "VN",
+    "annual_import_value": 300000,
+    "expected_hts_prefix": "8518"
+  },
+  {
+    "name": "Linen Story Throw Blanket",
+    "description": "100% woven linen throw blanket, 130x170cm",
+    "materials": ["linen"],
+    "audience": "adults",
+    "has_battery": false,
+    "has_plug": false,
+    "origin_country": "IN",
+    "annual_import_value": 90000,
+    "expected_hts_prefix": "6301"
+  },
+  {
+    "name": "PupPort Dog Car Seat",
+    "description": "Booster car seat for small dogs with metal frame and polyester cover",
+    "materials": ["polyester", "steel", "PP plastic"],
+    "audience": "adults",
+    "has_battery": false,
+    "has_plug": false,
+    "origin_country": "CN",
+    "annual_import_value": 180000,
+    "expected_hts_prefix": "4201"
+  }
+]

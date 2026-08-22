@@ -1,0 +1,64 @@
+{
+  "$comment": "Shape for packages/rules requirement templates. Phase 1 item 3 seeds the top 20 categories in this format. plain_english must link source_url and never claim certainty — 'appears to apply' language.",
+  "categories": [
+    {
+      "category_key": "toys_children",
+      "label": "Toys & children's products",
+      "hts_prefixes": ["9503", "9504", "9505"],
+      "requirements": [
+        {
+          "id": "cpsia-cpc",
+          "agency": "CPSC",
+          "title": "Children's Product Certificate (CPC)",
+          "severity": "high",
+          "plain_english": "Products made for children 12 and under generally need a Children's Product Certificate backed by testing at a CPSC-accepted lab before import. This appears to apply to your product because you told us it's used by kids.",
+          "source_url": "https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate-CPC",
+          "self_check_hint": "Ask your supplier for the CPC and the lab report behind it."
+        },
+        {
+          "id": "cpsia-lead-phthalates",
+          "agency": "CPSC",
+          "title": "Lead & phthalates limits",
+          "severity": "high",
+          "plain_english": "Children's products must meet federal lead content and phthalates limits. Test reports should show results per accessible component.",
+          "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
+          "self_check_hint": "Check your lab report covers total lead and the 8 restricted phthalates."
+        },
+        {
+          "id": "tracking-label",
+          "agency": "CPSC",
+          "title": "Tracking label on product & packaging",
+          "severity": "medium",
+          "plain_english": "Children's products need a permanent tracking label (manufacturer, date/batch, source) on the product and packaging.",
+          "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/tracking-label",
+          "self_check_hint": "Look at a production sample photo — is the label molded/printed on?"
+        }
+      ]
+    },
+    {
+      "category_key": "electronics_consumer",
+      "label": "Consumer electronics & accessories",
+      "hts_prefixes": ["8471", "8504", "8517", "8518", "8543"],
+      "requirements": [
+        {
+          "id": "fcc-authorization",
+          "agency": "FCC",
+          "title": "FCC equipment authorization (SDoC or certification)",
+          "severity": "high",
+          "plain_english": "Electronics that emit radio frequency — anything with WiFi/Bluetooth, and most powered devices — generally need FCC authorization before import and sale. Devices with intentional radios usually need certification with an FCC ID.",
+          "source_url": "https://www.fcc.gov/engineering-technology/laboratory-division/general/equipment-authorization",
+          "self_check_hint": "If it has WiFi/Bluetooth, search the FCC ID printed on it in the FCC database."
+        },
+        {
+          "id": "battery-transport",
+          "agency": "DOT/PHMSA",
+          "title": "Lithium battery shipping rules",
+          "severity": "medium",
+          "plain_english": "Products with lithium batteries face packaging, labeling, and documentation rules in transport (UN38.3 test summary).",
+          "source_url": "https://www.phmsa.dot.gov/lithiumbatteries",
+          "self_check_hint": "Ask your freight forwarder for the UN38.3 test summary from the battery maker."
+        }
+      ]
+    }
+  ]
+}
