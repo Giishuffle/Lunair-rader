@@ -92,3 +92,61 @@ Do both, in this order, because they are cheap and complementary:
    wrong, and what have we missed?" Grounded questions get grounded answers in less time.
 4. **Price a PGA data feed** from a vendor once volume justifies it. That replaces the
    hand-written mapping permanently, which the broker session never will.
+
+---
+
+# Commercial vendors - researched 23 Aug 2026
+
+**Headline: there is no SMB-priced US requirement feed on the market.** Every vendor
+holding the content we want sells enterprise, contact-sales only. This makes the free
+government path more important, not less.
+
+_Caveat: the research hit search-engine rate limits and several review sites blocked
+automated access, so absence of a published price below means "not found", not
+"does not exist"._
+
+| Vendor | Relevant content | API | Price |
+|---|---|---|---|
+| **Descartes Visual Compliance / MK Data Services** | The closest match found: ECCN, USML, Schedule B, export-licence determination, denied-party screening. Feeds into SAP/Oracle | Integration-led, no public docs found | Contact sales |
+| **MIC Global Trade Content Service** | Tariffs, exchange rates, export-control lists, some licensing flags. Largely **EU-oriented**; resells Mendel Verlag, PST.AG, Kharon, Dow Jones | None public | Contact sales |
+| **AEB Intelligence** | Classification + sanctions screening, EU dual-use. Content from Reguvis and Dow Jones | **Public developer docs** (customer-gated) | Contact sales |
+| **Customs4trade CAS** | Classification is a platform *feature*, not a licensable dataset | **Public API docs** | Pricing page 404s |
+| **Livingston TradeSphere** | No licensable data product - content is an input to their own services | None found | Contact sales |
+| **Tradebeam Global Trade Content** | Existed to ~2020; the brand is now "TradeBeam AI", an inventory product with no trade content at all | - | Discontinued |
+
+Three of the six are EU-first, which makes them a poor fit for a US-import product.
+
+## The one genuinely useful finding: shipment manifest data
+
+**ImportGenius** (legal name Trade Data Services) sells searchable **US customs
+manifest records** - who imported what, from where, under which tariff code.
+Self-serve and affordable, with real published pricing:
+
+- $229/mo single seat (12 months of data), $183/mo billed annually
+- $449/mo Pro, $359/mo billed annually, 150,000 rows, data back to 2006
+- REST API on the Enterprise tier ($1,999/mo) or as a Business/Pro add-on
+
+This is **not** requirement data - it is shipment flows. But it answers a question we
+currently cannot: *what tariff code do real importers actually declare for a product
+like this?*
+
+That is empirical validation of our classification suggestions, from actual filed
+entries rather than our reading of CBP rulings. Where CROSS gives us published
+precedent, manifests give us observed practice - and where the two agree, our
+confidence is genuinely earned rather than asserted.
+
+**Worth a one-month $229 trial** once we have real products in the system: check our
+top code suggestion against what comparable shipments actually declared, and use any
+disagreement as the agenda for the broker session.
+
+## Revised recommendation
+
+Unchanged in shape, sharper in detail:
+
+1. **eCFR citations** - free, do it first.
+2. **CPSC Regulatory Robot cross-check** - free answer key for one agency.
+3. **One $495 broker session** with a grounded brief.
+4. **ImportGenius, one month, $229** - validate classifications against observed
+   filings. Cancel after if it does not earn its place.
+5. **Enterprise PGA feeds: revisit at real revenue.** Nobody in that tier will quote a
+   sensible price to a pre-launch company, and their content skews EU anyway.
