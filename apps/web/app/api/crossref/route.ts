@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { crossReferenceProduct, type ProductProfile, type RuleCategoryLike } from "@lunair/core";
 import { loadRuleLibrary } from "@lunair/rules";
+import { clientKey, rateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,7 +15,23 @@ export const maxDuration = 60;
  * Returns candidates only - nothing is subscribed here. Saving the seller's
  * choices happens separately, once accounts exist (Phase 0 item 2).
  */
+/**
+ * Public and unauthenticated, and each call fans out to several CBP requests.
+ * Without a limit one loop could get our IP blocked by CBP, which would take
+ * out the core of the product rather than just this route.
+ */
+const LIMIT = 10;
+const WINDOW_MS = 60_000;
+
 export async function POST(req: Request) {
+  const limited = rateLimit(clientKey(req, "crossref"), LIMIT, WINDOW_MS);
+  if (!limited.ok) {
+    return NextResponse.json(
+      { ok: false, error: "Too many lookups. Try again in a minute." },
+      { status: 429, headers: { "retry-after": String(limited.retryAfterSeconds) } },
+    );
+  }
+
   let body: Partial<ProductProfile>;
   try {
     body = (await req.json()) as Partial<ProductProfile>;

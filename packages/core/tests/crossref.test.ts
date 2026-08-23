@@ -208,3 +208,29 @@ describe("crossReferenceProduct", () => {
     expect(res.watches.some((w) => w.type === "adcvd")).toBe(false);
   });
 });
+
+describe("powered_any condition", () => {
+  const FCC = {
+    id: "fcc",
+    agency: "FCC",
+    title: "FCC equipment authorization",
+    plain_english: "Appears to apply to powered devices.",
+    source_url: "https://www.fcc.gov/eas",
+    severity: "high" as const,
+    conditions: { powered_any: true },
+  };
+
+  it("reaches a battery product and a mains product alike", () => {
+    expect(requirementApplies(FCC, { name: "x", hasBattery: true, hasPlug: false })).toBe(true);
+    expect(requirementApplies(FCC, { name: "x", hasBattery: false, hasPlug: true })).toBe(true);
+  });
+
+  /**
+   * The reason this condition exists: FCC authorization used to attach to every
+   * code in the electronics category, so a passive accessory got the same
+   * alarming line as a WiFi device. Over-warning teaches people to ignore us.
+   */
+  it("leaves an unpowered accessory alone", () => {
+    expect(requirementApplies(FCC, { name: "phone case", hasBattery: false, hasPlug: false })).toBe(false);
+  });
+});

@@ -43,6 +43,8 @@ export const RequirementTemplate = z.object({
       audience: z.enum(["kids", "adults", "both"]).optional(),
       has_battery: z.boolean().optional(),
       has_plug: z.boolean().optional(),
+      /** True when the product is powered at all - battery or mains. */
+      powered_any: z.boolean().optional(),
       materials_any: z.array(z.string()).optional(),
     })
     .optional(),

@@ -79,6 +79,8 @@ export interface RequirementLike {
     audience?: "kids" | "adults" | "both";
     has_battery?: boolean;
     has_plug?: boolean;
+    /** True when the product is powered at all - battery or mains. */
+    powered_any?: boolean;
     materials_any?: string[];
   };
 }
@@ -119,6 +121,12 @@ export function requirementApplies(req: RequirementLike, p: ProductProfile): boo
   }
   if (c.has_battery !== undefined && Boolean(p.hasBattery) !== c.has_battery) return false;
   if (c.has_plug !== undefined && Boolean(p.hasPlug) !== c.has_plug) return false;
+  // "Powered at all" - either source counts. Lets a requirement target every
+  // powered product without duplicating it for battery and mains separately.
+  if (c.powered_any !== undefined) {
+    const powered = Boolean(p.hasBattery) || Boolean(p.hasPlug);
+    if (powered !== c.powered_any) return false;
+  }
   if (c.materials_any?.length) {
     const mats = (p.materials ?? []).map((m) => m.toLowerCase());
     if (!c.materials_any.some((m) => mats.some((pm) => pm.includes(m.toLowerCase())))) return false;

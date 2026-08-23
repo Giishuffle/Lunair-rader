@@ -15,16 +15,19 @@
       "agency": "FCC",
       "title": "FCC equipment authorization (SDoC or certification)",
       "severity": "high",
-      "plain_english": "Electronics that emit radio frequency - anything with WiFi/Bluetooth, and most powered devices - generally need FCC authorization before import and sale. Devices with intentional radios usually need certification with an FCC ID.",
+      "plain_english": "Devices that deliberately transmit radio - anything with WiFi, Bluetooth or a radio remote - generally need FCC certification with an FCC ID before import and sale. Powered devices that do not transmit usually fall under the lighter Supplier's Declaration of Conformity instead. Passive accessories with no electronics typically need neither. This appears to apply because you told us your product is powered.",
       "source_url": "https://www.fcc.gov/engineering-technology/laboratory-division/general/equipment-authorization",
-      "self_check_hint": "If it has WiFi/Bluetooth, search the FCC ID printed on it in the FCC database.",
+      "self_check_hint": "If it has WiFi or Bluetooth, look for an FCC ID printed on it and search that ID in the FCC database. If it is powered but does not transmit, ask your supplier for the SDoC instead.",
       "cfr": [
         {
           "title": 47,
           "part": "2",
           "label": "Frequency allocations and radio treaty matters; equipment authorization"
         }
-      ]
+      ],
+      "conditions": {
+        "powered_any": true
+      }
     },
     {
       "id": "battery-transport",

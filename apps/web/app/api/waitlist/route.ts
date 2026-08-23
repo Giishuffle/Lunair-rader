@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createDb, schema, FOUNDING_SPOTS, isFoundingMember, foundingSpotsLeft } from "@lunair/core";
 import { and, eq, isNotNull, lte, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
+import { clientKey, rateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,6 +18,15 @@ const WAITLIST_SOURCE = "waitlist-prelaunch";
  * consuming another one.
  */
 export async function POST(req: Request) {
+  // Cheap to serve, but it writes rows and moves the founding-50 counter.
+  const limited = rateLimit(clientKey(req, "waitlist"), 5, 60_000);
+  if (!limited.ok) {
+    return NextResponse.json(
+      { ok: false, error: "Too many attempts. Try again shortly." },
+      { status: 429, headers: { "retry-after": String(limited.retryAfterSeconds) } },
+    );
+  }
+
   let email: unknown;
   try {
     ({ email } = (await req.json()) as { email?: unknown });
