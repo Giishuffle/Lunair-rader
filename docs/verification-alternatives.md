@@ -150,3 +150,57 @@ Unchanged in shape, sharper in detail:
    filings. Cancel after if it does not earn its place.
 5. **Enterprise PGA feeds: revisit at real revenue.** Nobody in that tier will quote a
    sensible price to a pre-launch company, and their content skews EU anyway.
+
+---
+
+# The buried lede: the authoritative mapping is free but ABI-gated
+
+Deeper research found the thing we actually want, and it is **free**:
+
+**CBP's ABI CATAIR "Harmonized Tariff Schedule" extract file** carries
+**Other Government Agency (OGA) codes per tariff number**, alongside AD/CVD flags,
+quota indicators and SPI codes. Spec:
+`cbp.gov/document/guidance/draft-ace-abi-catair-harmonized-tariff-schedule`
+
+This is the authoritative HTS→agency mapping that every paid vendor repackages.
+Descartes markets exactly this as a differentiator - their catalog line reads
+**"US HTS with ABI PGA Codes - Descartes CustomsInfo exclusive"** - which tells us
+both that it is the valuable dataset and where they get it.
+
+**It is distributed only over an ABI (Automated Broker Interface) connection.** Not a
+download. The access route is a relationship with a licensed broker or an ABI software
+vendor - which reframes the broker conversation entirely: they are not only a reviewer,
+they are the supply line to the best data.
+
+## Free sources verified working
+
+| Source | What it gives | Access |
+|---|---|---|
+| **eCFR API** | Full CFR text + structure, no key. **19 CFR Part 12 "Special Classes of Merchandise"** is literally the admissibility rulebook organised by commodity | `ecfr.gov/api/versioner/v1/` |
+| **USITC HTS API** | Classification, duty, footnotes. **Confirmed to carry no PGA data at all** | `hts.usitc.gov/reststop/` |
+| **CBP CROSS** | 221,496 rulings. No official bulk export | `rulings.cbp.gov` |
+| **USDA APHIS ACIR** | Import requirements by agricultural commodity and origin, incl. treatments and admissibility | `acir.aphis.usda.gov`, no login |
+| **trade.gov developer APIs** | Consolidated Screening List (11 lists, hourly), FTA tariff rates, de minimis | free key |
+| **ACE Agency Tariff Code Reference** | The flag legend: FD1/FD2/EP1-8/DT1/AL1 etc., required vs may-be-required | PDF, current |
+| **CPSC / FDA / EPA flag docs** | Agency-specific definitions. EPA's TSCA HTS list dates to 2019 - stale | PDFs |
+
+**trade.gov's Customs Info Database** gives free Descartes duty data with registration -
+but lookup UI only, and almost certainly **no redistribution rights**.
+
+## The licensing trap nobody mentions up front
+
+Almost every commercial trade-content licence is priced for **internal compliance use by
+the licensee**. A SaaS that surfaces that data to third-party sellers is a different
+licence class - OEM/redistribution - and materially more expensive.
+
+**Raise redistribution in the first sales call with any vendor.** It disqualifies
+options faster than price does.
+
+## Commercial pricing, for the record
+
+Only two vendors publish anything: **Descartes CustomsInfo at $750/user/month** starting
+(Capterra), and **KYG Trade at $825/month** for 5,000 classifications, which is the one
+product explicitly claiming PGA and admissibility fields. Everything else - Thomson
+Reuters ONESOURCE, E2open Global Knowledge, Zonos Restrict, SAP GTS, Oracle GTM - is
+contact-sales. Below roughly $800/month the market is uniformly classification and duty
+rates only; several vendors say so in their own disclaimers.
