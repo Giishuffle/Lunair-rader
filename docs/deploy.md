@@ -116,7 +116,7 @@ At the registrar for **lunair-world.com**:
 | Type | Host | Value |
 |---|---|---|
 | CNAME | `@` (root) | `3zheie3l.up.railway.app` |
-| CNAME | `www` | `rl5zyve5.up.railway.app` |
+| CNAME | `www` | `5pe8yoo6.up.railway.app` |
 
 If the registrar refuses a CNAME at the root, use its ALIAS/ANAME/flattened-CNAME
 option. TLS is issued automatically once the records resolve.

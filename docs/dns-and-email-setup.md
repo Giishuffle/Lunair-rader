@@ -54,7 +54,7 @@ In Cloudflare → your domain → **DNS** → **Records** → **Add record**, tw
 | Type | Name | Target | Proxy status |
 |---|---|---|---|
 | CNAME | `@` | `3zheie3l.up.railway.app` | **DNS only** (grey cloud) |
-| CNAME | `www` | `rl5zyve5.up.railway.app` | **DNS only** (grey cloud) |
+| CNAME | `www` | `5pe8yoo6.up.railway.app` | **DNS only** (grey cloud) |
 
 **The grey cloud matters.** Cloudflare defaults to an orange cloud ("Proxied"), which
 breaks Railway's certificate issuing. Click the cloud icon to turn it grey before saving.
@@ -84,7 +84,7 @@ Your DNS as it stands today:
 4. Click the **pencil/edit** icon on that row.
 5. Change **Value** to exactly:
    ```
-   rl5zyve5.up.railway.app
+   5pe8yoo6.up.railway.app
    ```
    Leave Name as `www`. Leave TTL as-is (1 hour is fine).
 6. **Save**.
@@ -183,7 +183,7 @@ whether our alerts land in the inbox rather than spam. Small record, real effect
 
 ## 23 Aug 2026 - www live, email live
 
-**DNS (done by Guy).** `www.lunair-world.com` CNAME -> `rl5zyve5.up.railway.app`.
+**DNS (done by Guy).** `www.lunair-world.com` CNAME -> `5pe8yoo6.up.railway.app`.
 Verified authoritative and clean: one record, resolving to Railway's own IP
 (69.46.46.70), no CAA records, no stale duplicates.
 
@@ -213,3 +213,18 @@ deliverability and campaign reputation in one basket. Not urgent, but the reason
 subdomain was recommended originally.
 
 Also outstanding: a **DMARC** record, which meaningfully improves inbox placement.
+
+## 23 Aug 2026 (later) - CNAME target changed
+
+Validation stayed stuck at `VALIDATING_OWNERSHIP` for over half an hour with no error,
+so the custom domain was deleted and re-added to restart it. **Railway issues a new
+CNAME target on re-add**, so the GoDaddy record has to be edited a second time:
+
+| Type | Name | New value |
+|---|---|---|
+| CNAME | `www` | `5pe8yoo6.up.railway.app` |
+
+Old value was `rl5zyve5.up.railway.app`. Same row, same edit as before.
+
+Lesson for next time: deleting a Railway custom domain always invalidates its CNAME
+target. Only do it when the DNS owner is available to update the record.
