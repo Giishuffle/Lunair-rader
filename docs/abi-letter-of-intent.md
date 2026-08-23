@@ -38,9 +38,10 @@ U.S. Customs and Border Protection
 
 Dear Port Director Thomas,
 
-Wershuffle Inc, a Delaware corporation doing business as Lunair World, with its
-principal office at 169 Madison Avenue, Suite 11073, New York, NY 10016, submits this
-letter of intent to participate in the Automated Broker Interface.
+Wershuffle Inc, a Delaware corporation doing business as Lunair World, Employer
+Identification Number 36-5100906, with its principal office at 169 Madison Avenue,
+Suite 11073, New York, NY 10016, submits this letter of intent to participate in the
+Automated Broker Interface.
 
 **Purpose of participation.** I want to be precise about what we are requesting,
 because it differs from a typical application. We are **not** seeking to transmit entry
@@ -79,13 +80,30 @@ the validity, integrity and confidentiality of the data transmitted, in accordan
 The information required by 19 CFR 143.2 follows, as applicable to a receive-only
 participant.
 
-**(a) Computer hardware, communications and processing systems; timing.** Our systems
-run on managed cloud infrastructure located in the United States, on a Linux platform
-with a PostgreSQL database and Node.js application services, secured with TLS in
-transit and access controls at rest. We would develop the interface against the
-published CATAIR specifications. We estimate ninety days from the assignment of a
-client representative to completion of programming and readiness for testing, and can
-move faster if that is useful.
+**(a) Computer hardware, communications and processing systems; timing.** We operate no
+mainframe or on-premises hardware. Our processing runs on managed cloud infrastructure
+hosted in the United States: Linux compute instances running Node.js application
+services, with a PostgreSQL database on encrypted persistent storage. Data is encrypted
+with TLS in transit, access is controlled by role and logged, application credentials
+are held in a managed secret store, and errors are monitored continuously. Capacity
+scales horizontally and is far in excess of what the volumes below require.
+
+**Communication protocol.** Having reviewed CBP's three published connectivity options,
+we propose **Option 1, MQ Internet Pass-Thru (MQIPT)**, as the appropriate fit for a
+cloud-hosted participant of our size. We would connect as an IBM MQ Client over the
+public Internet using certificate-based encryption, with a supported MQ Client release
+meeting or exceeding CBP's stated minimum, and public key infrastructure certificates
+exchanged with the CBP Middleware Branch. We understand the Middleware Branch
+establishes queue names and tests MQ channel connectivity, and that automated put and
+get operations are permitted at intervals of no less than five minutes; our intended
+polling interval is once daily, well inside that limit. We are not seeking a dedicated
+VPN or MPLS connection, as neither the volume nor the nature of our traffic would
+justify it. If CBP prefers a different option for a receive-only participant, we will
+follow your direction.
+
+**Programming timeline.** We would develop against the published CATAIR specifications
+and estimate ninety days from the assignment of a client representative to completion
+of programming and readiness for testing. We can move faster if that is useful.
 
 **(b) Office locations.** Wershuffle Inc operates from a single principal office, at
 the address above. There are no additional locations to list.
@@ -100,10 +118,16 @@ the system. Telephone (585) 508-3409, email guy@wershuffle.com.
 rather than use an approved vendor's application, though we would consider a vendor if
 CBP recommends one for a participant of our type.
 
-**(f) Entry filer code and average monthly volume.** Not applicable. We hold no entry
-filer code and file no entries, and we are not seeking to. We would apply for a filer
-code only if CBP advises that one is required for the receive-only access described
-above.
+**(f) Entry filer code and estimated monthly volume.** We hold no entry filer code and
+file no entries, and we are not seeking to. We would apply for one only if CBP advises
+that it is required for the receive-only access described above.
+
+**Estimated monthly transaction volume.** Entry and entry summary transactions: zero,
+now and as planned. Our expected traffic is limited to retrieving the Harmonized Tariff
+Schedule reference extract and its periodic updates. On a once-daily poll that is
+approximately thirty message retrievals per month, rising only when CBP publishes a
+tariff revision. We would expect our volume to remain under one hundred messages per
+month, and we would notify CBP in advance of any material change to that profile.
 
 We recognise that this request is unusual, and that CBP may conclude the data we seek
 is not available on the basis described. If that is the case, we would be grateful to
