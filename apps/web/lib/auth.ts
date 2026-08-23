@@ -38,36 +38,50 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   );
 }
 
-export const authConfig: NextAuthConfig = {
-  adapter: DrizzleAdapter(db(), {
-    usersTable: schema.users,
-    accountsTable: schema.accounts,
-    sessionsTable: schema.sessions,
-    verificationTokensTable: schema.verificationTokens,
-  }),
-  providers,
-  session: { strategy: "database", maxAge: 30 * 24 * 60 * 60 },
-  pages: { signIn: "/signin", verifyRequest: "/signin/check-email", error: "/signin" },
-  callbacks: {
-    /**
-     * Return only what the UI needs. The adapter hands us the whole user row,
-     * and /api/auth/session is readable by the browser - Stripe ids, the
-     * Telegram chat id and other internals have no business going over the wire.
-     */
-    session({ session, user }) {
-      const u = user as typeof user & { plan?: string; isAdmin?: boolean };
-      session.user = {
-        id: user.id,
-        email: user.email,
-        name: u.name ?? null,
-        image: u.image ?? null,
-        plan: u.plan ?? "harbor",
-        isAdmin: Boolean(u.isAdmin),
-      } as typeof session.user;
-      return session;
+/**
+ * Built lazily, per request. Constructing the Drizzle adapter needs a database
+ * URL, and doing that at module scope made merely *importing* this file require
+ * one - which broke `next build`, since collecting page data evaluates route
+ * modules with no runtime environment.
+ */
+export function buildAuthConfig(): NextAuthConfig {
+  return {
+    adapter: DrizzleAdapter(db(), {
+      usersTable: schema.users,
+      accountsTable: schema.accounts,
+      sessionsTable: schema.sessions,
+      verificationTokensTable: schema.verificationTokens,
+    }),
+    providers,
+    session: { strategy: "database", maxAge: 30 * 24 * 60 * 60 },
+    pages: {
+      signIn: "/signin",
+      verifyRequest: "/signin/check-email",
+      error: "/signin",
     },
-  },
-  trustHost: true,
-};
+    callbacks: {
+      /**
+       * Return only what the UI needs. The adapter hands us the whole user row,
+       * and /api/auth/session is readable by the browser - Stripe ids, the
+       * Telegram chat id and other internals have no business going over the wire.
+       */
+      session({ session, user }) {
+        const u = user as typeof user & { plan?: string; isAdmin?: boolean };
+        session.user = {
+          id: user.id,
+          email: user.email,
+          name: u.name ?? null,
+          image: u.image ?? null,
+          plan: u.plan ?? "harbor",
+          isAdmin: Boolean(u.isAdmin),
+        } as typeof session.user;
+        return session;
+      },
+    },
+    trustHost: true,
+  };
+}
 
-export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
+export const { handlers, signIn, signOut, auth } = NextAuth(() =>
+  buildAuthConfig(),
+);
