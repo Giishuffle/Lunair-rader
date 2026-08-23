@@ -66,22 +66,61 @@ has been issued. Nothing else is needed from you for the website.
 
 ---
 
-# Route A (fast alternative): stay on GoDaddy, www only
+# GoDaddy setup - what to do now (chosen 23 Aug 2026)
 
-Use this if you want something live in ten minutes and are happy for the site to be at
-`www.lunair-world.com`.
+Staying on GoDaddy for now, so **`www.lunair-world.com` is the real address** and the
+bare root redirects to it. Cloudflare can come later; nothing here has to be undone.
 
-1. GoDaddy → **My Products** → `lunair-world.com` → **DNS**.
-2. **Add New Record**: Type `CNAME`, Name `www`, Value `rl5zyve5.up.railway.app`,
-   TTL default. Save.
-3. Delete the parked-page records: any **A record with Name `@`** pointing at a GoDaddy
-   IP, and the `CNAME www` pointing to `@` if present.
-4. For the root, use GoDaddy's **Forwarding**: Domain → Forwarding → Add →
-   forward `lunair-world.com` to `https://www.lunair-world.com`, type **Permanent (301)**,
-   with **Forward with masking OFF**.
+Your DNS as it stands today:
+- root `@` -> two A records pointing at GoDaddy's parking page
+- `www` -> a CNAME pointing back at the root (GoDaddy's default)
+- MX records for GoDaddy email, which we leave alone
 
-This works, but the root is an HTTP redirect through GoDaddy rather than the site
-itself. Fine short-term, worth upgrading to Route B later.
+## Change 1 - point www at Railway (this is an edit, not a new record)
+
+1. **godaddy.com** -> sign in -> **My Products**.
+2. Next to `lunair-world.com`, click **DNS** (or the three dots -> **Manage DNS**).
+3. Find the existing row: **Type `CNAME`, Name `www`, Value `@`**.
+4. Click the **pencil/edit** icon on that row.
+5. Change **Value** to exactly:
+   ```
+   rl5zyve5.up.railway.app
+   ```
+   Leave Name as `www`. Leave TTL as-is (1 hour is fine).
+6. **Save**.
+
+Do not add a second `www` record - GoDaddy allows only one CNAME per name, and a
+duplicate will either be refused or silently win over the right one.
+
+## Change 2 - forward the root to www
+
+1. Still in GoDaddy, on the same domain page, find **Forwarding**
+   (under the Domain tab, sometimes labelled "Domain Forwarding").
+2. Click **Add Forwarding**.
+3. Fill in:
+   - **Forward to:** `https://www.lunair-world.com`
+   - **Forward type:** **Permanent (301)**
+   - **Settings:** **Forward only** - masking **OFF**
+4. Save. GoDaddy replaces the parked A records on the root by itself; you do not need
+   to delete them manually.
+
+Masking must stay off. It keeps the old address in the browser bar and hides the real
+site inside a frame, which breaks sign-in and looks broken to Google.
+
+## Then tell me
+
+Message me once both are saved. I will confirm Railway sees the record and that the
+HTTPS certificate has been issued, which is automatic but takes a few minutes after
+DNS resolves. Propagation is usually 10-30 minutes on GoDaddy, occasionally longer.
+
+## Worth knowing
+
+- The Railway custom domain for the bare root stays registered but will sit
+  **unverified** until DNS moves to a provider that allows a root CNAME. That is
+  expected and harmless - the forward covers it in the meantime.
+- The app now treats `https://www.lunair-world.com` as its canonical address, so
+  sign-in links and Stripe redirects all point at www.
+- `https://lunair-rader-production.up.railway.app` keeps working throughout.
 
 ---
 

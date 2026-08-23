@@ -75,7 +75,10 @@ const appVars = {
   // NODE_ENV=production makes npm skip devDependencies, and TypeScript lives
   // there - the build needs it even though the runtime does not.
   NPM_CONFIG_INCLUDE: "dev",
-  APP_URL: "https://lunair-world.com",
+  // www is the canonical host while DNS lives at GoDaddy, which cannot put a
+  // CNAME on a root domain. Revisit if DNS moves to Cloudflare.
+  APP_URL: "https://www.lunair-world.com",
+  AUTH_URL: "https://www.lunair-world.com",
   ANTHROPIC_API_KEY: localEnv("ANTHROPIC_API_KEY"),
   TELEGRAM_BOT_TOKEN: localEnv("TELEGRAM_BOT_TOKEN"),
   TELEGRAM_OWNER_CHAT_ID: localEnv("TELEGRAM_OWNER_CHAT_ID"),
