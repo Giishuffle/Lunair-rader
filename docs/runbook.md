@@ -57,6 +57,23 @@ Note: `@lunair/core` and `@lunair/rules` must be built before app typechecks pas
   redemptions so the cap is enforced by Stripe as well as by us.
 - To check how many spots are gone: `GET /api/waitlist`.
 
+## Cross-reference engine (Passport -> Radar)
+- Engine: `packages/core/src/crossref.ts`. CBP client: `src/sources/crossRulings.ts`.
+- Try it: `npm run dev:web`, then open `/demo/passport` (noindex, internal only).
+- API: `POST /api/crossref` with a product profile; returns `htsCandidates`,
+  `watches`, and `degraded`.
+- **CROSS gotchas, all learned the hard way - see the tests before changing any:**
+  - The API ANDs search terms. A long query returns *zero* results; queries must
+    be short noun phrases. `buildQueries()` mines them from the name/description.
+  - Its relevance ranking is loose - "bluetooth speaker" returns a plastic water
+    bottle - so results are filtered against the query terms, not trusted as-is.
+  - Rulings can be revoked or modified. Never present those as current precedent.
+  - Chapter 99 codes appear alongside real codes in rulings. They are additional
+    duties, not classifications, and must not become candidates.
+- Requirement matching is by HTS prefix **and** product attributes. The attribute
+  path is load-bearing: a children's night light is classified as a lamp, so
+  prefix-only matching returns zero CPSC rules for it.
+
 ## Telegram
 - Bot: @lunairworldbot. Verify token / capture owner chat id: `node scripts/check-telegram.mjs`
   (owner must have messaged the bot at least once for the chat id to appear).
