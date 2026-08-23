@@ -13,10 +13,11 @@
 
 ## 1. Who we are and what these terms cover
 
-Lunair World is a product of **Wershuffle Inc**, a corporation organized in the United
-States ("Wershuffle", "we", "us", "our"). Lunair World operates as a product line of
-Wershuffle Inc, not as a separate legal entity. **[COUNSEL: confirm DBA registration
-requirements in the state of incorporation and any state where we advertise.]**
+Lunair World is a product of **Wershuffle Inc**, a Delaware corporation with its
+principal office at 169 Madison Avenue, Suite 11073, New York, NY 10016 ("Wershuffle",
+"we", "us", "our"), doing business as Lunair World. Lunair World operates as a product
+line of Wershuffle Inc, not as a separate legal entity. **[COUNSEL: confirm DBA
+registration requirements in Delaware and in New York, where we operate and advertise.]**
 
 These Terms of Service ("Terms") govern your access to and use of the Lunair World
 website, application, alerts, newsletter, and related services (together, the
@@ -272,10 +273,10 @@ trial.
 
 ## 17. Governing law and venue
 
-These Terms are governed by the laws of the State of **[STATE OF INCORPORATION]**,
+These Terms are governed by the laws of the State of **Delaware**,
 without regard to its conflict-of-laws rules, and the United Nations Convention on
 Contracts for the International Sale of Goods does not apply. Subject to section 16,
-the courts located in **[STATE/COUNTY]** have exclusive jurisdiction.
+the courts located in **Delaware** have exclusive jurisdiction.
 **[COUNSEL: confirm state and venue.]**
 
 ## 18. General
@@ -296,5 +297,4 @@ guy@wershuffle.com.
 
 Wershuffle Inc (Lunair World)
 Email: guy@wershuffle.com
-Postal address: **[PHYSICAL ADDRESS - required in the newsletter footer under CAN-SPAM
-and appropriate here too]**
+Postal address: Wershuffle Inc, 169 Madison Avenue, Suite 11073, New York, NY 10016

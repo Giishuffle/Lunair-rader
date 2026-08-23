@@ -11,10 +11,13 @@
 
 ## 1. Who we are
 
-Lunair World is a product of **Wershuffle Inc** ("we", "us", "our"), a United States
-corporation. This policy explains what personal information we collect when you use the
-Lunair World website, application, alerts, and newsletter (the "Service"), how we use
-it, and the choices you have.
+Lunair World is a product of **Wershuffle Inc** ("we", "us", "our"), a Delaware
+corporation with its principal office at 169 Madison Avenue, Suite 11073, New York,
+NY 10016, doing business as Lunair World.
+
+This policy explains what personal information we collect when you use the Lunair World
+website, application, alerts, and newsletter (the "Service"), how we use it, and the
+choices you have.
 
 Questions, or want to exercise a privacy right? Email **guy@wershuffle.com**.
 
@@ -184,4 +187,4 @@ the Service before it takes effect, and update the "Last updated" date above.
 
 Wershuffle Inc (Lunair World)
 Email: **guy@wershuffle.com**
-Postal address: **[PHYSICAL ADDRESS]**
+Postal address: Wershuffle Inc, 169 Madison Avenue, Suite 11073, New York, NY 10016
