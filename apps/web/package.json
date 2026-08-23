@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@lunair/core": "*",
+    "@lunair/rules": "*",
     "@sentry/nextjs": "^10.70.0",
     "marked": "^18.0.10",
     "next": "^15.3.3",

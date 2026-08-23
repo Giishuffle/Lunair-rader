@@ -1,0 +1,245 @@
+.demo {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 56px 24px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.demo-head h1 {
+  font-size: 31px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.demo .sub {
+  color: var(--ink-2);
+  max-width: 68ch;
+}
+
+.demo h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.demo section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.presets {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preset {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.preset.on {
+  border-color: var(--amber);
+  color: var(--amber-2);
+}
+.preset:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.form textarea.input {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.form .check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+.form .check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--amber);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 14px;
+}
+.err {
+  color: var(--bad);
+  font-size: 15px;
+}
+
+.degraded {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--amber);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: var(--ink-2);
+  font-size: 14.5px;
+}
+
+.codes {
+  display: grid;
+  gap: 12px;
+}
+
+.code-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.mono {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.support {
+  font-size: 13px;
+  color: var(--amber-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rulings {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+.rulings a {
+  color: var(--amber-2);
+  font-weight: 600;
+}
+.muted {
+  color: var(--muted);
+}
+
+.watches {
+  display: grid;
+  gap: 12px;
+}
+
+.watch {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: border-color 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.watch.on {
+  border-color: rgba(245, 166, 35, 0.55);
+}
+.watch > input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: none;
+  accent-color: var(--amber);
+}
+.watch:focus-within {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.watch-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.watch-head {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+
+.watch p {
+  color: var(--ink-2);
+  font-size: 14.5px;
+  margin: 0;
+}
+.watch .impact {
+  color: var(--amber-2);
+}
+
+.sources {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.sources a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+
+.demo-foot {
+  color: var(--muted);
+  font-size: 13.5px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}

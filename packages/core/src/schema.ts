@@ -160,6 +160,42 @@ export const alerts = pgTable(
   (t) => [uniqueIndex("alerts_dedupe_idx").on(t.eventId, t.userId, t.productId, t.channel)],
 );
 
+export const watchTypeEnum = pgEnum("watch_type", [
+  "hts_duty",
+  "origin_tariff",
+  "agency_requirement",
+  "recall",
+  "adcvd",
+]);
+
+/**
+ * What a seller chose to be alerted about, after reviewing the candidates the
+ * cross-reference engine offered when their Passport completed. Nothing is
+ * watched unless it appears here - we never subscribe anyone silently.
+ */
+export const productWatches = pgTable(
+  "product_watches",
+  {
+    id: text("id").primaryKey(),
+    productId: text("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    type: watchTypeEnum("type").notNull(),
+    /** The thing being watched: an HTS prefix, an origin country, a category key. */
+    watchKey: text("watch_key").notNull(),
+    label: text("label").notNull(),
+    /** Snapshot of the sources shown when the seller opted in - an audit trail. */
+    sources: jsonb("sources").$type<Array<{ title: string; url: string }>>(),
+    confidence: real("confidence"),
+    enabled: boolean("enabled").notNull().default(true),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("product_watches_unique_idx").on(t.productId, t.type, t.watchKey),
+    index("product_watches_lookup_idx").on(t.type, t.watchKey),
+  ],
+);
+
 export const assistantThreads = pgTable("assistant_threads", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id),
