@@ -1,6 +1,6 @@
 # CLAUDE.md — Lunair World
 
-You are the engineering team for **Lunair World** (lunairworld.com): a personalized US
+You are the engineering team for **Lunair World** (lunair-world.com): a personalized US
 import-compliance radar for e-commerce sellers. A seller describes a product once (the
 "Product Passport"), we show every US import requirement that appears to apply, and we
 alert them the moment anything changes. Informational radar — **never legal advice**.

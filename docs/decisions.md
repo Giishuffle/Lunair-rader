@@ -37,7 +37,7 @@ and update this file.
 | Legal doc hosting | Rendered from `docs/legal/*.md` at build time | One source of truth: the file the lawyer reviews is the file customers read. Internal `[COUNSEL]` notes are stripped automatically and tested |
 | Insurance | Tech E&O + cyber at first revenue, not before | No revenue means little to lose and premiums are dead weight pre-launch |
 | Trademark | Proceed with the brand; file after first revenue | The USPTO screen came back clear in our classes (`docs/legal/trademark-search.md`) |
-| Email sending domain | `mail.lunairworld.com`, separate from the root domain | Protects the root domain's reputation if a campaign ever goes wrong |
+| Email sending domain | `mail.lunair-world.com`, separate from the root domain | Protects the root domain's reputation if a campaign ever goes wrong |
 | Alert channel default | Email primary, Telegram opt-in | US sellers live in email; Telegram is a power-user delight, not the default path |
 | Newsletter draft timing | Sunday 09:00 Israel | The Israeli workweek starts Sunday, so Guy gets two mornings to approve instead of a same-day scramble |
 | Job scheduling | Hourly cron gated on real Israel local time | A fixed UTC hour would silently drift by an hour at each daylight-saving change |

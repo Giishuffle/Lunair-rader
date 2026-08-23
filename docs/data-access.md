@@ -41,7 +41,7 @@ here, and only then build its adapter.
   (302 -> login). CBP publishes **monthly CSMS archive PDFs** (e.g.
   /sites/default/files/2026-08/26_0813_csms_archive_incl_july.pdf) - good for
   backfill only, too slow for <6h alerts.
-  PLAN: subscribe a dedicated inbox (csms@lunairworld.com via Resend inbound) to the
+  PLAN: subscribe a dedicated inbox (csms@lunair-world.com via Resend inbound) to the
   GovDelivery email list (signup: public.govdelivery.com/accounts/USDHSCBP/subscriber/new)
   and parse bulletins from email in near-real-time; browser-UA fetch for full text;
   archive PDFs for historical backfill.

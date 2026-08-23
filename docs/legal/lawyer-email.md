@@ -16,7 +16,7 @@ followed by my questions grouped by area. If you'd rather scope this in stages,
 
 ## What the product does
 
-It's called Lunair World (lunairworld.com). E-commerce sellers who import physical
+It's called Lunair World (lunair-world.com). E-commerce sellers who import physical
 goods into the US describe their product once in plain English. We then show them which
 US import requirements appear to apply - duty rates, agency rules such as CPSC, FDA and
 FCC, labeling - and we email them when any of it changes.
@@ -178,7 +178,7 @@ addendum cover it?
 
 ## I. IP, insurance and housekeeping
 
-**I1.** Trademark. I own the domain lunairworld.com. We ran a preliminary USPTO screen
+**I1.** Trademark. I own the domain lunair-world.com. We ran a preliminary USPTO screen
 (attached as a separate note): **no LUNAIR or LUNAIRE mark exists in class 35 or 42,
 live or dead, and "LUNAIR WORLD" has never been filed.** Live LUNAIR marks exist in
 other classes - respiratory masks (class 9, Reg. 6429430), medical devices (10), air

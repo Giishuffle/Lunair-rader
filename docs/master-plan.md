@@ -1,6 +1,6 @@
 # LUNAIR WORLD — Master Plan (v3)
 ### Personalized US import-compliance radar for e-commerce sellers.
-**Domain:** lunairworld.com · **Owner:** Guy (Wershuffle Inc) · **Goal:** $5,000+/mo net profit, ~98% automated
+**Domain:** lunair-world.com · **Owner:** Guy (Wershuffle Inc) · **Goal:** $5,000+/mo net profit, ~98% automated
 **v2 — August 2026.** Changes from v1: payments moved to **Stripe** (existing Wershuffle Inc account); **AI support chat ships at launch**; **weekly newsletter system ("The Lunar Tide")** added with founder-approval workflow; **design language & motion system** added (see `docs/design-system.md` in the starter kit).
 **v3 — 22 August 2026 (applied by Claude Code; reasoning in `docs/plan-critique.md`).** Competitive repositioning (direct competitors now exist); growth model re-baselined ($5k profit at M12-15, churn is lever #1); duty engine split into two stages (event alerts at launch, full stacked-rate calculator after); HTS suggestions get legal guardrails (candidate codes + user confirmation, counsel question added); CSMS via email ingestion; **CPSC recalls added as a fourth data source** (verified free API, no competitor has it); AI budget raised to $250/mo; newsletter/SEO targets made realistic; email deliverability hardening (subdomain + SPF/DKIM/DMARC day one).
 **Purpose:** Complete handoff file for Claude Code — build from this document top to bottom, together with the other files in the starter kit.
@@ -44,7 +44,7 @@ Chart palette (accessibility-validated on dark surfaces, use in this fixed order
 
 **Voice:** calm, plain-English, zero legalese, lightly nautical ("all clear", "incoming change"). Never alarmist — we reduce panic, not create it.
 
-**Founder to-dos:** register lunairworld.com (+ lunair.world defensively); USPTO knockout search for "Lunair" (classes 35/42) before spending on brand.
+**Founder to-dos:** register lunair-world.com (+ lunair.world defensively); USPTO knockout search for "Lunair" (classes 35/42) before spending on brand.
 
 ---
 
@@ -205,7 +205,7 @@ Modern, simple, dark, and quietly addictive — the pull comes from *anticipatio
 ## 9. ARCHITECTURE & CODEBASE PLAN
 
 ### 9.1 Stack
-Next.js 15 (App Router, TypeScript) · Postgres (Railway Postgres in prod; Docker Postgres for local dev) + Drizzle ORM · pg-boss job queue (no Redis) · Node worker · **Stripe** (Billing + Checkout + Customer Portal + Tax + webhooks) · Resend + React Email (alerts, lifecycle, newsletter) — **v3: all mail from the `mail.lunairworld.com` subdomain with SPF/DKIM/DMARC configured day one; email is the primary alert channel, Telegram the power-user option** · Telegram via grammY (webhook) · Claude API (classification, summarization, Assistant, support drafts, newsletter drafts) — **v3: per-user daily caps on the Assistant (tight on free), small fast models for classification/triage, cached rule-library answers** · PostHog + Plausible + Sentry · Railway (~$40–80/mo).
+Next.js 15 (App Router, TypeScript) · Postgres (Railway Postgres in prod; Docker Postgres for local dev) + Drizzle ORM · pg-boss job queue (no Redis) · Node worker · **Stripe** (Billing + Checkout + Customer Portal + Tax + webhooks) · Resend + React Email (alerts, lifecycle, newsletter) — **v3: all mail from the `mail.lunair-world.com` subdomain with SPF/DKIM/DMARC configured day one; email is the primary alert channel, Telegram the power-user option** · Telegram via grammY (webhook) · Claude API (classification, summarization, Assistant, support drafts, newsletter drafts) — **v3: per-user daily caps on the Assistant (tight on free), small fast models for classification/triage, cached rule-library answers** · PostHog + Plausible + Sentry · Railway (~$40–80/mo).
 
 ### 9.2 Repo layout (monorepo)
 ```
@@ -288,7 +288,7 @@ Passport autofill: user-pasted URL fetched server-side (best effort), text + ima
 **Phase 3 — Autonomy & Growth (M2–3):** 12. Admin console (full §6). 13. AI support email triage. 14. Lifecycle email engine. 15. Programmatic SEO pages + community roundup generator. 16. KPI pipeline → command deck + weekly founder digest.
 **Phase 4 — Expansion (M4–6):** 17. Lighthouse partner workspaces + white-label. 18. Bilingual EN/中文. 19. Winback + annual-plan engine. 20. Data-vendor fallback adapter.
 
-**Definition of done (launch, v3):** new user reaches Wow screen <15 min · alert latency <6h on test events (auto-sent) · zero uncaught alert errors in 7-day soak · confidence gate verified · duty display shows sourced current rates + estimate-labeled $ impact (full stacked-rate calculator NOT required for launch) · HTS step shows candidate codes with user confirmation · Stripe live checkout all tiers (monthly + annual) with Tax enabled · newsletter loop tested end-to-end (draft → approve → send) · Assistant answers the 25 seed FAQs correctly · ToS/Privacy live · SPF/DKIM/DMARC verified on mail.lunairworld.com · admin kill-switch works · `prefers-reduced-motion` honored everywhere.
+**Definition of done (launch, v3):** new user reaches Wow screen <15 min · alert latency <6h on test events (auto-sent) · zero uncaught alert errors in 7-day soak · confidence gate verified · duty display shows sourced current rates + estimate-labeled $ impact (full stacked-rate calculator NOT required for launch) · HTS step shows candidate codes with user confirmation · Stripe live checkout all tiers (monthly + annual) with Tax enabled · newsletter loop tested end-to-end (draft → approve → send) · Assistant answers the 25 seed FAQs correctly · ToS/Privacy live · SPF/DKIM/DMARC verified on mail.lunair-world.com · admin kill-switch works · `prefers-reduced-motion` honored everywhere.
 
 **Standing instructions to Claude Code:** read `CLAUDE.md` first · verify every government feed empirically before coding against it → `docs/data-access.md` · all AI outputs strict JSON with confidence, never free-form text into the alert path · every source adapter implements the shared interface + reports to source_health · UI copy follows §7.3 banned words · animations follow `docs/design-system.md` and respect reduced motion · seed script with 10 demo products · integration tests: HTS diff fixtures, event→alert routing, tier gating, newsletter approval gate.
 

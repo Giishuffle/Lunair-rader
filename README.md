@@ -23,7 +23,7 @@ Everything needed to start building Lunair World with Claude Code.
    Each item ends with something working you can see.
 
 ## Before/while building — only you can do these
-- Register lunairworld.com (+ lunair.world) and connect to the host.
+- Register lunair-world.com (+ lunair.world) and connect to the host.
 - Stripe: create the 4 products & 8 prices (monthly + annual), enable Stripe Tax,
   copy price IDs into `.env.local`.
 - Create the Telegram bot with @BotFather → token.

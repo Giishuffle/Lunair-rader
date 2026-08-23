@@ -151,7 +151,7 @@ export class CrossRulingsClient {
     const res = await this.fetchImpl(`${BASE}?${params.toString()}`, {
       headers: {
         // CBP fronts this with bot protection that rejects default agents.
-        "user-agent": "Mozilla/5.0 (compatible; LunairWorld/0.1; +https://lunairworld.com)",
+        "user-agent": "Mozilla/5.0 (compatible; LunairWorld/0.1; +https://lunair-world.com)",
         accept: "application/json",
       },
     });

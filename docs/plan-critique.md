@@ -100,7 +100,7 @@ answers, batch processing for weekly jobs. Budget $200-300/mo at M6 scale to be 
   activation <60% or alert-usefulness <80% by end of M3, fix product before buying traffic.
 
 ## 9. Smaller gaps worth one line each (LOW)
-- Email deliverability: send alerts from a subdomain (mail.lunairworld.com), set up
+- Email deliverability: send alerts from a subdomain (mail.lunair-world.com), set up
   SPF/DKIM/DMARC day one, warm up before the newsletter list grows - one spam-folder
   incident kills the "radar you can trust" promise.
 - Telegram-first alerting is unusual for US sellers; treat email as primary, Telegram

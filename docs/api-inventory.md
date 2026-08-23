@@ -45,7 +45,7 @@ server blocks default fetchers (cbp.gov full-text). Every adapter implements
 | Anthropic (Claude API) | HTS suggestion, event classification, impact analysis, Assistant, support drafts, newsletter drafts | ✅ Key in `.env.local` |
 | Telegram Bot API | Alerts + owner watchdog pings via @lunairworldbot | ✅ Token verified; owner chat id pending (Guy: message the bot once) |
 | Stripe | Billing, Checkout, Customer Portal, Tax, webhooks | ⏳ Restricted key tomorrow |
-| Resend | Alert emails, lifecycle, newsletter, CSMS ingest inbox | ⏳ Key tomorrow; domain verification after lunairworld.com registered |
+| Resend | Alert emails, lifecycle, newsletter, CSMS ingest inbox | ⏳ Key tomorrow; domain verification after lunair-world.com registered |
 | GitHub | Repo + CI/CD | ✅ github.com/Giishuffle/Lunair-rader |
 | Railway | Hosting web + worker + Postgres | ✅ Project created; add the Postgres service + copy DATABASE_URL |
 | PostHog / Plausible / Sentry | Product analytics / site analytics / errors | Not blocking; add before launch |

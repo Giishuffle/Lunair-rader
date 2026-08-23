@@ -4,7 +4,7 @@ _Updated 22 Aug 2026, second working session._
 ## ✅ Done
 GitHub repo · Railway project · Anthropic API key · Telegram bot (@lunairworldbot,
 owner chat id captured and the watchdog ping tested) · Sentry account + repo connected ·
-domain lunairworld.com owned · decisions on refund policy, newsletter timing, pricing,
+domain lunair-world.com owned · decisions on refund policy, newsletter timing, pricing,
 and the kill/pivot criterion.
 
 ## ⏳ Waiting on Guy
@@ -15,17 +15,17 @@ and the kill/pivot criterion.
 | 2 | **Railway Postgres** - in the Railway project: Create → Database → PostgreSQL, then copy the `DATABASE_URL` it generates | Production database. Local Docker Postgres covers dev until then | 2 min |
 | 3 | **Stripe restricted key** - see `docs/stripe-setup.md` for the exact permissions | Unblocks billing. Send the **test** key first | 5 min |
 | 4 | **Enable Stripe Tax** - Dashboard → Settings → Tax (dashboard-only, can't be done by API) | Sales-tax compliance from day one | 3 min |
-| 5 | **Resend API key** + add the DNS records I'll give you for `mail.lunairworld.com` | Alert emails and the newsletter | 5 min + DNS wait |
+| 5 | **Resend API key** + add the DNS records I'll give you for `mail.lunair-world.com` | Alert emails and the newsletter | 5 min + DNS wait |
 | 6 | **Send the lawyer email** - ready to copy in `docs/legal/lawyer-email.md`, attach `docs/legal/tos-outline.md` | Slowest item; question 1 can change a product screen | 5 min |
 | 7 | **PostHog + Plausible** accounts (optional until launch) | Funnels and site analytics | 10 min |
 
 ## Trademark - what it is and why the domain isn't enough
 
-Owning **lunairworld.com** means you control that web address. It does **not** give you
+Owning **lunair-world.com** means you control that web address. It does **not** give you
 rights to the name "Lunair World" as a brand. Those are two separate systems:
 
 - **The domain** is a rental from a registrar. It stops nobody from launching
-  "Lunair World" at lunairworld.io, lunair.app, or on Amazon.
+  "Lunair World" at lunair-world.io, lunair.app, or on Amazon.
 - **A trademark** is a legal right to use a name for a *category of business*. It's what
   lets you stop a copycat, and what stops someone else from forcing *you* to rename.
 

@@ -31,13 +31,13 @@ NODE_ENV=production
 
 Web only:
 ```
-APP_URL=https://lunairworld.com
+APP_URL=https://lunair-world.com
 NEXT_PUBLIC_SENTRY_DSN=…
 STRIPE_SECRET_KEY=…
 STRIPE_WEBHOOK_SECRET=…
 STRIPE_PRICE_*=…
 RESEND_API_KEY=…
-NEXT_PUBLIC_PLAUSIBLE_DOMAIN=lunairworld.com
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN=lunair-world.com
 NEXT_PUBLIC_POSTHOG_KEY=…
 ADMIN_EMAILS=guy@wershuffle.com
 ```
@@ -47,7 +47,7 @@ follows the database if it is ever replaced.
 
 ## Domain
 
-Railway → `lunair-web` → Settings → Networking → Custom Domain → `lunairworld.com`.
+Railway → `lunair-web` → Settings → Networking → Custom Domain → `lunair-world.com`.
 Railway shows a CNAME target; add it at the registrar. Add `www` as a second domain
 redirecting to the apex. TLS is automatic once DNS resolves.
 
