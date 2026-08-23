@@ -175,3 +175,41 @@ whether our alerts land in the inbox rather than spam. Small record, real effect
 - The site is live and working right now at
   **https://lunair-rader-production.up.railway.app** - that URL keeps working whatever
   you do with DNS, so nothing is at risk while you make these changes.
+
+
+---
+
+# Status log
+
+## 23 Aug 2026 - www live, email live
+
+**DNS (done by Guy).** `www.lunair-world.com` CNAME -> `rl5zyve5.up.railway.app`.
+Verified authoritative and clean: one record, resolving to Railway's own IP
+(69.46.46.70), no CAA records, no stale duplicates.
+
+**The apex custom domain was removed from Railway.** GoDaddy cannot put a CNAME on a
+root domain, so it could never validate and was only adding noise. Re-add it when DNS
+moves to Cloudflare - the CNAME target will be a new value at that point, so take it
+from Railway then rather than reusing `3zheie3l.up.railway.app`.
+
+**Root domain forwarding is still to do.** GoDaddy has a Website Builder site attached
+to the root (`A @ -> WebsiteBuilder Site`), which will block Forwarding until that site
+is disconnected under My Products -> Website Builder.
+
+**Certificate.** Railway sat at `VALIDATING_OWNERSHIP` for 20+ minutes after
+propagation, with no error and nothing wrong on our side. TLS to www already completes
+using Railway's `*.up.railway.app` wildcard, so routing works and only the per-domain
+certificate is outstanding. It issues by itself; if it is still pending after a couple
+of hours, delete and re-add the custom domain in Railway to restart the process.
+
+**Email (Resend).** Guy verified the **root** domain `lunair-world.com` rather than a
+`mail.` subdomain - DKIM and SPF both green, region eu-west-1. `EMAIL_FROM` is
+therefore `Lunair World <hello@lunair-world.com>`. Verified end to end: the production
+app sent a real magic-link sign-in email through Resend.
+
+Worth doing later: move sending to `mail.lunair-world.com`. The root carries GoDaddy MX
+records for ordinary mail, so bulk sending from the same domain puts personal email
+deliverability and campaign reputation in one basket. Not urgent, but the reason the
+subdomain was recommended originally.
+
+Also outstanding: a **DMARC** record, which meaningfully improves inbox placement.

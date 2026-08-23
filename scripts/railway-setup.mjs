@@ -95,6 +95,8 @@ const appVars = {
   STRIPE_PRICE_LIGHTHOUSE_WORKSPACE_ADDON: localEnv("STRIPE_PRICE_LIGHTHOUSE_WORKSPACE_ADDON"),
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: "lunair-world.com",
   ADMIN_EMAILS: "guy@wershuffle.com",
+  // The verified Resend domain is the root, not a mail. subdomain - see
+  // docs/dns-and-email-setup.md for why a subdomain is still worth doing later.
   EMAIL_FROM: localEnv("EMAIL_FROM"),
   RESEND_API_KEY: localEnv("RESEND_API_KEY"),
 };
