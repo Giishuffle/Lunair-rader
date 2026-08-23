@@ -72,6 +72,9 @@ const dbUrl = `postgresql://lunair:${pgPassword}@postgres.railway.internal:5432/
 const appVars = {
   DATABASE_URL: dbUrl,
   NODE_ENV: "production",
+  // NODE_ENV=production makes npm skip devDependencies, and TypeScript lives
+  // there - the build needs it even though the runtime does not.
+  NPM_CONFIG_INCLUDE: "dev",
   APP_URL: "https://lunair-world.com",
   ANTHROPIC_API_KEY: localEnv("ANTHROPIC_API_KEY"),
   TELEGRAM_BOT_TOKEN: localEnv("TELEGRAM_BOT_TOKEN"),
