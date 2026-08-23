@@ -1,7 +1,11 @@
 {
   "category_key": "toys_children",
   "label": "Toys & children's products",
-  "hts_prefixes": ["9503", "9504", "9505"],
+  "hts_prefixes": [
+    "9503",
+    "9504",
+    "9505"
+  ],
   "requirements": [
     {
       "id": "cpsia-cpc",
@@ -11,7 +15,16 @@
       "plain_english": "Products made for children 12 and under generally need a Children's Product Certificate backed by testing at a CPSC-accepted lab before import. This appears to apply to your product because you told us it's used by kids.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate-CPC",
       "self_check_hint": "Ask your supplier for the CPC and the lab report behind it.",
-      "conditions": { "audience": "kids" }
+      "conditions": {
+        "audience": "kids"
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1110",
+          "label": "Certificates of Compliance"
+        }
+      ]
     },
     {
       "id": "cpsia-lead-phthalates",
@@ -21,7 +34,24 @@
       "plain_english": "Children's products must meet federal lead content and phthalates limits. Test reports should show results per accessible component.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
       "self_check_hint": "Check your lab report covers total lead and the 8 restricted phthalates.",
-      "conditions": { "audience": "kids" }
+      "conditions": {
+        "audience": "kids"
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1303",
+          "label": "Ban of lead-containing paint"
+        },
+        {
+          "title": 16,
+          "part": "1307",
+          "label": "Prohibition of children's toys containing specified phthalates"
+        }
+      ],
+      "statute": [
+        "15 U.S.C. 1278a"
+      ]
     },
     {
       "id": "tracking-label",
@@ -31,7 +61,12 @@
       "plain_english": "Children's products need a permanent tracking label (manufacturer, date/batch, source) on the product and packaging.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/tracking-label",
       "self_check_hint": "Look at a production sample photo - is the label molded/printed on?",
-      "conditions": { "audience": "kids" }
+      "conditions": {
+        "audience": "kids"
+      },
+      "statute": [
+        "15 U.S.C. 2063(a)(5)"
+      ]
     }
   ]
 }

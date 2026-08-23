@@ -12,7 +12,13 @@ export interface SourceDocInput {
   raw: unknown;
 }
 
-export type SourceName = "federal_register" | "usitc_hts" | "cbp_csms" | "cpsc_recalls" | "lawfirm_rss";
+export type SourceName =
+  | "federal_register"
+  | "usitc_hts"
+  | "cbp_csms"
+  | "cpsc_recalls"
+  | "ecfr"
+  | "lawfirm_rss";
 
 export interface SourceAdapter {
   readonly source: SourceName;

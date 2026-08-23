@@ -5,6 +5,7 @@ import { FederalRegisterAdapter } from "./sources/federalRegister.js";
 import { UsitcHtsAdapter, diffHtsLines, type HtsLine } from "./sources/usitcHts.js";
 import { CpscRecallsAdapter } from "./sources/cpscRecalls.js";
 import { pingOwner } from "./notify/telegram.js";
+import { checkCitedRegulations } from "./sources/ecfrWatch.js";
 
 /** Ping the owner after this many consecutive failures of one source. */
 const ERROR_STREAK_PING_THRESHOLD = 3;
@@ -118,7 +119,12 @@ async function diffLatestHtsSnapshots(db: Db): Promise<void> {
   }
 }
 
-export type JobName = "federal_register:poll" | "usitc_hts:diff" | "cpsc_recalls:poll" | "ops:health-digest";
+export type JobName =
+  | "federal_register:poll"
+  | "usitc_hts:diff"
+  | "cpsc_recalls:poll"
+  | "ecfr:check"
+  | "ops:health-digest";
 
 /**
  * Cron is UTC. Israel is UTC+3 (IDT, summer) / UTC+2 (IST, winter) - times that
@@ -128,6 +134,8 @@ export const JOB_SCHEDULES: Record<JobName, string> = {
   "federal_register:poll": "0 * * * *", // hourly
   "usitc_hts:diff": "30 6 * * *", // daily
   "cpsc_recalls:poll": "15 */6 * * *", // every 6h
+  // The CFR moves slowly; daily is plenty and keeps us polite.
+  "ecfr:check": "45 5 * * *",
   "ops:health-digest": "0 6 * * *", // daily 09:00 Israel
 };
 
@@ -142,6 +150,16 @@ export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
     },
     "cpsc_recalls:poll": async () => {
       await ingest(db, new CpscRecallsAdapter(), new Date(Date.now() - 30 * 24 * 3600 * 1000));
+    },
+    "ecfr:check": async () => {
+      const { checked, changed } = await checkCitedRegulations(db);
+      await recordSuccess(db, "ecfr");
+      if (changed > 0) {
+        await pingOwner(
+          `📜 <b>${changed} cited regulation${changed === 1 ? "" : "s"} amended</b>\n` +
+            `Checked ${checked} CFR parts behind the rule library. Review the wording of the affected requirements.`,
+        ).catch(() => undefined);
+      }
     },
     "ops:health-digest": async () => {
       await opsHealthDigest(db);

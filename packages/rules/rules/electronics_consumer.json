@@ -1,7 +1,14 @@
 {
   "category_key": "electronics_consumer",
   "label": "Consumer electronics & accessories",
-  "hts_prefixes": ["8471", "8504", "8517", "8518", "8543", "9405"],
+  "hts_prefixes": [
+    "8471",
+    "8504",
+    "8517",
+    "8518",
+    "8543",
+    "9405"
+  ],
   "requirements": [
     {
       "id": "fcc-authorization",
@@ -10,7 +17,14 @@
       "severity": "high",
       "plain_english": "Electronics that emit radio frequency - anything with WiFi/Bluetooth, and most powered devices - generally need FCC authorization before import and sale. Devices with intentional radios usually need certification with an FCC ID.",
       "source_url": "https://www.fcc.gov/engineering-technology/laboratory-division/general/equipment-authorization",
-      "self_check_hint": "If it has WiFi/Bluetooth, search the FCC ID printed on it in the FCC database."
+      "self_check_hint": "If it has WiFi/Bluetooth, search the FCC ID printed on it in the FCC database.",
+      "cfr": [
+        {
+          "title": 47,
+          "part": "2",
+          "label": "Frequency allocations and radio treaty matters; equipment authorization"
+        }
+      ]
     },
     {
       "id": "battery-transport",
@@ -20,7 +34,16 @@
       "plain_english": "Products with lithium batteries face packaging, labeling, and documentation rules in transport (UN38.3 test summary).",
       "source_url": "https://www.phmsa.dot.gov/lithiumbatteries",
       "self_check_hint": "Ask your freight forwarder for the UN38.3 test summary from the battery maker.",
-      "conditions": { "has_battery": true }
+      "conditions": {
+        "has_battery": true
+      },
+      "cfr": [
+        {
+          "title": 49,
+          "part": "173",
+          "label": "Shippers - general requirements for shipments and packagings"
+        }
+      ]
     }
   ]
 }

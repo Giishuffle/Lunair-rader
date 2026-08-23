@@ -17,6 +17,26 @@ export const RequirementTemplate = z.object({
   plain_english: z.string(),
   source_url: z.string().url(),
   self_check_hint: z.string(),
+  /**
+   * The CFR part(s) that actually create this obligation. Not an agency web page
+   * about it - the regulation itself, so a reviewer can check us in minutes and
+   * so an amendment to the text becomes an alert.
+   */
+  cfr: z
+    .array(
+      z.object({
+        title: z.number().int(),
+        part: z.string(),
+        label: z.string().optional(),
+      }),
+    )
+    .optional(),
+  /**
+   * Statutory basis, where the duty comes from an Act rather than a regulation.
+   * Several CPSIA obligations work this way and have no dedicated CFR part -
+   * citing a plausible-looking wrong part is worse than citing nothing.
+   */
+  statute: z.array(z.string()).optional(),
   /** Conditions narrowing when this appears to apply (all optional = always) */
   conditions: z
     .object({

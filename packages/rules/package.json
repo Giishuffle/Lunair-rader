@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json && cp -R rules dist/rules",
+    "build": "tsc -p tsconfig.json && rm -rf dist/rules && cp -R rules dist/rules",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
   },
