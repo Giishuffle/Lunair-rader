@@ -6,6 +6,7 @@ import { UsitcHtsAdapter, diffHtsLines, type HtsLine } from "./sources/usitcHts.
 import { CpscRecallsAdapter } from "./sources/cpscRecalls.js";
 import { pingOwner } from "./notify/telegram.js";
 import { checkCitedRegulations } from "./sources/ecfrWatch.js";
+import { dispatchAlerts } from "./alerts/router.js";
 
 /** Ping the owner after this many consecutive failures of one source. */
 const ERROR_STREAK_PING_THRESHOLD = 3;
@@ -124,6 +125,7 @@ export type JobName =
   | "usitc_hts:diff"
   | "cpsc_recalls:poll"
   | "ecfr:check"
+  | "alerts:dispatch"
   | "ops:health-digest";
 
 /**
@@ -136,6 +138,9 @@ export const JOB_SCHEDULES: Record<JobName, string> = {
   "cpsc_recalls:poll": "15 */6 * * *", // every 6h
   // The CFR moves slowly; daily is plenty and keeps us polite.
   "ecfr:check": "45 5 * * *",
+  // Every 15 minutes: the promise is "we ping you the moment anything moves",
+  // and the latency KPI is under six hours.
+  "alerts:dispatch": "*/15 * * * *",
   "ops:health-digest": "0 6 * * *", // daily 09:00 Israel
 };
 
@@ -158,6 +163,16 @@ export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
         await pingOwner(
           `📜 <b>${changed} cited regulation${changed === 1 ? "" : "s"} amended</b>\n` +
             `Checked ${checked} CFR parts behind the rule library. Review the wording of the affected requirements.`,
+        ).catch(() => undefined);
+      }
+    },
+    "alerts:dispatch": async () => {
+      const r = await dispatchAlerts(db);
+      if (r.alertsSent > 0) {
+        await pingOwner(
+          `📡 <b>${r.alertsSent} alert${r.alertsSent === 1 ? "" : "s"} sent</b>\n` +
+            `From ${r.eventsConsidered} new event${r.eventsConsidered === 1 ? "" : "s"}.` +
+            (r.skippedFreeTier > 0 ? `\n${r.skippedFreeTier} free-tier match${r.skippedFreeTier === 1 ? "" : "es"} withheld - upgrade prompts.` : ""),
         ).catch(() => undefined);
       }
     },
