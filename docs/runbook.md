@@ -90,3 +90,39 @@ Note: `@lunair/core` and `@lunair/rules` must be built before app typechecks pas
    once the Phase 2 pipeline lands; before that, nothing user-facing depends on feeds.
 3. Verify the feed manually (see verification commands in docs/data-access.md).
 4. If the API changed shape, fix the adapter + its fixture test together.
+
+## Auth & billing
+- Sign-in: passwordless magic link (`/signin`), plus Google when
+  `GOOGLE_CLIENT_ID`/`SECRET` are set - the provider is registered conditionally,
+  so the app runs fine before those exist.
+- **Without `RESEND_API_KEY` the magic link prints to the server console.** That is a
+  complete local sign-in flow; grep the dev log for `[email:dev]`.
+- `AUTH_SECRET` is required. Generate with `openssl rand -base64 32`.
+- Sessions are database-backed (`sessions` table), 30 days.
+- The session callback returns only id/email/name/image/plan/isAdmin. Do not widen
+  it - `/api/auth/session` is readable by the browser and the adapter's user row
+  carries Stripe ids and the Telegram chat id.
+
+### Plan state
+- **Stripe is the only writer of `users.plan`.** The webhook at
+  `/api/webhooks/stripe` is the single place it changes; nothing else may promote
+  or demote an account.
+- `planForSubscription()` grants a plan only for `active`, `trialing` or
+  `past_due`. `past_due` deliberately keeps access during Stripe's retry window
+  rather than punishing an expired card.
+- The webhook refuses to run without `STRIPE_WEBHOOK_SECRET` and verifies every
+  signature: unverified, this endpoint would hand out paid plans to anyone.
+- An event for an unknown Stripe customer throws, so Stripe retries and the
+  failure is visible, rather than silently dropping a paying customer.
+
+### Local webhook testing
+```
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+```
+Copy the printed `whsec_...` into `STRIPE_WEBHOOK_SECRET`, then
+`stripe trigger customer.subscription.created`.
+
+### Founding-50 at checkout
+Annual checkout looks up the buyer's waitlist position; positions 1-50 get the
+`FOUNDING50` promotion code applied automatically, so they never have to remember
+a code. Verified live: annual Voyage came to $145.00 instead of $290.00.

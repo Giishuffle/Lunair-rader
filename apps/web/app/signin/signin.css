@@ -1,0 +1,92 @@
+.signin {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.signin-card h1 {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.signin-card .sub {
+  color: var(--ink-2);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.signin-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signin-card label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.signin-card .input,
+.signin-card .btn-amber,
+.signin-card .btn-ghost {
+  width: 100%;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-ghost:hover { border-color: var(--muted); }
+.btn-ghost:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 14px 0;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.signin-error {
+  background: rgba(228, 87, 46, 0.12);
+  border: 1px solid rgba(228, 87, 46, 0.4);
+  color: #FF9B7A;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.fine {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 14px;
+}
+.fine a { color: var(--amber-2); }
