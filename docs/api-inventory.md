@@ -14,6 +14,24 @@ _Every external interface Lunair World uses. All government feeds verified live 
 | **openFDA** | `api.fda.gov` - free, enforcement/recall data for food, cosmetics, devices | ✅ Verified; for FDA-heavy seller categories | Phase 4, optional |
 | **Reed Smith / ST&R** | Law-firm RSS trackers | Secondary confirmation only, never quoted in alerts | Phase 2, optional |
 
+## Candidate sources - verified reachable 23 Aug 2026, not yet built
+
+Ranked by value to the seller. All are free US government sources.
+
+| Source | Access | Why it matters |
+|---|---|---|
+| **CBP CROSS rulings** | `rulings.cbp.gov/api/search?term=…&collection=ALL` - working JSON API, no key. Returns ruling number, subject, date, and the **tariff codes CBP actually assigned** | The highest-value addition. It is CBP's own published precedent: search "night light" and get a ruling classifying one from China as 9405.40.8000. Turns our classification feature from *our opinion* into *a citation of CBP's published decision* - which is both more accurate and a materially safer legal posture (see counsel question A) |
+| **AD/CVD orders** | Already flowing: the International Trade Administration is in our Federal Register agency list. 10,000+ matching documents | Antidumping and countervailing duties can exceed 100% of product value - the single largest dollar surprise an importer can hit. **The data is already in `source_docs`; only the product-matching logic is missing** |
+| **UFLPA Entity List** | dhs.gov/uflpa-entity-list (HTML, browser UA) | Goods traceable to listed entities are barred from entry outright. Binary, catastrophic, and directly relevant to China sourcing |
+| **California Prop 65** | oehha.ca.gov chemical list + oag.ca.gov 60-day notice search | The one piece of **state** law that reliably bites e-commerce sellers, enforced by private bounty suits. Our biggest current gap outside federal agencies |
+| **FDA import alerts** | accessdata.fda.gov/cms_ia/ialist.html | Supplier-level detention risk: goods from listed firms are held without physical examination |
+
+**Not worth building: municipal / city council codes.** Import regulation is a federal
+power; a city cannot regulate what enters the country. The only sub-federal law that
+reaches these sellers is state-level (Prop 65 above, plus state chemical bans and
+packaging EPR laws). ~19,000 municipalities would add enormous noise for almost no
+signal.
+
 ### Scraping policy
 Only public government pages. Polite pacing (1-1.5s between requests), identifying
 user-agent with contact email where accepted; realistic browser UA only where the
