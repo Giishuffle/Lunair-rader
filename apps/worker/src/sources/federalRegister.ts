@@ -1,4 +1,5 @@
 import type { SourceAdapter, SourceDocInput } from "@lunair/core";
+import { fetchWithRetry } from "@lunair/core";
 
 /**
  * Federal Register API adapter. Verified empirically 2026-08-22 (docs/data-access.md):
@@ -67,7 +68,7 @@ export class FederalRegisterAdapter implements SourceAdapter {
     let pages = 0;
 
     while (url && pages < 10) {
-      const res = await this.fetchImpl(url, { headers: { "user-agent": "LunairWorld/0.1 (compliance radar; guy@wershuffle.com)" } });
+      const res = await fetchWithRetry(url, { headers: { "user-agent": "LunairWorld/0.1 (compliance radar; guy@wershuffle.com)" } }, this.fetchImpl);
       if (!res.ok) throw new Error(`federal_register HTTP ${res.status}`);
       const body = (await res.json()) as FrResponse;
       for (const d of body.results ?? []) docs.push(toSourceDoc(d));

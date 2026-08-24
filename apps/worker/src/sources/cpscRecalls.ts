@@ -1,4 +1,5 @@
 import type { SourceAdapter, SourceDocInput } from "@lunair/core";
+import { fetchWithRetry } from "@lunair/core";
 
 /**
  * CPSC Recall API adapter. Verified 2026-08-22 (docs/data-access.md):
@@ -40,9 +41,11 @@ export class CpscRecallsAdapter implements SourceAdapter {
   async fetchSince(since: Date | null): Promise<SourceDocInput[]> {
     const start = since ?? new Date(Date.now() - 30 * 24 * 3600 * 1000);
     const url = `${BASE}?format=json&RecallDateStart=${start.toISOString().slice(0, 10)}`;
-    const res = await this.fetchImpl(url, {
-      headers: { "user-agent": "LunairWorld/0.1 (compliance radar; guy@wershuffle.com)" },
-    });
+    const res = await fetchWithRetry(
+      url,
+      { headers: { "user-agent": "LunairWorld/0.1 (compliance radar; guy@wershuffle.com)" } },
+      this.fetchImpl,
+    );
     if (!res.ok) throw new Error(`cpsc_recalls HTTP ${res.status}`);
     const recalls = (await res.json()) as CpscRecall[];
     return recalls.map(toSourceDoc);

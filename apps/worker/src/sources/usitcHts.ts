@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import type { SourceAdapter, SourceDocInput } from "@lunair/core";
+import { fetchWithRetry } from "@lunair/core";
 
 /**
  * USITC HTS adapter. Verified 2026-08-22 (docs/data-access.md):
@@ -99,9 +100,11 @@ export class UsitcHtsAdapter implements SourceAdapter {
     const docs: SourceDocInput[] = [];
     for (const range of this.ranges) {
       const url = `${BASE}?format=JSON&from=${range.from}&to=${range.to}&styles=false`;
-      const res = await this.fetchImpl(url, {
-        headers: { "user-agent": "LunairWorld/0.1 (compliance radar; guy@wershuffle.com)" },
-      });
+      const res = await fetchWithRetry(
+        url,
+        { headers: { "user-agent": "LunairWorld/0.1 (compliance radar; guy@wershuffle.com)" } },
+        this.fetchImpl,
+      );
       if (!res.ok) throw new Error(`usitc_hts HTTP ${res.status} for ${range.from}-${range.to}`);
       const lines = (await res.json()) as HtsLine[];
       const hash = snapshotHash(lines);

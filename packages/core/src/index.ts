@@ -5,4 +5,5 @@ export * from "./crossref.js";
 export * from "./sources/crossRulings.js";
 export * from "./sources/ecfr.js";
 export * from "./alerts/match.js";
+export * from "./http.js";
 export { createDb, type Db } from "./db.js";
