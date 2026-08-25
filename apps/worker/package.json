@@ -11,6 +11,7 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.120.0",
     "@lunair/core": "*",
     "@sentry/node": "^10.70.0",
     "pg-boss": "^10.3.0"

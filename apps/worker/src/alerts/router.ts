@@ -12,6 +12,7 @@ import {
 } from "@lunair/core";
 import { alertEmail } from "./email.js";
 import { sendEmail } from "../notify/email.js";
+import { summarizeEventForAlert } from "../ai/summarize.js";
 
 /**
  * Events -> the sellers who asked to hear about them.
@@ -31,6 +32,8 @@ interface Recipient {
   watch: WatchLike & { label: string; sources: Array<{ title: string; url: string }> | null };
   productId: string;
   productName: string;
+  productDescription: string | null;
+  annualImportValue: number | null;
   userId: string;
   userEmail: string;
   plan: Plan;
@@ -99,9 +102,21 @@ export async function dispatchAlerts(db: Db, limit = 50): Promise<DispatchResult
       if (!created) continue; // already alerted on this event for this product
       result.alertsCreated += 1;
 
+      // Falls back to the raw source text on any AI failure - a plainer alert
+      // beats a missed one.
+      const ai = await summarizeEventForAlert({
+        eventType: event.type,
+        rawSummary: event.summary,
+        effectiveDate: event.effectiveDate,
+        productName: r.productName,
+        productDescription: r.productDescription,
+        annualImportValue: r.annualImportValue,
+      });
+
       const mail = alertEmail({
         productName: r.productName,
-        eventSummary: event.summary,
+        eventSummary: ai.summary,
+        dollarImpact: ai.dollarImpact,
         watchLabel: r.watch.label,
         effectiveDate: event.effectiveDate,
         sources: r.watch.sources ?? [],
@@ -141,6 +156,8 @@ async function findRecipients(db: Db, event: EventLike): Promise<Recipient[]> {
       enabled: schema.productWatches.enabled,
       productId: schema.products.id,
       productName: schema.products.name,
+      productDescription: schema.products.description,
+      annualImportValue: schema.products.annualImportValue,
       userId: schema.users.id,
       userEmail: schema.users.email,
       plan: schema.users.plan,
@@ -175,6 +192,8 @@ async function findRecipients(db: Db, event: EventLike): Promise<Recipient[]> {
       },
       productId: r.productId,
       productName: r.productName,
+      productDescription: r.productDescription,
+      annualImportValue: r.annualImportValue,
       userId: r.userId,
       userEmail: r.userEmail,
       plan: r.plan,

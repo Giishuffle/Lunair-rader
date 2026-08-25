@@ -8,6 +8,8 @@
 export interface AlertEmailInput {
   productName: string;
   eventSummary: string;
+  /** An AI-estimated dollar range, only ever set when the source text stated an actual rate. */
+  dollarImpact?: string | null;
   watchLabel: string;
   effectiveDate: Date | null;
   sources: Array<{ title: string; url: string }>;
@@ -19,7 +21,7 @@ const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 export function alertEmail(input: AlertEmailInput): { subject: string; html: string; text: string } {
-  const { productName, eventSummary, watchLabel, effectiveDate, sources, appUrl, productId } = input;
+  const { productName, eventSummary, dollarImpact, watchLabel, effectiveDate, sources, appUrl, productId } = input;
   const when = effectiveDate
     ? effectiveDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
     : null;
@@ -32,6 +34,8 @@ export function alertEmail(input: AlertEmailInput): { subject: string; html: str
     "",
     eventSummary,
     "",
+    dollarImpact ? `Estimated dollar impact: ${dollarImpact}` : null,
+    dollarImpact ? "" : null,
     `You asked us to watch: ${watchLabel}`,
     when ? `Effective: ${when}` : null,
     "",
@@ -58,6 +62,12 @@ export function alertEmail(input: AlertEmailInput): { subject: string; html: str
       <h1 style="margin:0 0 18px;font-size:21px;line-height:1.3">${esc(productName)}</h1>
 
       <p style="margin:0 0 18px;color:#B9C4D9;line-height:1.6;font-size:15px">${esc(eventSummary)}</p>
+
+      ${
+        dollarImpact
+          ? `<p style="margin:0 0 18px;padding:10px 14px;background:rgba(245,166,35,.1);border:1px solid #263B66;border-radius:8px;color:#FFC461;font-size:14px"><strong>Estimated dollar impact:</strong> ${esc(dollarImpact)}</p>`
+          : ""
+      }
 
       <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
         <tr>
