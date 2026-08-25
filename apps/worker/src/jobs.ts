@@ -7,6 +7,9 @@ import { CpscRecallsAdapter } from "./sources/cpscRecalls.js";
 import { pingOwner } from "./notify/telegram.js";
 import { checkCitedRegulations } from "./sources/ecfrWatch.js";
 import { dispatchAlerts } from "./alerts/router.js";
+import { draftWeeklyIssue } from "./newsletter/draft.js";
+import { sendApprovedIssue } from "./newsletter/send.js";
+import { isIsraelTime, NEWSLETTER_DRAFT_ISRAEL, NEWSLETTER_SEND_ISRAEL } from "./schedule/israelTime.js";
 
 /** Ping the owner after this many consecutive failures of one source. */
 const ERROR_STREAK_PING_THRESHOLD = 3;
@@ -126,6 +129,8 @@ export type JobName =
   | "cpsc_recalls:poll"
   | "ecfr:check"
   | "alerts:dispatch"
+  | "newsletter:draft"
+  | "newsletter:send"
   | "ops:health-digest";
 
 /**
@@ -141,6 +146,10 @@ export const JOB_SCHEDULES: Record<JobName, string> = {
   // Every 15 minutes: the promise is "we ping you the moment anything moves",
   // and the latency KPI is under six hours.
   "alerts:dispatch": "*/15 * * * *",
+  // Both newsletter jobs run hourly and gate on real Israel local time inside the
+  // handler, so the Sun 09:00 / Mon 11:00 promise survives DST (israelTime.ts).
+  "newsletter:draft": "5 * * * *",
+  "newsletter:send": "10 * * * *",
   "ops:health-digest": "0 6 * * *", // daily 09:00 Israel
 };
 
@@ -173,6 +182,24 @@ export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
           `📡 <b>${r.alertsSent} alert${r.alertsSent === 1 ? "" : "s"} sent</b>\n` +
             `From ${r.eventsConsidered} new event${r.eventsConsidered === 1 ? "" : "s"}.` +
             (r.skippedFreeTier > 0 ? `\n${r.skippedFreeTier} free-tier match${r.skippedFreeTier === 1 ? "" : "es"} withheld - upgrade prompts.` : ""),
+        ).catch(() => undefined);
+      }
+    },
+    "newsletter:draft": async () => {
+      if (!isIsraelTime(new Date(), NEWSLETTER_DRAFT_ISRAEL.weekday, NEWSLETTER_DRAFT_ISRAEL.hour)) return;
+      const r = await draftWeeklyIssue(db);
+      console.log(`[newsletter:draft] ${r.status}${r.itemCount ? ` (${r.itemCount} items)` : ""}`);
+    },
+    "newsletter:send": async () => {
+      if (!isIsraelTime(new Date(), NEWSLETTER_SEND_ISRAEL.weekday, NEWSLETTER_SEND_ISRAEL.hour)) return;
+      const r = await sendApprovedIssue(db);
+      if (r.status === "sent") {
+        await pingOwner(
+          `📬 <b>Lunar Tide sent</b>\n${r.sent} delivered${r.failed ? `, ${r.failed} failed` : ""}.`,
+        ).catch(() => undefined);
+      } else if (r.status === "nothing-approved") {
+        await pingOwner(
+          `📭 <b>Lunar Tide not sent</b>\nNo issue was approved in time, so nothing went out. Nothing is broken - approve this week's draft and it goes next Monday.`,
         ).catch(() => undefined);
       }
     },
