@@ -20,6 +20,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </Link>
         <nav>
           <span className="plan-chip">{planLabel}</span>
+          <Link href="/app/settings" className="linkish">Settings</Link>
           <form
             action={async () => {
               "use server";
