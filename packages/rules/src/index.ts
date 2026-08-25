@@ -13,7 +13,11 @@ export const RequirementTemplate = z.object({
   id: z.string(),
   agency: z.string(),
   title: z.string(),
-  severity: z.enum(["low", "medium", "high"]),
+  /**
+   * "critical" is the broker-review level above high: likely to stop, detain,
+   * refuse, or render a shipment non-transportable, or trigger a recall.
+   */
+  severity: z.enum(["low", "medium", "high", "critical"]),
   plain_english: z.string(),
   source_url: z.string().url(),
   self_check_hint: z.string(),
@@ -37,6 +41,19 @@ export const RequirementTemplate = z.object({
    * citing a plausible-looking wrong part is worse than citing nothing.
    */
   statute: z.array(z.string()).optional(),
+  /**
+   * The standard that actually carries the technical content, where the CFR
+   * incorporates one by reference rather than reproducing it. The edition
+   * matters: the CFR can name a new edition without its own text changing, so
+   * eCFR watching alone will not catch it (broker review §10).
+   */
+  incorporated_standard: z
+    .object({
+      name: z.string(),
+      edition: z.string(),
+      note: z.string().optional(),
+    })
+    .optional(),
   /** Conditions narrowing when this appears to apply (all optional = always) */
   conditions: z
     .object({
@@ -45,6 +62,10 @@ export const RequirementTemplate = z.object({
       has_plug: z.boolean().optional(),
       /** True when the product is powered at all - battery or mains. */
       powered_any: z.boolean().optional(),
+      /** Contains or is designed to use a button or coin cell. */
+      has_button_cell: z.boolean().optional(),
+      /** Within the federal toy-standard scope: for play by a child under 14. */
+      is_toy: z.boolean().optional(),
       materials_any: z.array(z.string()).optional(),
     })
     .optional(),

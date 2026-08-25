@@ -13,8 +13,8 @@ import "./wizard.css";
  * appears only at the end, next to the CBP rulings that justify it.
  */
 
-type Step = 0 | 1 | 2 | 3 | 4;
-const LAST_STEP: Step = 4;
+type Step = 0 | 1 | 2 | 3 | 4 | 5;
+const LAST_STEP: Step = 5;
 
 interface Draft {
   name: string;
@@ -23,6 +23,9 @@ interface Draft {
   audience: "" | "kids" | "adults" | "both";
   hasBattery: boolean;
   hasPlug: boolean;
+  hasButtonCell: boolean;
+  /** Null until asked - we never assume a product is or is not a toy. */
+  isToy: boolean | null;
   originCountry: string;
   annualImportValue: string;
 }
@@ -34,6 +37,8 @@ const EMPTY: Draft = {
   audience: "",
   hasBattery: false,
   hasPlug: false,
+  hasButtonCell: false,
+  isToy: null,
   originCountry: "",
   annualImportValue: "",
 };
@@ -67,6 +72,8 @@ export function PassportWizard() {
         audience: draft.audience || undefined,
         hasBattery: draft.hasBattery,
         hasPlug: draft.hasPlug,
+        hasButtonCell: draft.hasButtonCell,
+        isToy: draft.isToy ?? undefined,
         originCountry: draft.originCountry && draft.originCountry !== "OT" ? draft.originCountry : undefined,
         annualImportValue: draft.annualImportValue ? Number(draft.annualImportValue) : undefined,
       });
@@ -260,7 +267,7 @@ export function PassportWizard() {
     },
     {
       title: "Does it have a battery or plug in?",
-      why: "Batteries bring transport rules; anything powered can bring FCC requirements.",
+      why: "Batteries bring transport rules, anything powered can bring FCC requirements, and coin-shaped batteries have a safety rule of their own.",
       ready: true,
       body: (
         <div className="toggles">
@@ -272,6 +279,29 @@ export function PassportWizard() {
             <input type="checkbox" checked={draft.hasPlug} onChange={(e) => set("hasPlug", e.target.checked)} />
             <span>It plugs into mains power</span>
           </label>
+          <label className="toggle">
+            <input type="checkbox" checked={draft.hasButtonCell} onChange={(e) => set("hasButtonCell", e.target.checked)} />
+            <span>It uses a button or coin cell - the small round flat kind</span>
+          </label>
+        </div>
+      ),
+    },
+    {
+      title: "Is it a toy?",
+      why: "Toys made for under-14s have to meet a mandatory federal toy standard covering mechanical hazards, magnets, cords and sound - not just chemicals. It only applies if the product is actually a toy, so we ask rather than guess from the tariff code.",
+      ready: true,
+      body: (
+        <div className="choices">
+          {([["yes", "Yes, it's meant to be played with"], ["no", "No"]] as const).map(([v, label]) => (
+            <button
+              key={v}
+              type="button"
+              className={`choice ${draft.isToy === (v === "yes") ? "on" : ""}`}
+              onClick={() => set("isToy", v === "yes")}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       ),
     },

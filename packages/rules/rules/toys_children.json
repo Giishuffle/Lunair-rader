@@ -8,13 +8,37 @@
   ],
   "requirements": [
     {
+      "id": "astm-f963-toy-standard",
+      "agency": "CPSC",
+      "title": "Mandatory federal toy safety standard (ASTM F963)",
+      "severity": "critical",
+      "plain_english": "Toys made for children under 14 generally have to meet the mandatory federal toy safety standard, which covers far more than chemicals: mechanical and physical hazards, small parts, sharp points and edges, magnets, cords and elastics, sound levels, projectiles, and how securely the battery compartment closes. Which sections apply depends on what your toy actually is and does, so this is not a single pass/fail test. Testing only for lead and phthalates is the most common way importers miss this.",
+      "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Toy-Safety/Toy-Safety-Business-Guidance-and-Small-Entity-Compliance-Guide",
+      "self_check_hint": "Ask your lab which ASTM F963 sections they tested against, and check the report names the current edition (F963-23 for toys made on or after 20 April 2024). A report citing an older edition may not be enough.",
+      "conditions": {
+        "is_toy": true
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1250",
+          "label": "Safety Standard for Toys"
+        }
+      ],
+      "incorporated_standard": {
+        "name": "ASTM F963",
+        "edition": "F963-23",
+        "note": "16 CFR 1250 incorporates ASTM F963 by reference. F963-23 applies to toys manufactured on or after 20 April 2024. The CFR part can point at a new edition without the CFR text itself changing, so the edition needs watching separately."
+      }
+    },
+    {
       "id": "cpsia-cpc",
       "agency": "CPSC",
       "title": "Children's Product Certificate (CPC)",
-      "severity": "high",
-      "plain_english": "Products made for children 12 and under generally need a Children's Product Certificate backed by testing at a CPSC-accepted lab before import. This appears to apply to your product because you told us it's used by kids.",
+      "severity": "critical",
+      "plain_english": "Products made for children 12 and under generally need a Children's Product Certificate before import. Worth knowing who issues it: you do, as the US importer - not your supplier and not the lab. You issue it based on passing test results, and where a children's product safety rule requires it, that testing has to come from a CPSC-accepted third-party laboratory. The certificate has to name the product, every rule it certifies against, who is keeping the records, where and when it was made and tested, and each lab involved. This appears to apply because you told us it's used by kids.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate-CPC",
-      "self_check_hint": "Ask your supplier for the CPC and the lab report behind it.",
+      "self_check_hint": "A generic factory test report is not a CPC. Check the certificate is issued in your name, names the exact SKU, and lists each rule it covers - and that the test report behind it traces to the production lot you actually imported.",
       "conditions": {
         "audience": "kids"
       },
@@ -24,16 +48,19 @@
           "part": "1110",
           "label": "Certificates of Compliance"
         }
+      ],
+      "statute": [
+        "15 U.S.C. 2063(a)(2)"
       ]
     },
     {
-      "id": "cpsia-lead-phthalates",
+      "id": "lead-paint-coatings",
       "agency": "CPSC",
-      "title": "Lead & phthalates limits",
-      "severity": "high",
-      "plain_english": "Children's products must meet federal lead content and phthalates limits. Test reports should show results per accessible component.",
+      "title": "Lead limits in paint & surface coatings",
+      "severity": "critical",
+      "plain_english": "Paint and similar surface coatings on children's products have their own lead limit, separate from the lead in the material underneath. This catches things people forget to test: screen printing, decals, inks, and decorative coatings are all surface coatings.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
-      "self_check_hint": "Check your lab report covers total lead and the 8 restricted phthalates.",
+      "self_check_hint": "Check the lab tested each coloured coating, not just the base material - and that decals and printed graphics were included.",
       "conditions": {
         "audience": "kids"
       },
@@ -41,16 +68,45 @@
         {
           "title": 16,
           "part": "1303",
-          "label": "Ban of lead-containing paint"
-        },
+          "label": "Ban of Lead-Containing Paint and Certain Consumer Products Bearing Lead-Containing Paint"
+        }
+      ]
+    },
+    {
+      "id": "lead-content-substrate",
+      "agency": "CPSC",
+      "title": "Total lead content in accessible parts",
+      "severity": "critical",
+      "plain_english": "Separately from paint, the material a children's product is made of has a total lead limit, and it applies to each accessible component rather than to the product as an average. Clasps, zippers, charms, fasteners and solder are where this usually goes wrong, because a test on the main plastic or main metal says nothing about them.",
+      "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
+      "self_check_hint": "Ask for results per accessible component, with a component map - not one figure for the whole product. A supplier material declaration on its own is not a test result.",
+      "conditions": {
+        "audience": "kids"
+      },
+      "statute": [
+        "15 U.S.C. 1278a"
+      ]
+    },
+    {
+      "id": "phthalates-toys-childcare",
+      "agency": "CPSC",
+      "title": "Phthalate limits in toys & child-care articles",
+      "severity": "critical",
+      "plain_english": "Phthalate limits are narrower than people assume: they cover children's toys and child-care articles, and they bite on accessible plasticized parts rather than on every children's product. A child-care article here means something used by a child 3 or under for sleeping, feeding, sucking or teething. Watch the soft bits that are easy to overlook - vinyl decals, grips, inks, artificial leather, tubing and flexible coatings.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+      "self_check_hint": "First ask whether your product is actually a toy or a child-care article. If it is, check the report covers every accessible plasticized component, not only the obvious soft PVC.",
+      "conditions": {
+        "audience": "kids"
+      },
+      "cfr": [
         {
           "title": 16,
           "part": "1307",
-          "label": "Prohibition of children's toys containing specified phthalates"
+          "label": "Prohibition of Children's Toys and Child Care Articles Containing Specified Phthalates"
         }
       ],
       "statute": [
-        "15 U.S.C. 1278a"
+        "15 U.S.C. 2057c"
       ]
     },
     {

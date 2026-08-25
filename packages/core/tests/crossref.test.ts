@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   CONFIDENCE_GATE,
   crossReferenceProduct,
+  evaluateRequirement,
   matchCategories,
   requirementApplies,
   type ProductProfile,
@@ -94,6 +95,57 @@ describe("requirementApplies", () => {
     expect(requirementApplies(cpc, nightLight)).toBe(true);
     expect(requirementApplies(cpc, { ...nightLight, audience: "adults" })).toBe(false);
     expect(requirementApplies(cpc, { ...nightLight, audience: "both" })).toBe(true);
+  });
+});
+
+/**
+ * The distinction that keeps a critical rule visible: "we asked and the answer
+ * was no" must never look the same as "we never asked".
+ */
+describe("evaluateRequirement - unresolved vs excluded", () => {
+  const buttonCell = {
+    id: "button-cell",
+    agency: "CPSC",
+    title: "Button & coin battery safety",
+    plain_english: "x",
+    source_url: "https://example.com",
+    severity: "critical" as const,
+    conditions: { has_button_cell: true },
+  };
+
+  it("applies when the seller said yes", () => {
+    expect(evaluateRequirement(buttonCell, { ...nightLight, hasButtonCell: true })).toBe("applies");
+  });
+
+  it("excludes when the seller said no", () => {
+    expect(evaluateRequirement(buttonCell, { ...nightLight, hasButtonCell: false })).toBe("excluded");
+  });
+
+  it("is unresolved - not excluded - when never asked", () => {
+    expect(evaluateRequirement(buttonCell, { ...nightLight, hasButtonCell: null })).toBe("unresolved");
+    expect(evaluateRequirement(buttonCell, nightLight)).toBe("unresolved");
+  });
+
+  it("lets a known mismatch beat an unknown, so we do not nag about excluded rules", () => {
+    const both = { ...buttonCell, conditions: { has_button_cell: true, audience: "adults" as const } };
+    expect(evaluateRequirement(both, { ...nightLight, hasButtonCell: null, audience: "kids" })).toBe("excluded");
+  });
+
+  it("treats an unanswered audience as unresolved rather than a miss", () => {
+    const kidsOnly = { ...buttonCell, conditions: { audience: "kids" as const } };
+    expect(evaluateRequirement(kidsOnly, { ...nightLight, audience: null })).toBe("unresolved");
+  });
+
+  it("leaves powered_any unresolved while either power question is unanswered", () => {
+    const powered = { ...buttonCell, conditions: { powered_any: true } };
+    expect(evaluateRequirement(powered, { ...nightLight, hasBattery: null, hasPlug: null })).toBe("unresolved");
+    // A single yes settles it - the product is powered whatever the other answer.
+    expect(evaluateRequirement(powered, { ...nightLight, hasBattery: true, hasPlug: null })).toBe("applies");
+    expect(evaluateRequirement(powered, { ...nightLight, hasBattery: false, hasPlug: false })).toBe("excluded");
+  });
+
+  it("requirementApplies stays strict, so unresolved is never counted as a match", () => {
+    expect(requirementApplies(buttonCell, { ...nightLight, hasButtonCell: null })).toBe(false);
   });
 });
 

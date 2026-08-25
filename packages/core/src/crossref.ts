@@ -62,6 +62,10 @@ export interface ProductProfile {
   audience?: string | null; // kids | adults | both
   hasBattery?: boolean | null;
   hasPlug?: boolean | null;
+  /** Contains or is designed to use a button/coin cell. Null = we have not asked. */
+  hasButtonCell?: boolean | null;
+  /** Designed or intended for play by a child under 14 - federal toy-standard scope. */
+  isToy?: boolean | null;
   originCountry?: string | null; // ISO-2
   annualImportValue?: number | null;
   /** Only set if the seller already confirmed one. */
@@ -74,13 +78,15 @@ export interface RequirementLike {
   title: string;
   plain_english: string;
   source_url: string;
-  severity: "low" | "medium" | "high";
+  severity: "low" | "medium" | "high" | "critical";
   conditions?: {
     audience?: "kids" | "adults" | "both";
     has_battery?: boolean;
     has_plug?: boolean;
     /** True when the product is powered at all - battery or mains. */
     powered_any?: boolean;
+    has_button_cell?: boolean;
+    is_toy?: boolean;
     materials_any?: string[];
   };
 }
@@ -109,29 +115,70 @@ export function productSearchText(p: ProductProfile): string {
 }
 
 /**
+ * Three answers, not two.
+ *
+ * "unresolved" exists because the alternative is worse: when we have never asked
+ * whether a product contains a button cell, treating the unanswered question as
+ * "no" silently hides a critical safety rule. An unresolved requirement is shown
+ * to the seller as conditional - "this appears to apply if..." - so the gap is
+ * visible and answerable instead of invisible.
+ */
+export type Applicability = "applies" | "unresolved" | "excluded";
+
+/** Compare a known tri-state product fact against a required boolean. */
+function matchBool(actual: boolean | null | undefined, required: boolean): Applicability {
+  if (actual === null || actual === undefined) return "unresolved";
+  return actual === required ? "applies" : "excluded";
+}
+
+/**
  * Does a requirement's condition block match this product?
  * A requirement with no conditions applies to everything in its category.
  */
-export function requirementApplies(req: RequirementLike, p: ProductProfile): boolean {
+export function evaluateRequirement(req: RequirementLike, p: ProductProfile): Applicability {
   const c = req.conditions;
-  if (!c) return true;
+  if (!c) return "applies";
+
+  const checks: Applicability[] = [];
+
   if (c.audience && c.audience !== "both") {
+    if (!p.audience) checks.push("unresolved");
     // "both" on the product satisfies a kids- or adults-specific condition.
-    if (p.audience !== c.audience && p.audience !== "both") return false;
+    else if (p.audience !== c.audience && p.audience !== "both") checks.push("excluded");
   }
-  if (c.has_battery !== undefined && Boolean(p.hasBattery) !== c.has_battery) return false;
-  if (c.has_plug !== undefined && Boolean(p.hasPlug) !== c.has_plug) return false;
+  if (c.has_battery !== undefined) checks.push(matchBool(p.hasBattery, c.has_battery));
+  if (c.has_plug !== undefined) checks.push(matchBool(p.hasPlug, c.has_plug));
+  if (c.has_button_cell !== undefined) checks.push(matchBool(p.hasButtonCell, c.has_button_cell));
+  if (c.is_toy !== undefined) checks.push(matchBool(p.isToy, c.is_toy));
+
   // "Powered at all" - either source counts. Lets a requirement target every
   // powered product without duplicating it for battery and mains separately.
   if (c.powered_any !== undefined) {
-    const powered = Boolean(p.hasBattery) || Boolean(p.hasPlug);
-    if (powered !== c.powered_any) return false;
+    if (p.hasBattery === true || p.hasPlug === true) {
+      checks.push(c.powered_any ? "applies" : "excluded");
+    } else if (p.hasBattery == null || p.hasPlug == null) {
+      // One unanswered question is enough to leave "is it powered" open.
+      checks.push("unresolved");
+    } else {
+      checks.push(c.powered_any ? "excluded" : "applies");
+    }
   }
+
   if (c.materials_any?.length) {
     const mats = (p.materials ?? []).map((m) => m.toLowerCase());
-    if (!c.materials_any.some((m) => mats.some((pm) => pm.includes(m.toLowerCase())))) return false;
+    if (mats.length === 0) checks.push("unresolved");
+    else if (!c.materials_any.some((m) => mats.some((pm) => pm.includes(m.toLowerCase())))) {
+      checks.push("excluded");
+    }
   }
-  return true;
+
+  if (checks.includes("excluded")) return "excluded";
+  return checks.includes("unresolved") ? "unresolved" : "applies";
+}
+
+/** Strict form: true only when every condition is known to match. */
+export function requirementApplies(req: RequirementLike, p: ProductProfile): boolean {
+  return evaluateRequirement(req, p) === "applies";
 }
 
 /**
@@ -269,11 +316,16 @@ export async function crossReferenceProduct(input: CrossRefInput): Promise<Cross
   // 5. Agency requirements from the rule library.
   const categories = matchCategories(product, library, prefixes);
   for (const cat of categories) {
-    const applicable = cat.requirements.filter((r) => requirementApplies(r, product));
-    if (applicable.length === 0) continue;
+    const byState = cat.requirements.map((r) => ({ r, state: evaluateRequirement(r, product) }));
+    const applicable = byState.filter((x) => x.state === "applies").map((x) => x.r);
+    // Shown, not hidden: we could not tell from what the seller told us, and a
+    // critical rule we never mentioned is the worst outcome here.
+    const unresolved = byState.filter((x) => x.state === "unresolved").map((x) => x.r);
+    const surfaced = [...applicable, ...unresolved];
+    if (surfaced.length === 0) continue;
 
-    const agencies = [...new Set(applicable.map((r) => r.agency))];
-    const highest = applicable.some((r) => r.severity === "high");
+    const agencies = [...new Set(surfaced.map((r) => r.agency))];
+    const severe = (r: RequirementLike) => r.severity === "high" || r.severity === "critical";
 
     watches.push({
       id: `agency_requirement:${cat.category_key}`,
@@ -281,11 +333,19 @@ export async function crossReferenceProduct(input: CrossRefInput): Promise<Cross
       watchKey: cat.category_key,
       label: `${agencies.join(", ")} rule changes for ${cat.label.toLowerCase()}`,
       rationale:
-        `${applicable.length} requirement${applicable.length === 1 ? "" : "s"} appear${applicable.length === 1 ? "s" : ""} to apply to your product ` +
-        `(${applicable.map((r) => r.title).join("; ")}). We watch these agencies for changes.`,
-      sources: applicable.map((r) => ({ title: `${r.agency}: ${r.title}`, url: r.source_url })),
-      confidence: 0.85,
-      recommended: highest,
+        (applicable.length > 0
+          ? `${applicable.length} requirement${applicable.length === 1 ? "" : "s"} appear${applicable.length === 1 ? "s" : ""} to apply to your product ` +
+            `(${applicable.map((r) => r.title).join("; ")}). `
+          : "") +
+        (unresolved.length > 0
+          ? `${unresolved.length} more may apply depending on details we do not have yet ` +
+            `(${unresolved.map((r) => r.title).join("; ")}). `
+          : "") +
+        "We watch these agencies for changes.",
+      sources: surfaced.map((r) => ({ title: `${r.agency}: ${r.title}`, url: r.source_url })),
+      // A watch resting partly on unanswered questions is offered, not pre-ticked.
+      confidence: unresolved.length > 0 && applicable.length === 0 ? 0.7 : 0.85,
+      recommended: applicable.some(severe),
     });
 
     // 6. Recalls in the same category - a signal no competitor offers.

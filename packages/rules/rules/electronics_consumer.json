@@ -11,6 +11,28 @@
   ],
   "requirements": [
     {
+      "id": "button-cell-reeses-law",
+      "agency": "CPSC",
+      "title": "Button & coin battery safety (Reese's Law)",
+      "severity": "critical",
+      "plain_english": "Consumer products that contain or are designed to use button or coin cells have their own safety rule, because a swallowed coin cell can cause serious internal injuries quickly. It covers how securely the battery compartment closes, testing for the kind of handling a product actually gets, and specific warnings on the product, the packaging and the instructions. This is separate from the shipping rules for batteries - meeting the transport rules does nothing for this one.",
+      "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Button-Cell-or-Coin-Batteries",
+      "self_check_hint": "Check the compartment needs a tool or two independent actions to open, not just a push. Then check the required warnings are actually on the product, the box and the instructions - and that you hold the right certificate for it.",
+      "conditions": {
+        "has_button_cell": true
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1263",
+          "label": "Safety Standard for Button Cell or Coin Batteries and Consumer Products Containing Such Batteries"
+        }
+      ],
+      "statute": [
+        "15 U.S.C. 2056e"
+      ]
+    },
+    {
       "id": "fcc-authorization",
       "agency": "FCC",
       "title": "FCC equipment authorization (SDoC or certification)",
@@ -33,10 +55,10 @@
       "id": "battery-transport",
       "agency": "DOT/PHMSA",
       "title": "Lithium battery shipping rules",
-      "severity": "medium",
-      "plain_english": "Products with lithium batteries face packaging, labeling, and documentation rules in transport (UN38.3 test summary).",
+      "severity": "critical",
+      "plain_english": "Lithium batteries are regulated in transport, and the rules change depending on whether the battery ships on its own, packed alongside the product, or installed inside it. Watch the state of charge for air shipments, the packaging and marking, and the paperwork that has to travel with the shipment. One thing worth being clear on: the UN 38.3 test summary proves the battery design was tested. It is evidence you need, but it is not the same as your shipment being packed and documented correctly.",
       "source_url": "https://www.phmsa.dot.gov/lithiumbatteries",
-      "self_check_hint": "Ask your freight forwarder for the UN38.3 test summary from the battery maker.",
+      "self_check_hint": "Get the UN 38.3 test summary and check it names the exact cell or pack model you are actually shipping. Then ask your forwarder to confirm the packing, marking and documents match how it ships - installed, packed with, or loose - and whether air adds a state-of-charge limit.",
       "conditions": {
         "has_battery": true
       },
@@ -44,9 +66,14 @@
         {
           "title": 49,
           "part": "173",
-          "label": "Shippers - general requirements for shipments and packagings"
+          "label": "Shippers - general requirements; 173.185 covers lithium cells and batteries"
         }
-      ]
+      ],
+      "incorporated_standard": {
+        "name": "UN Manual of Tests and Criteria",
+        "edition": "subsection 38.3",
+        "note": "A design-type test on the cell or battery model, referenced by the transport rules rather than reproduced in them."
+      }
     }
   ]
 }

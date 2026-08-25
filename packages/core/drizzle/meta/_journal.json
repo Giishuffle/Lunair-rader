@@ -29,6 +29,13 @@
       "when": 1787467360845,
       "tag": "0003_auth_and_billing",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1787668699575,
+      "tag": "0004_charming_thunderbird",
+      "breakpoints": true
     }
   ]
 }

@@ -112,6 +112,13 @@ export const products = pgTable(
     audience: text("audience"), // kids | adults | both
     hasBattery: boolean("has_battery"),
     hasPlug: boolean("has_plug"),
+    /**
+     * Null means "not asked yet", not "no". The cross-reference engine treats an
+     * unanswered attribute as unresolved and still surfaces the rule, so a
+     * critical requirement is never hidden by a question we skipped.
+     */
+    hasButtonCell: boolean("has_button_cell"),
+    isToy: boolean("is_toy"),
     originCountry: text("origin_country"),
     annualImportValue: integer("annual_import_value"),
     htsCode: text("hts_code"),
