@@ -12,6 +12,8 @@ import {
 } from "@lunair/core";
 import { alertEmail } from "./email.js";
 import { sendEmail } from "../notify/email.js";
+import { alertTelegramMessage } from "./telegramMessage.js";
+import { sendUserTelegram } from "../notify/telegram.js";
 import { summarizeEventForAlert } from "../ai/summarize.js";
 
 /**
@@ -36,6 +38,7 @@ interface Recipient {
   annualImportValue: number | null;
   userId: string;
   userEmail: string;
+  telegramChatId: string | null;
   plan: Plan;
 }
 
@@ -43,6 +46,7 @@ export interface DispatchResult {
   eventsConsidered: number;
   alertsCreated: number;
   alertsSent: number;
+  telegramSent: number;
   skippedFreeTier: number;
 }
 
@@ -52,7 +56,7 @@ export interface DispatchResult {
  * found by left-joining, so a crash mid-run simply resumes next time.
  */
 export async function dispatchAlerts(db: Db, limit = 50): Promise<DispatchResult> {
-  const result: DispatchResult = { eventsConsidered: 0, alertsCreated: 0, alertsSent: 0, skippedFreeTier: 0 };
+  const result: DispatchResult = { eventsConsidered: 0, alertsCreated: 0, alertsSent: 0, telegramSent: 0, skippedFreeTier: 0 };
 
   const pending = await db
     .select({
@@ -113,7 +117,7 @@ export async function dispatchAlerts(db: Db, limit = 50): Promise<DispatchResult
         annualImportValue: r.annualImportValue,
       });
 
-      const mail = alertEmail({
+      const payload = {
         productName: r.productName,
         eventSummary: ai.summary,
         dollarImpact: ai.dollarImpact,
@@ -122,10 +126,10 @@ export async function dispatchAlerts(db: Db, limit = 50): Promise<DispatchResult
         sources: r.watch.sources ?? [],
         appUrl: APP_URL,
         productId: r.productId,
-      });
+      };
 
       try {
-        await sendEmail({ to: r.userEmail, ...mail });
+        await sendEmail({ to: r.userEmail, ...alertEmail(payload) });
         await db.update(schema.alerts).set({ sentAt: new Date() }).where(eq(schema.alerts.id, created.id));
         result.alertsSent += 1;
       } catch (err) {
@@ -133,12 +137,39 @@ export async function dispatchAlerts(db: Db, limit = 50): Promise<DispatchResult
         // is a visible record that delivery failed rather than a silent loss.
         console.error(`[alerts] delivery failed for alert ${created.id}`, err);
       }
+
+      // Telegram is an addition to email, never a replacement: it has its own
+      // alert row, so a Telegram failure cannot suppress the email or vice versa.
+      if (r.telegramChatId) {
+        const [tg] = await db
+          .insert(schema.alerts)
+          .values({
+            id: randomUUID(),
+            eventId: event.id,
+            userId: r.userId,
+            productId: r.productId,
+            channel: "telegram",
+          })
+          .onConflictDoNothing()
+          .returning({ id: schema.alerts.id });
+
+        if (tg) {
+          try {
+            await sendUserTelegram(r.telegramChatId, alertTelegramMessage(payload));
+            await db.update(schema.alerts).set({ sentAt: new Date() }).where(eq(schema.alerts.id, tg.id));
+            result.telegramSent += 1;
+          } catch (err) {
+            console.error(`[alerts] telegram delivery failed for alert ${tg.id}`, err);
+          }
+        }
+      }
     }
   }
 
   console.log(
     `[alerts] ${result.eventsConsidered} events, ${result.alertsCreated} alerts created, ` +
-      `${result.alertsSent} sent, ${result.skippedFreeTier} skipped (free tier)`,
+      `${result.alertsSent} emailed, ${result.telegramSent} to Telegram, ` +
+      `${result.skippedFreeTier} skipped (free tier)`,
   );
   return result;
 }
@@ -160,6 +191,7 @@ async function findRecipients(db: Db, event: EventLike): Promise<Recipient[]> {
       annualImportValue: schema.products.annualImportValue,
       userId: schema.users.id,
       userEmail: schema.users.email,
+      telegramChatId: schema.users.telegramChatId,
       plan: schema.users.plan,
     })
     .from(schema.productWatches)
@@ -196,6 +228,7 @@ async function findRecipients(db: Db, event: EventLike): Promise<Recipient[]> {
       annualImportValue: r.annualImportValue,
       userId: r.userId,
       userEmail: r.userEmail,
+      telegramChatId: r.telegramChatId,
       plan: r.plan,
     }));
 }

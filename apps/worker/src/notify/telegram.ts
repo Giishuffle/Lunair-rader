@@ -39,6 +39,21 @@ export async function sendTelegram(
   }
 }
 
+/**
+ * A seller's own chat. Throws when unconfigured rather than logging and
+ * returning, so a missing token leaves sent_at null on the alert row instead of
+ * recording a delivery that never happened.
+ */
+export async function sendUserTelegram(
+  chatId: string,
+  text: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<void> {
+  const cfg = telegramConfigFromEnv();
+  if (!cfg) throw new Error("TELEGRAM_BOT_TOKEN is not set");
+  await sendTelegram(cfg, chatId, text, fetchImpl);
+}
+
 /** Owner watchdog channel: source health, newsletter drafts, ops incidents. */
 export async function pingOwner(text: string, fetchImpl: typeof fetch = fetch): Promise<boolean> {
   const cfg = telegramConfigFromEnv();

@@ -9,6 +9,7 @@ import { checkCitedRegulations } from "./sources/ecfrWatch.js";
 import { dispatchAlerts } from "./alerts/router.js";
 import { draftWeeklyIssue } from "./newsletter/draft.js";
 import { sendApprovedIssue } from "./newsletter/send.js";
+import { processTelegramLinks } from "./notify/telegramLink.js";
 import { isIsraelTime, NEWSLETTER_DRAFT_ISRAEL, NEWSLETTER_SEND_ISRAEL } from "./schedule/israelTime.js";
 
 /** Ping the owner after this many consecutive failures of one source. */
@@ -131,6 +132,7 @@ export type JobName =
   | "alerts:dispatch"
   | "newsletter:draft"
   | "newsletter:send"
+  | "telegram:link"
   | "ops:health-digest";
 
 /**
@@ -150,6 +152,8 @@ export const JOB_SCHEDULES: Record<JobName, string> = {
   // handler, so the Sun 09:00 / Mon 11:00 promise survives DST (israelTime.ts).
   "newsletter:draft": "5 * * * *",
   "newsletter:send": "10 * * * *",
+  // Someone linking their account is waiting on this, so keep it brisk.
+  "telegram:link": "*/2 * * * *",
   "ops:health-digest": "0 6 * * *", // daily 09:00 Israel
 };
 
@@ -202,6 +206,10 @@ export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
           `📭 <b>Lunar Tide not sent</b>\nNo issue was approved in time, so nothing went out. Nothing is broken - approve this week's draft and it goes next Monday.`,
         ).catch(() => undefined);
       }
+    },
+    "telegram:link": async () => {
+      const r = await processTelegramLinks(db);
+      if (r.linked > 0) console.log(`[telegram:link] ${r.linked} account(s) connected`);
     },
     "ops:health-digest": async () => {
       await opsHealthDigest(db);

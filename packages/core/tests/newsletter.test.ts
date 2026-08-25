@@ -133,3 +133,36 @@ describe("signed tokens", () => {
     expect(verifyApproveToken("issue-2", t, SECRET)).toBe(false);
   });
 });
+
+describe("telegram deep-link payload", () => {
+  const USER = "3f2a1b4c-5d6e-4f70-8a91-b2c3d4e5f607";
+
+  it("round-trips the user id", () => {
+    const payload = tokens.telegramLinkPayload(USER, SECRET);
+    expect(tokens.userIdFromTelegramPayload(payload, SECRET)).toBe(USER);
+  });
+
+  it("fits Telegram's 64-char limit and its allowed alphabet", () => {
+    const payload = tokens.telegramLinkPayload(USER, SECRET);
+    expect(payload.length).toBeLessThanOrEqual(64);
+    expect(payload).toMatch(/^[A-Za-z0-9_-]+$/);
+  });
+
+  it("rejects a payload signed with another secret", () => {
+    const payload = tokens.telegramLinkPayload(USER, SECRET);
+    expect(tokens.userIdFromTelegramPayload(payload, "other")).toBeNull();
+  });
+
+  it("rejects a tampered user id", () => {
+    const payload = tokens.telegramLinkPayload(USER, SECRET);
+    const [, sig] = payload.split("_");
+    const other = "ffffffffffffffffffffffffffffffff";
+    expect(tokens.userIdFromTelegramPayload(`${other}_${sig}`, SECRET)).toBeNull();
+  });
+
+  it("rejects junk without throwing", () => {
+    for (const bad of ["", "_", "nothex_abcdef", "abc", "____"]) {
+      expect(tokens.userIdFromTelegramPayload(bad, SECRET)).toBeNull();
+    }
+  });
+});

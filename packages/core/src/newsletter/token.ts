@@ -44,3 +44,31 @@ export function approveToken(issueId: string, secret: string): string {
 export function verifyApproveToken(issueId: string, token: string, secret: string): boolean {
   return verifyToken(APPROVE_PURPOSE, issueId, token, secret);
 }
+
+export const TELEGRAM_LINK_PURPOSE = "telegram-link";
+
+/**
+ * Payload for a t.me deep link, which Telegram limits to 64 characters of
+ * [A-Za-z0-9_-]. A UUID without dashes is 32 hex chars, so "_" is free to use
+ * as a separator and 24 signature chars still fit comfortably.
+ *
+ * Self-describing rather than a stored code: nothing to persist, nothing to
+ * expire, and re-issuing the same link twice is harmless.
+ */
+export function telegramLinkPayload(userId: string, secret: string): string {
+  const compact = userId.replaceAll("-", "");
+  return `${compact}_${issueToken(TELEGRAM_LINK_PURPOSE, userId, secret).slice(0, 24)}`;
+}
+
+/** The user id a deep-link payload proves, or null if it proves nothing. */
+export function userIdFromTelegramPayload(payload: string, secret: string): string | null {
+  const [compact, sig] = payload.split("_");
+  if (!compact || !sig || !/^[0-9a-f]{32}$/i.test(compact)) return null;
+  const userId = [
+    compact.slice(0, 8), compact.slice(8, 12), compact.slice(12, 16),
+    compact.slice(16, 20), compact.slice(20),
+  ].join("-").toLowerCase();
+  const expected = issueToken(TELEGRAM_LINK_PURPOSE, userId, secret).slice(0, 24);
+  if (sig.length !== expected.length) return null;
+  return timingSafeEqual(Buffer.from(sig), Buffer.from(expected)) ? userId : null;
+}
