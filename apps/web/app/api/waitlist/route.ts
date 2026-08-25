@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { createDb, schema, FOUNDING_SPOTS, isFoundingMember, foundingSpotsLeft } from "@lunair/core";
-import { and, eq, isNotNull, lte, sql } from "drizzle-orm";
+import { createDb, schema, FOUNDING_SPOTS, isFoundingMember } from "@lunair/core";
+import { eq, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { clientKey, rateLimit } from "@/lib/rateLimit";
+import { foundingSpotsRemaining } from "@/lib/founding";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -85,25 +86,10 @@ export async function POST(req: Request) {
   });
 }
 
-/** Live count of founding spots remaining, for the landing page. */
+/** Live count of founding spots remaining, for the landing page and /pricing. */
 export async function GET() {
-  const url = process.env.DATABASE_URL;
-  if (!url) {
-    return NextResponse.json({ spotsLeft: FOUNDING_SPOTS, foundingSpots: FOUNDING_SPOTS });
-  }
-  const db = createDb(url);
-  const [{ claimed = 0 } = {}] = await db
-    .select({ claimed: sql<number>`count(*)::int` })
-    .from(schema.newsletterSubscribers)
-    .where(
-      and(
-        isNotNull(schema.newsletterSubscribers.waitlistPosition),
-        lte(schema.newsletterSubscribers.waitlistPosition, FOUNDING_SPOTS),
-      ),
-    );
-
   return NextResponse.json({
-    spotsLeft: foundingSpotsLeft(claimed),
+    spotsLeft: await foundingSpotsRemaining(),
     foundingSpots: FOUNDING_SPOTS,
   });
 }

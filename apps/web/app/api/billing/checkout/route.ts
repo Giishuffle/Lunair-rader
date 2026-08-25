@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { eq, and, isNotNull, lte } from "drizzle-orm";
-import { schema, FOUNDING_SPOTS, FOUNDING_PROMO_CODE, isFoundingMember } from "@lunair/core";
+import { eq } from "drizzle-orm";
+import { schema, FOUNDING_PROMO_CODE } from "@lunair/core";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { isEmailFoundingMember } from "@/lib/founding";
 import { stripe, stripeConfigured, priceIdFor, type BillingInterval, type PaidPlan } from "@/lib/stripe";
 
 export const runtime = "nodejs";
@@ -69,18 +70,7 @@ export async function POST(req: Request) {
   }
 
   // Founding-50: annual only, and only for someone actually in the first 50.
-  const [waitlisted] = await database
-    .select({ position: schema.newsletterSubscribers.waitlistPosition })
-    .from(schema.newsletterSubscribers)
-    .where(
-      and(
-        eq(schema.newsletterSubscribers.email, user.email.toLowerCase()),
-        isNotNull(schema.newsletterSubscribers.waitlistPosition),
-        lte(schema.newsletterSubscribers.waitlistPosition, FOUNDING_SPOTS),
-      ),
-    )
-    .limit(1);
-  const founding = interval === "annual" && isFoundingMember(waitlisted?.position);
+  const founding = interval === "annual" && (await isEmailFoundingMember(user.email));
 
   const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 

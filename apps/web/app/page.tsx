@@ -45,6 +45,9 @@ export default function Home() {
         </p>
         <p style={{ marginTop: 8 }}>A Wershuffle Inc product.</p>
         <p style={{ marginTop: 12, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/pricing" style={{ color: "var(--muted)" }}>
+            Pricing
+          </Link>
           <Link href="/terms" style={{ color: "var(--muted)" }}>
             Terms
           </Link>
