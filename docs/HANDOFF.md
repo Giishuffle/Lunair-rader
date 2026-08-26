@@ -50,19 +50,40 @@ Repo: `/Users/guy/Projects/lunair`, its own git repo, pushed to
 
 ## What's NOT done — the honest gap list
 
-1. **Rule library is only 2 categories** (toys/children, consumer electronics). This
-   is the real bottleneck to launch — see "the broker" below.
-2. **No AI pipeline yet** — events carry raw source text, not an AI-written
-   plain-English summary with dollar impact. The confidence-gate design is in place;
-   the AI call that fills it in isn't built.
-3. **No pricing page** — checkout works but nothing links to `/pricing` (404s).
-4. **No account settings page** — cancellation is self-serve only via a raw API call
-   to the Stripe portal; needs a UI.
-5. **No newsletter engine, no admin console, no Telegram alerts to users** (only to
-   the owner). All spec'd in `docs/master-plan.md`, none built.
-6. **Rule library has no eCFR citations for most requirements** — only the two
-   existing categories are wired up; expanding the library must include citations
-   from day one now that the pattern exists.
+_Updated 26 Aug 2026, after the broker review came back._
+
+1. **The rule library is the launch blocker, and it is now a known quantity.** A
+   licensed reviewer answered our questionnaire in full (`docs/broker-review-2026-08-25.pdf`,
+   actionable extract in `docs/broker-review-findings.md`). Verdict: *"the current
+   draft should not be published as written."* Two critical omissions have since been
+   fixed (the mandatory toy standard, and button-cell safety), along with the CPC
+   wording, the lead/phthalates split, and lithium transport. **Still outstanding
+   from that review:**
+   - Split FCC into intentional vs unintentional radiators. `powered_any` is *not*
+     the legal trigger — this contradicts a change we made on 23 Aug.
+   - Add the remaining CPSC trigger modules: small parts (1501), choking warnings,
+     electrically operated toys (1505), magnets (1262), art materials, imitation
+     firearms (1272), durable infant/toddler products.
+   - Add the per-requirement fields the reviewer asked for: `authority_layer`,
+     `legal_status`, `timing`, `evidence`, `enforcement_effect`, `review_status`.
+     Without `authority_layer` we present a retailer's UL demand as if it were a
+     federal entry condition. (`severity: critical` and `incorporated_standard` are
+     already in.)
+   - CPSC certificate eFiling has been mandatory since **8 July 2026** — already
+     live, and we do not mention it.
+   - Prop 65 and state chemical laws as a separate state overlay, never as a federal
+     admissibility condition.
+2. **Still only 2 categories.** The reviewer's recommended launch order:
+   general textile apparel, children's sleepwear, cosmetics, food-contact
+   kitchenware, composite-wood furniture, upholstered furniture & mattresses,
+   children's jewelry, pet food & edible chews, ordinary pet accessories. Several
+   must be *split*, not shipped whole — see the findings doc.
+3. **No admin console.** Low-confidence events queue for review with no UI to review
+   them in; the newsletter is approved from a signed Telegram link instead.
+4. **eCFR watching is necessary but not sufficient.** It cannot see a changed ASTM
+   edition (the CFR names the standard without reproducing it), U.S. Code changes,
+   FDA guidance and import alerts, or CPSC effective-date changes. `incorporated_standard`
+   records the edition but nothing watches it yet.
 
 ## Founder tasks outstanding (Guy's side)
 
