@@ -50,6 +50,8 @@ export async function POST(req: Request) {
     audience: typeof body.audience === "string" ? body.audience : null,
     hasBattery: typeof body.hasBattery === "boolean" ? body.hasBattery : null,
     hasPlug: typeof body.hasPlug === "boolean" ? body.hasPlug : null,
+    hasButtonCell: typeof body.hasButtonCell === "boolean" ? body.hasButtonCell : null,
+    isToy: typeof body.isToy === "boolean" ? body.isToy : null,
     originCountry: typeof body.originCountry === "string" ? body.originCountry.toUpperCase().slice(0, 2) : null,
     annualImportValue:
       typeof body.annualImportValue === "number" && Number.isFinite(body.annualImportValue)
