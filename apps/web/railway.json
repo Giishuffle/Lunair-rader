@@ -5,7 +5,7 @@
     "buildCommand": "npm run build --workspace packages/core && npm run build --workspace packages/rules && npm run build --workspace apps/web"
   },
   "deploy": {
-    "startCommand": "npm run start --workspace apps/web",
+    "startCommand": "npm run db:migrate --workspace packages/core && npm run start --workspace apps/web",
     "healthcheckPath": "/",
     "healthcheckTimeout": 120,
     "restartPolicyType": "ON_FAILURE",

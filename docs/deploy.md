@@ -120,3 +120,27 @@ At the registrar for **lunair-world.com**:
 
 If the registrar refuses a CNAME at the root, use its ALIAS/ANAME/flattened-CNAME
 option. TLS is issued automatically once the records resolve.
+
+## Migrations run from both services, deliberately
+
+Both `apps/web` and `apps/worker` run `db:migrate` before starting. That looks
+redundant and is not.
+
+The worker was originally the only migrator. On 26 Aug 2026 that broke
+production: web auto-deployed a commit whose code writes `products.has_button_cell`,
+the worker did not auto-deploy alongside it, so the column never got added and
+every attempt to finish a Product Passport would have failed against the live
+database. The web service deploys on every push and is the one users touch, so it
+cannot depend on another service having deployed first.
+
+Drizzle skips migrations already recorded in `__drizzle_migrations`, so the second
+service to start finds nothing to do. If both start at the same instant one can
+lose a race on the same pending migration and exit; `restartPolicyType:
+ON_FAILURE` covers that, and the retry finds the migration already applied. In
+practice the worker builds much faster than Next.js and gets there first anyway.
+
+**Watch for this:** a Railway service can quietly stop auto-deploying while others
+keep going. `serviceInstanceRedeploy` re-runs the *same* commit, which does not
+help - use `serviceInstanceDeployV2` with an explicit `commitSha` to move a
+service onto latest. And do not tight-poll the GraphQL API while waiting; it
+starts rejecting requests.
