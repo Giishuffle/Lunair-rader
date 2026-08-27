@@ -12,6 +12,7 @@ import {
   type WatchCandidate,
 } from "@lunair/core";
 import { loadRuleLibrary } from "@lunair/rules";
+import { lockForPlan } from "./gating";
 import { auth } from "./auth";
 import { db } from "./db";
 
@@ -125,11 +126,27 @@ export interface PassportInput {
   annualImportValue?: number;
 }
 
+/** A candidate as the browser sees it: a saved row id, plus display fields. */
+export interface WatchOption {
+  /** The product_watches row id - the only thing the client sends back. */
+  id: string;
+  type: WatchCandidate["type"];
+  label: string;
+  rationale: string;
+  sources: Array<{ title: string; url: string }>;
+  impactNote?: string;
+  recommended: boolean;
+  /** True when detail was withheld because this plan has no full audit. */
+  locked: boolean;
+}
+
 export interface PassportResult {
   productId: string;
   htsCandidates: Awaited<ReturnType<typeof crossReferenceProduct>>["htsCandidates"];
-  watches: WatchCandidate[];
+  watches: WatchOption[];
   degraded: string[];
+  /** How many findings carry detail this plan cannot see. */
+  lockedCount: number;
 }
 
 /**
@@ -187,13 +204,55 @@ export async function completePassport(input: PassportInput): Promise<PassportRe
     passportStatus: "draft",
   });
 
-  return { productId, htsCandidates: result.htsCandidates, watches: result.watches, degraded: result.degraded };
+  // Persist every candidate up front, switched off. The browser then only ever
+  // sends back ids of rows we wrote ourselves, so the label, sources and
+  // confidence in the audit trail cannot be authored by the client.
+  const rows = result.watches.map((w) => ({
+    id: randomUUID(),
+    productId,
+    type: w.type,
+    watchKey: w.watchKey,
+    label: w.label,
+    sources: w.sources,
+    confidence: w.confidence,
+    enabled: false,
+  }));
+  if (rows.length > 0) await db().insert(schema.productWatches).values(rows);
+
+  const plan = user.plan;
+  const watches: WatchOption[] = result.watches.map((w, i) =>
+    lockForPlan(
+      {
+        id: rows[i]!.id,
+        type: w.type,
+        label: w.label,
+        rationale: w.rationale,
+        sources: w.sources,
+        impactNote: w.impactNote,
+        recommended: w.recommended,
+      },
+      plan,
+    ),
+  );
+
+  return {
+    productId,
+    htsCandidates: result.htsCandidates,
+    watches,
+    degraded: result.degraded,
+    lockedCount: watches.filter((w) => w.locked).length,
+  };
 }
 
 /** Persist the seller's alert choices and mark the passport complete. */
+/**
+ * Switch on the candidates the seller picked. Takes ids only: the rows were
+ * written by completePassport, so nothing the browser sends can change what a
+ * watch says it is watching or which sources it claims to rest on.
+ */
 export async function saveWatches(
   productId: string,
-  chosen: Array<Pick<WatchCandidate, "id" | "type" | "watchKey" | "label" | "sources" | "confidence">>,
+  chosenWatchIds: string[],
   confirmedHtsCode: string | null,
 ): Promise<void> {
   const user = await requireUser();
@@ -208,23 +267,19 @@ export async function saveWatches(
     .limit(1);
   if (!owned) throw new Error("No such product");
 
-  await database.delete(schema.productWatches).where(eq(schema.productWatches.productId, productId));
+  // Scoped to this product, so an id belonging to someone else's product
+  // matches nothing rather than enabling anything.
+  const chosen = new Set(chosenWatchIds);
+  const existing = await database
+    .select({ id: schema.productWatches.id })
+    .from(schema.productWatches)
+    .where(eq(schema.productWatches.productId, productId));
 
-  if (chosen.length > 0) {
-    await database.insert(schema.productWatches).values(
-      chosen.map((w) => ({
-        id: randomUUID(),
-        productId,
-        type: w.type,
-        watchKey: w.watchKey,
-        label: w.label,
-        // Snapshot the sources shown at opt-in time - an audit trail of what
-        // the seller actually agreed to be watched on.
-        sources: w.sources,
-        confidence: w.confidence,
-        enabled: true,
-      })),
-    );
+  for (const row of existing) {
+    await database
+      .update(schema.productWatches)
+      .set({ enabled: chosen.has(row.id) })
+      .where(eq(schema.productWatches.id, row.id));
   }
 
   await database
@@ -259,7 +314,10 @@ export interface ProductDetail extends SavedProduct {
     label: string;
     sources: Array<{ title: string; url: string }> | null;
     enabled: boolean;
+    locked: boolean;
   }>;
+  /** Set when this plan cannot see the citations behind its own findings. */
+  auditLocked: boolean;
 }
 
 export async function getProduct(productId: string): Promise<ProductDetail | null> {
@@ -283,7 +341,17 @@ export async function getProduct(productId: string): Promise<ProductDetail | nul
       enabled: schema.productWatches.enabled,
     })
     .from(schema.productWatches)
-    .where(eq(schema.productWatches.productId, productId));
+    // Every candidate is stored, most of them switched off; this page is
+    // "what we're watching", so only the ones actually switched on belong here.
+    .where(and(eq(schema.productWatches.productId, productId), eq(schema.productWatches.enabled, true)));
+
+  // Same rule as the reveal screen: the finding is visible, its citations are not.
+  const fullAudit = PLAN_LIMITS[user.plan].fullAudit;
+  const shown = watches.map((w) => ({
+    ...w,
+    sources: fullAudit ? w.sources : null,
+    locked: !fullAudit,
+  }));
 
   return {
     id: p.id,
@@ -293,12 +361,13 @@ export async function getProduct(productId: string): Promise<ProductDetail | nul
     originCountry: p.originCountry,
     passportStatus: p.passportStatus,
     createdAt: p.createdAt,
-    watchCount: watches.filter((w) => w.enabled).length,
+    watchCount: shown.filter((w) => w.enabled).length,
     materials: p.materials,
     audience: p.audience,
     hasBattery: p.hasBattery,
     hasPlug: p.hasPlug,
     annualImportValue: p.annualImportValue,
-    watches,
+    watches: shown,
+    auditLocked: !fullAudit,
   };
 }

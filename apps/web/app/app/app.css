@@ -91,3 +91,12 @@ a.btn-amber { text-decoration: none; display: inline-block; }
 .linkish.danger { color: var(--bad); margin-top: 20px; }
 .confirm-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 20px; color: var(--ink-2); font-size: 14px; }
 a.muted { color: var(--muted); text-decoration: none; }
+
+/* Free tier: the finding is visible, its citations are not. */
+.locked, .rationale.locked { color: var(--muted); font-style: italic; font-size: 13.5px; }
+.upsell {
+  margin-top: 18px; padding: 14px 16px; font-size: 14px; line-height: 1.6;
+  background: rgba(245, 166, 35, 0.08); border: 1px solid var(--line);
+  border-radius: 10px; color: var(--ink-2);
+}
+.upsell a { color: var(--amber-2); font-weight: 600; }

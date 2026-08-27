@@ -62,17 +62,26 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                 <span className="chip">{TYPE_LABEL[w.type] ?? w.type}</span>
                 <span className="watch-item-body">
                   <strong>{w.label}</strong>
-                  {w.sources && w.sources.length > 0 && (
+                  {w.sources && w.sources.length > 0 ? (
                     <span className="sources">
                       {w.sources.slice(0, 3).map((s) => (
                         <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>
                       ))}
                     </span>
-                  )}
+                  ) : w.locked ? (
+                    <span className="locked">Requirements and citations are part of the full audit.</span>
+                  ) : null}
                 </span>
               </li>
             ))}
           </ul>
+        )}
+        {p.auditLocked && p.watches.length > 0 && (
+          <p className="upsell">
+            You&apos;re seeing what we found. A paid plan adds the requirements and government
+            citations behind each one, plus an alert the moment any of them change - right now
+            you&apos;d have to check yourself. <Link href="/pricing">See plans</Link>
+          </p>
         )}
       </section>
 

@@ -91,11 +91,7 @@ export function PassportWizard() {
     if (!result) return;
     setBusy(true);
     try {
-      await saveWatches(
-        result.productId,
-        result.watches.filter((w) => chosen.has(w.id)),
-        confirmedCode,
-      );
+      await saveWatches(result.productId, [...chosen], confirmedCode);
       router.push("/app");
       router.refresh();
     } catch (e) {
@@ -181,6 +177,15 @@ export function PassportWizard() {
             {chosen.size} of {result.watches.length} selected. Nothing is monitored unless you
             switch it on.
           </p>
+          {result.lockedCount > 0 && (
+            <p className="upsell">
+              We found <strong>{result.lockedCount} thing{result.lockedCount === 1 ? "" : "s"}</strong>{" "}
+              that appear{result.lockedCount === 1 ? "s" : ""} to apply to this product. Your free plan
+              shows what they are; the requirements and government citations behind them come with a
+              paid plan, along with real-time alerts when any of them change.{" "}
+              <a href="/pricing">See plans</a>
+            </p>
+          )}
           <div className="watches">
             {result.watches.map((w) => (
               <label key={w.id} className={`watch ${chosen.has(w.id) ? "on" : ""}`}>
@@ -198,13 +203,15 @@ export function PassportWizard() {
                 />
                 <span className="watch-body">
                   <strong>{w.label}</strong>
-                  <span className="rationale">{w.rationale}</span>
+                  <span className={w.locked ? "rationale locked" : "rationale"}>{w.rationale}</span>
                   {w.impactNote && <span className="impact">{w.impactNote}</span>}
-                  <span className="sources">
-                    {w.sources.slice(0, 3).map((s) => (
-                      <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>
-                    ))}
-                  </span>
+                  {w.sources.length > 0 && (
+                    <span className="sources">
+                      {w.sources.slice(0, 3).map((s) => (
+                        <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>
+                      ))}
+                    </span>
+                  )}
                 </span>
               </label>
             ))}

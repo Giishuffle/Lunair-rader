@@ -25,7 +25,9 @@
 .choice:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
 .toggles { display: flex; flex-direction: column; gap: 12px; }
-.toggle { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-size: 15px; cursor: pointer; }
+/* `.fields label` is more specific and stacks label above input - right for a
+   text field, wrong for a checkbox - so the row direction has to be explicit. */
+.toggles .toggle { display: flex; flex-direction: row; align-items: center; gap: 10px; color: var(--ink-2); font-size: 15px; cursor: pointer; text-align: left; }
 .toggle input { width: 17px; height: 17px; accent-color: var(--amber); }
 
 .wiz-actions { display: flex; gap: 12px; margin-top: 10px; }
@@ -61,3 +63,11 @@
 .impact { color: var(--amber-2); font-size: 14px; }
 .sources { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; }
 .sources a { color: var(--muted); text-decoration: underline; }
+
+.rationale.locked { color: var(--muted); font-style: italic; }
+.upsell {
+  margin: 0 0 16px; padding: 14px 16px; font-size: 14px; line-height: 1.6;
+  background: rgba(245, 166, 35, 0.08); border: 1px solid var(--line);
+  border-radius: 10px; color: var(--ink-2);
+}
+.upsell a { color: var(--amber-2); font-weight: 600; }
