@@ -119,6 +119,8 @@ export const products = pgTable(
      */
     hasButtonCell: boolean("has_button_cell"),
     isToy: boolean("is_toy"),
+    hasRadio: boolean("has_radio"),
+    isDigitalDevice: boolean("is_digital_device"),
     originCountry: text("origin_country"),
     annualImportValue: integer("annual_import_value"),
     htsCode: text("hts_code"),

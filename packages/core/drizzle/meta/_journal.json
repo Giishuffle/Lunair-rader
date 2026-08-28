@@ -36,6 +36,13 @@
       "when": 1787668699575,
       "tag": "0004_charming_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1787926888690,
+      "tag": "0005_familiar_leper_queen",
+      "breakpoints": true
     }
   ]
 }

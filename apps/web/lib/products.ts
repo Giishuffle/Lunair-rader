@@ -122,6 +122,8 @@ export interface PassportInput {
   hasPlug?: boolean;
   hasButtonCell?: boolean;
   isToy?: boolean;
+  hasRadio?: boolean;
+  isDigitalDevice?: boolean;
   originCountry?: string;
   annualImportValue?: number;
 }
@@ -177,6 +179,8 @@ export async function completePassport(input: PassportInput): Promise<PassportRe
     hasPlug: input.hasPlug ?? null,
     hasButtonCell: input.hasButtonCell ?? null,
     isToy: input.isToy ?? null,
+    hasRadio: input.hasRadio ?? null,
+    isDigitalDevice: input.isDigitalDevice ?? null,
     originCountry: input.originCountry?.toUpperCase().slice(0, 2) ?? null,
     annualImportValue: Number.isFinite(input.annualImportValue) ? input.annualImportValue : null,
   };
@@ -196,6 +200,8 @@ export async function completePassport(input: PassportInput): Promise<PassportRe
     hasPlug: profile.hasPlug,
     hasButtonCell: profile.hasButtonCell,
     isToy: profile.isToy,
+    hasRadio: profile.hasRadio,
+    isDigitalDevice: profile.isDigitalDevice,
     originCountry: profile.originCountry,
     annualImportValue: profile.annualImportValue,
     // The seller confirms their own code on the next screen; we never assume one.

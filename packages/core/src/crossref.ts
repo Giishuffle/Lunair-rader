@@ -66,6 +66,10 @@ export interface ProductProfile {
   hasButtonCell?: boolean | null;
   /** Designed or intended for play by a child under 14 - federal toy-standard scope. */
   isToy?: boolean | null;
+  /** Deliberately transmits RF. Null = we have not asked. */
+  hasRadio?: boolean | null;
+  /** Has a clock or microprocessor, so it radiates incidentally. Null = not asked. */
+  isDigitalDevice?: boolean | null;
   originCountry?: string | null; // ISO-2
   annualImportValue?: number | null;
   /** Only set if the seller already confirmed one. */
@@ -87,6 +91,8 @@ export interface RequirementLike {
     powered_any?: boolean;
     has_button_cell?: boolean;
     is_toy?: boolean;
+    has_radio?: boolean;
+    is_digital_device?: boolean;
     materials_any?: string[];
   };
 }
@@ -150,6 +156,8 @@ export function evaluateRequirement(req: RequirementLike, p: ProductProfile): Ap
   if (c.has_plug !== undefined) checks.push(matchBool(p.hasPlug, c.has_plug));
   if (c.has_button_cell !== undefined) checks.push(matchBool(p.hasButtonCell, c.has_button_cell));
   if (c.is_toy !== undefined) checks.push(matchBool(p.isToy, c.is_toy));
+  if (c.has_radio !== undefined) checks.push(matchBool(p.hasRadio, c.has_radio));
+  if (c.is_digital_device !== undefined) checks.push(matchBool(p.isDigitalDevice, c.is_digital_device));
 
   // "Powered at all" - either source counts. Lets a requirement target every
   // powered product without duplicating it for battery and mains separately.

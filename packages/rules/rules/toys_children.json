@@ -11,6 +11,23 @@
       "id": "astm-f963-toy-standard",
       "agency": "CPSC",
       "title": "Mandatory federal toy safety standard (ASTM F963)",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "incorporated_standard",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Third-party lab test report against the applicable ASTM F963 sections",
+        "Children's Product Certificate listing this rule"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
       "severity": "critical",
       "plain_english": "Toys made for children under 14 generally have to meet the mandatory federal toy safety standard, which covers far more than chemicals: mechanical and physical hazards, small parts, sharp points and edges, magnets, cords and elastics, sound levels, projectiles, and how securely the battery compartment closes. Which sections apply depends on what your toy actually is and does, so this is not a single pass/fail test. Testing only for lead and phthalates is the most common way importers miss this.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Toy-Safety/Toy-Safety-Business-Guidance-and-Small-Entity-Compliance-Guide",
@@ -35,6 +52,24 @@
       "id": "cpsia-cpc",
       "agency": "CPSC",
       "title": "Children's Product Certificate (CPC)",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_import",
+        "at_entry"
+      ],
+      "evidence": [
+        "Children's Product Certificate issued by the US importer",
+        "Underlying CPSC-accepted third-party lab test reports"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal",
+        "sale_prohibition",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
       "severity": "critical",
       "plain_english": "Products made for children 12 and under generally need a Children's Product Certificate before import. Worth knowing who issues it: you do, as the US importer - not your supplier and not the lab. You issue it based on passing test results, and where a children's product safety rule requires it, that testing has to come from a CPSC-accepted third-party laboratory. The certificate has to name the product, every rule it certifies against, who is keeping the records, where and when it was made and tested, and each lab involved. This appears to apply because you told us it's used by kids.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate-CPC",
@@ -57,6 +92,22 @@
       "id": "lead-paint-coatings",
       "agency": "CPSC",
       "title": "Lead limits in paint & surface coatings",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Lab test report covering each paint or surface coating"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
       "severity": "critical",
       "plain_english": "Paint and similar surface coatings on children's products have their own lead limit, separate from the lead in the material underneath. This catches things people forget to test: screen printing, decals, inks, and decorative coatings are all surface coatings.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
@@ -76,6 +127,22 @@
       "id": "lead-content-substrate",
       "agency": "CPSC",
       "title": "Total lead content in accessible parts",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Lab test report per accessible component, with a component map"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
       "severity": "critical",
       "plain_english": "Separately from paint, the material a children's product is made of has a total lead limit, and it applies to each accessible component rather than to the product as an average. Clasps, zippers, charms, fasteners and solder are where this usually goes wrong, because a test on the main plastic or main metal says nothing about them.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
@@ -91,6 +158,22 @@
       "id": "phthalates-toys-childcare",
       "agency": "CPSC",
       "title": "Phthalate limits in toys & child-care articles",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Lab test report covering each accessible plasticized component"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
       "severity": "critical",
       "plain_english": "Phthalate limits are narrower than people assume: they cover children's toys and child-care articles, and they bite on accessible plasticized parts rather than on every children's product. A child-care article here means something used by a child 3 or under for sleeping, feeding, sucking or teething. Watch the soft bits that are easy to overlook - vinyl decals, grips, inks, artificial leather, tubing and flexible coatings.",
       "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
@@ -113,6 +196,22 @@
       "id": "tracking-label",
       "agency": "CPSC",
       "title": "Tracking label on product & packaging",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_manufacture",
+        "before_sale"
+      ],
+      "evidence": [
+        "Production sample or artwork showing a permanent mark on product and packaging"
+      ],
+      "enforcement_effect": [
+        "relabeling",
+        "sale_prohibition",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
       "severity": "medium",
       "plain_english": "Children's products need a permanent tracking label (manufacturer, date/batch, source) on the product and packaging.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/tracking-label",

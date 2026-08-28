@@ -24,6 +24,8 @@ interface Draft {
   hasBattery: boolean;
   hasPlug: boolean;
   hasButtonCell: boolean;
+  hasRadio: boolean;
+  isDigitalDevice: boolean;
   /** Null until asked - we never assume a product is or is not a toy. */
   isToy: boolean | null;
   originCountry: string;
@@ -38,6 +40,8 @@ const EMPTY: Draft = {
   hasBattery: false,
   hasPlug: false,
   hasButtonCell: false,
+  hasRadio: false,
+  isDigitalDevice: false,
   isToy: null,
   originCountry: "",
   annualImportValue: "",
@@ -73,6 +77,8 @@ export function PassportWizard() {
         hasBattery: draft.hasBattery,
         hasPlug: draft.hasPlug,
         hasButtonCell: draft.hasButtonCell,
+        hasRadio: draft.hasRadio,
+        isDigitalDevice: draft.isDigitalDevice,
         isToy: draft.isToy ?? undefined,
         originCountry: draft.originCountry && draft.originCountry !== "OT" ? draft.originCountry : undefined,
         annualImportValue: draft.annualImportValue ? Number(draft.annualImportValue) : undefined,
@@ -274,7 +280,7 @@ export function PassportWizard() {
     },
     {
       title: "Does it have a battery or plug in?",
-      why: "Batteries bring transport rules, anything powered can bring FCC requirements, and coin-shaped batteries have a safety rule of their own.",
+      why: "Each of these pulls in a different rule. Wireless and non-wireless electronics take different FCC routes, coin-shaped batteries have a safety rule of their own, and batteries bring transport rules on top.",
       ready: true,
       body: (
         <div className="toggles">
@@ -289,6 +295,14 @@ export function PassportWizard() {
           <label className="toggle">
             <input type="checkbox" checked={draft.hasButtonCell} onChange={(e) => set("hasButtonCell", e.target.checked)} />
             <span>It uses a button or coin cell - the small round flat kind</span>
+          </label>
+          <label className="toggle">
+            <input type="checkbox" checked={draft.hasRadio} onChange={(e) => set("hasRadio", e.target.checked)} />
+            <span>It connects wirelessly - WiFi, Bluetooth, cellular, or a radio remote</span>
+          </label>
+          <label className="toggle">
+            <input type="checkbox" checked={draft.isDigitalDevice} onChange={(e) => set("isDigitalDevice", e.target.checked)} />
+            <span>It has a chip, clock or circuit board inside, even without wireless</span>
           </label>
         </div>
       ),
