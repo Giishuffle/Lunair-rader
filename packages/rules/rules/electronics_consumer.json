@@ -172,6 +172,40 @@
         "edition": "subsection 38.3",
         "note": "A design-type test on the cell or battery model, referenced by the transport rules rather than reproduced in them."
       }
+    },
+    {
+      "id": "cpsc-certificate-efiling-electronics",
+      "agency": "CPSC / CBP",
+      "title": "Filing your certificate data at entry",
+      "authority_layer": "federal_customs",
+      "legal_status": "regulation",
+      "timing": [
+        "at_entry"
+      ],
+      "evidence": [
+        "Certificate data elements per 16 CFR 1110.11, transmitted in the ACE entry filing",
+        "For mail shipments: the same data entered in CPSC's Product Registry before arrival"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "If your product needs a CPSC certificate - and a product using button or coin cells generally does - the data from that certificate has to be filed electronically with your customs entry through ACE, at the time of filing. It applies to de minimis shipments and Foreign Trade Zone withdrawals too, and goods arriving by mail go into CPSC's Product Registry before arrival instead. Your customs broker normally transmits it, but only if you have given them the certificate data.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1110/section-1110.13",
+      "self_check_hint": "Ask your customs broker directly whether they are transmitting CPSC certificate data in your entries, and confirm they hold current certificate details for each SKU. A certificate sitting in your own files does not get filed by itself - and \"we've always just held the certificate\" is the answer that means it is not being filed.",
+      "conditions": {
+        "has_button_cell": true
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1110",
+          "label": "Certificates of Compliance; 1110.13(a)(1) requires eFiling of certificate data at entry"
+        }
+      ]
     }
   ]
 }

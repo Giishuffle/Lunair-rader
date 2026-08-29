@@ -222,6 +222,201 @@
       "statute": [
         "15 U.S.C. 2063(a)(5)"
       ]
+    },
+    {
+      "id": "small-parts",
+      "agency": "CPSC",
+      "title": "Small parts & choking hazards",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Small-parts test report, run after the use-and-abuse conditioning",
+        "Choking-hazard warning artwork where the product is for older children"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Products for children under 3 must not have small parts that could be swallowed, and the test is done after the product has been through simulated rough handling - not on a pristine sample. For older children, some toys with small parts, balls, marbles or balloons need a specific choking-hazard warning instead of being banned outright.",
+      "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Toy-Safety/Toy-Safety-Business-Guidance-and-Small-Entity-Compliance-Guide",
+      "self_check_hint": "Check the lab conditioned the sample first - drop, torque, tension, compression - and then tested for small parts. A pass on an untouched sample does not mean much if a knob twists off.",
+      "conditions": {
+        "audience": "kids"
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1501",
+          "label": "Method for Identifying Toys and Other Articles Intended for Use by Children Under 3 Years of Age Which Present Choking, Aspiration, or Ingestion Hazards"
+        },
+        {
+          "title": 16,
+          "part": "1500",
+          "label": "Hazardous substances and articles; 1500.19 and 1500.121 cover choking-hazard warnings"
+        }
+      ]
+    },
+    {
+      "id": "magnets",
+      "agency": "CPSC",
+      "title": "Loose or separable magnets",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Magnet flux-index test report, or evidence the magnet is not loose or separable"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Small strong magnets are one of the most dangerous things in consumer products: swallowing two of them can pull the intestines together and cause life-threatening injuries. There is a federal safety standard for products containing loose or separable magnets, and it matters whether the magnet can come free at all.",
+      "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Toy-Safety/Toy-Safety-Business-Guidance-and-Small-Entity-Compliance-Guide",
+      "self_check_hint": "Ask whether any magnet can be freed by the use-and-abuse testing. If it can, ask your lab for the flux-index result against the magnet standard, not just a statement that magnets are glued in.",
+      "conditions": {
+        "materials_any": [
+          "magnet",
+          "neodymium"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1262",
+          "label": "Safety Standard for Magnets"
+        }
+      ]
+    },
+    {
+      "id": "electrically-operated-toys",
+      "agency": "CPSC",
+      "title": "Electrically operated toys",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Test report against the electrically operated toy requirements",
+        "Required marking and instruction text"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "A toy that runs on electricity has its own set of federal requirements on top of the general toy rules - things like surface temperature, wiring, and the labelling and instructions that have to come with it. This is separate from the FCC side, which is about radio interference rather than safety.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-C/part-1505",
+      "self_check_hint": "Check the report covers the electrical requirements specifically, not only the mechanical toy tests, and that the required markings are on the production artwork.",
+      "conditions": {
+        "is_toy": true,
+        "powered_any": true
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1505",
+          "label": "Requirements for Electrically Operated Toys or Other Electrically Operated Articles Intended for Use by Children"
+        }
+      ]
+    },
+    {
+      "id": "imitation-firearms",
+      "agency": "CPSC",
+      "title": "Toy & imitation firearm marking",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Production artwork or sample showing the required blaze-orange marking"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition"
+      ],
+      "review_status": "conditional",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "Toy, look-alike and imitation firearms have to carry a specific permanent marking so they are not mistaken for real weapons. Note that some states and cities go further than the federal rule.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-C/part-1272",
+      "self_check_hint": "Check the marking is the required type and permanently applied on the production sample - a removable sticker or a printed box does not satisfy it.",
+      "conditions": {
+        "is_toy": true,
+        "text_matches_any": [
+          "gun",
+          "pistol",
+          "rifle",
+          "firearm",
+          "revolver",
+          "shotgun",
+          "blaster",
+          "musket",
+          "cannon"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1272",
+          "label": "Marking of Toy, Look-Alike, and Imitation Firearms"
+        }
+      ]
+    },
+    {
+      "id": "cpsc-certificate-efiling",
+      "agency": "CPSC / CBP",
+      "title": "Filing your certificate data at entry",
+      "authority_layer": "federal_customs",
+      "legal_status": "regulation",
+      "timing": [
+        "at_entry"
+      ],
+      "evidence": [
+        "Certificate data elements per 16 CFR 1110.11, transmitted in the ACE entry filing",
+        "For mail shipments: the same data entered in CPSC's Product Registry before arrival"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Holding a certificate is no longer enough on its own. The data from it has to be filed electronically with your customs entry, through ACE, at the time the entry is filed. Three things sellers are caught by: it applies to low-value shipments claiming the de minimis exemption as well as ordinary entries, it applies to goods withdrawn from a Foreign Trade Zone, and if the goods come in by mail the data goes into CPSC's Product Registry before arrival instead. Your customs broker normally transmits this, but only if you have given them the certificate data to transmit.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1110/section-1110.13",
+      "self_check_hint": "Ask your customs broker directly whether they are transmitting CPSC certificate data in your entries, and confirm they hold current certificate details for each SKU. A certificate sitting in your own files does not get filed by itself - and \"we've always just held the certificate\" is the answer that means it is not being filed.",
+      "conditions": {
+        "audience": "kids"
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1110",
+          "label": "Certificates of Compliance; 1110.13(a)(1) requires eFiling of certificate data at entry"
+        }
+      ]
     }
   ]
 }

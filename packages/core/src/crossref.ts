@@ -93,6 +93,8 @@ export interface RequirementLike {
     is_toy?: boolean;
     has_radio?: boolean;
     is_digital_device?: boolean;
+    /** Case-insensitive substring match on the product name and description. */
+    text_matches_any?: string[];
     materials_any?: string[];
   };
 }
@@ -170,6 +172,11 @@ export function evaluateRequirement(req: RequirementLike, p: ProductProfile): Ap
     } else {
       checks.push(c.powered_any ? "excluded" : "applies");
     }
+  }
+
+  if (c.text_matches_any?.length) {
+    const hay = `${p.name} ${p.description ?? ""}`.toLowerCase();
+    checks.push(c.text_matches_any.some((t) => hay.includes(t.toLowerCase())) ? "applies" : "excluded");
   }
 
   if (c.materials_any?.length) {

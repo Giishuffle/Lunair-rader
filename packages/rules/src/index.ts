@@ -146,6 +146,13 @@ export const RequirementTemplate = z.object({
       is_digital_device: z.boolean().optional(),
       /** Within the federal toy-standard scope: for play by a child under 14. */
       is_toy: z.boolean().optional(),
+      /**
+       * Case-insensitive substring match against the product name and
+       * description. The review lists product name and marketing among the
+       * facts that decide applicability, and some rules turn on what the thing
+       * actually is rather than on any attribute we ask about directly.
+       */
+      text_matches_any: z.array(z.string()).optional(),
       materials_any: z.array(z.string()).optional(),
     })
     .optional(),

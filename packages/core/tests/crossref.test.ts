@@ -144,6 +144,24 @@ describe("evaluateRequirement - unresolved vs excluded", () => {
     expect(evaluateRequirement(powered, { ...nightLight, hasBattery: false, hasPlug: false })).toBe("excluded");
   });
 
+  it("matches on product text, so a rule can turn on what the thing actually is", () => {
+    const firearm = {
+      id: "imitation-firearms", agency: "CPSC", title: "Imitation firearm marking",
+      plain_english: "x", source_url: "https://example.com", severity: "high" as const,
+      conditions: { text_matches_any: ["gun", "pistol", "blaster"] },
+    };
+    // Over-warning is the failure mode here: every toy must not get a
+    // firearm-marking notice just because it is a toy.
+    expect(evaluateRequirement(firearm, { ...nightLight, name: "Wooden magnet puzzle" })).toBe("excluded");
+    expect(evaluateRequirement(firearm, { ...nightLight, name: "Galaxy Space Blaster" })).toBe("applies");
+    // The description counts too, not only the name.
+    expect(
+      evaluateRequirement(firearm, { ...nightLight, name: "Galaxy Defender", description: "A toy laser gun" }),
+    ).toBe("applies");
+    // Case-insensitive.
+    expect(evaluateRequirement(firearm, { ...nightLight, name: "TOY PISTOL SET" })).toBe("applies");
+  });
+
   it("requirementApplies stays strict, so unresolved is never counted as a match", () => {
     expect(requirementApplies(buttonCell, { ...nightLight, hasButtonCell: null })).toBe(false);
   });
