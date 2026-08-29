@@ -170,12 +170,19 @@ export function jobHandlers(db: Db): Record<JobName, () => Promise<void>> {
       await ingest(db, new CpscRecallsAdapter(), new Date(Date.now() - 30 * 24 * 3600 * 1000));
     },
     "ecfr:check": async () => {
-      const { checked, changed } = await checkCitedRegulations(db);
+      const { checked, changed, editionsToRecheck } = await checkCitedRegulations(db);
       await recordSuccess(db, "ecfr");
       if (changed > 0) {
         await pingOwner(
           `📜 <b>${changed} cited regulation${changed === 1 ? "" : "s"} amended</b>\n` +
-            `Checked ${checked} CFR parts behind the rule library. Review the wording of the affected requirements.`,
+            `Checked ${checked} CFR parts behind the rule library. Review the wording of the affected requirements.` +
+            // An amendment is when a part can start naming a newer edition of a
+            // standard it incorporates. Nothing else in the system can see that.
+            (editionsToRecheck.length
+              ? `\n\n⚠️ <b>Re-verify these incorporated editions:</b>\n${editionsToRecheck
+                  .map((e) => `• ${e}`)
+                  .join("\n")}`
+              : ""),
         ).catch(() => undefined);
       }
     },
