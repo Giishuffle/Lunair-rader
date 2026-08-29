@@ -417,6 +417,59 @@
           "label": "Certificates of Compliance; 1110.13(a)(1) requires eFiling of certificate data at entry"
         }
       ]
+    },
+    {
+      "id": "art-materials-lhama",
+      "agency": "CPSC",
+      "title": "Art materials - chronic hazard review & labelling",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Written determination by a qualified toxicologist that the formulation was reviewed",
+        "Conforming label statement, and any required chronic-hazard warnings"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "relabeling"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "Art materials - crayons, paints, markers, modelling clay, chalk and similar - have to be reviewed by a qualified toxicologist for long-term health hazards before sale, and labelled according to what that review finds. This one surprises people because the review is a required step in itself: you cannot satisfy it by testing for lead alone, and a supplier simply asserting the product is non-toxic is not the review.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-C/part-1500/section-1500.14",
+      "self_check_hint": "Ask for the toxicologist's determination by name, not a generic 'non-toxic' claim or a conformity certificate. Then check the label wording matches what that determination concluded.",
+      "conditions": {
+        "text_matches_any": [
+          "crayon",
+          "paint",
+          "marker",
+          "modelling clay",
+          "modeling clay",
+          "chalk",
+          "art set",
+          "paint set",
+          "colouring",
+          "coloring",
+          "pastel",
+          "glue stick",
+          "craft kit"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1500",
+          "label": "Hazardous substances; 1500.14(b)(8) covers art materials"
+        }
+      ],
+      "statute": [
+        "15 U.S.C. 1277"
+      ]
     }
   ]
 }

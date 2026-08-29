@@ -13,25 +13,30 @@ this list top to bottom, one at a time. Tick items as they land.
 
 ## Claude's queue, in order
 
-1. [ ] **Free-tier gating** - `fullAudit: false` is never enforced, so free users
+1. [x] **Free-tier gating** - `fullAudit: false` is never enforced, so free users
        see everything paid users do. No reason to upgrade. Biggest revenue bug.
 2. [ ] **Trim the pricing page** to what actually ships - we currently sell CSV
        export, team seats and client workspaces, none of which exist.
-3. [ ] **Split FCC** into intentional vs unintentional radiators - `powered_any`
+3. [x] **Split FCC** into intentional vs unintentional radiators - `powered_any`
        is not the legal trigger and is actively wrong (broker review).
 4. [ ] **Account deletion + data export** - none exists; GDPR/CCPA requirement.
 5. [ ] **Polish batch**: 404 + error pages, favicon, OG image, robots, sitemap.
 6. [ ] **Welcome email** - new signups currently hear nothing for weeks.
 7. [ ] **Admin console** - low-confidence events queue for review with nowhere to review.
 8. [ ] **Analytics** - wire whichever tool Guy picks; funnel is invisible today.
-9. [ ] **Requirement schema fields** - authority_layer, legal_status, timing,
+9. [x] **Requirement schema fields** - authority_layer, legal_status, timing,
        evidence, enforcement_effect, review_status (broker review §10).
-10. [ ] **Remaining CPSC modules** - small parts, choking warnings, electrically
-        operated toys, magnets, art materials, imitation firearms, infant/toddler.
-11. [ ] **CPSC certificate eFiling** - mandatory since 8 Jul 2026, unmentioned.
-12. [ ] **Prop 65 / state overlays** as a separate authority layer.
-13. [ ] **Incorporated-standard edition watching** - eCFR cannot see an ASTM edition change.
+10. [x] **Remaining CPSC modules** - small parts + choking warnings, electrically
+        operated toys, magnets, imitation firearms, art materials. **Not done:**
+        durable infant/toddler products (cribs, strollers, high chairs, gates,
+        bassinets, carriers) - each has its own CFR part and needs a
+        product-type trigger, so it is a module set of its own, listed at 18.
+11. [x] **CPSC certificate eFiling** - mandatory since 8 Jul 2026, unmentioned.
+12. [x] **Prop 65 / state overlays** as a separate authority layer.
+13. [x] **Incorporated-standard edition watching** - eCFR cannot see an ASTM edition change.
 14. [ ] **More categories**, in the broker's priority order.
 15. [ ] **AI assistant** - sold on Voyage, never built.
 16. [ ] **CSV export, team seats, client workspaces** - sold on Fleet/Lighthouse.
 17. [ ] **Support channel + refund runbook**.
+18. [ ] **Durable infant & toddler products** - one module per product type,
+        each with its own CFR part and trigger.
