@@ -218,7 +218,6 @@
       "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
       "self_check_hint": "First check whether the article really is for sleeping, feeding, sucking or teething by a child of 3 or under. If it is, check the report covers every accessible plasticized component.",
       "conditions": {
-        "audience": "kids",
         "text_matches_any": [
           "teether",
           "teething",
@@ -232,6 +231,9 @@
           "swaddle",
           "bassinet",
           "crib"
+        ],
+        "age_band_any": [
+          "under_3"
         ]
       },
       "cfr": [
@@ -302,7 +304,9 @@
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Toy-Safety/Toy-Safety-Business-Guidance-and-Small-Entity-Compliance-Guide",
       "self_check_hint": "Check the lab conditioned the sample first - drop, torque, tension, compression - and then tested for small parts. A pass on an untouched sample does not mean much if a knob twists off.",
       "conditions": {
-        "audience": "kids"
+        "age_band_any": [
+          "under_3"
+        ]
       },
       "cfr": [
         {

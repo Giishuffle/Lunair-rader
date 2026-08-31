@@ -60,6 +60,12 @@ export interface ProductProfile {
   description?: string | null;
   materials?: string[] | null;
   audience?: string | null; // kids | adults | both
+  /**
+   * The age the product is made for. Several CPSC rules turn on a threshold
+   * that "kids" is too coarse for - small parts is scoped to under-3s, while
+   * a children's product under CPSIA is 12 and under. Null = we have not asked.
+   */
+  ageBand?: "under_3" | "3_to_12" | "13_plus" | "not_for_children" | null;
   hasBattery?: boolean | null;
   hasPlug?: boolean | null;
   /** Contains or is designed to use a button/coin cell. Null = we have not asked. */
@@ -95,6 +101,8 @@ export interface RequirementLike {
     is_digital_device?: boolean;
     /** Case-insensitive substring match on the product name and description. */
     text_matches_any?: string[];
+    /** Any one of these age bands satisfies the condition. */
+    age_band_any?: Array<"under_3" | "3_to_12" | "13_plus" | "not_for_children">;
     materials_any?: string[];
   };
 }
@@ -172,6 +180,11 @@ export function evaluateRequirement(req: RequirementLike, p: ProductProfile): Ap
     } else {
       checks.push(c.powered_any ? "excluded" : "applies");
     }
+  }
+
+  if (c.age_band_any?.length) {
+    if (!p.ageBand) checks.push("unresolved");
+    else checks.push(c.age_band_any.includes(p.ageBand) ? "applies" : "excluded");
   }
 
   if (c.text_matches_any?.length) {

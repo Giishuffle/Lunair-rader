@@ -46,7 +46,7 @@ this list top to bottom, one at a time. Tick items as they land.
 19. [ ] **Household textiles** (blankets, bed linen, towels - HTS 6301/6302).
         Deliberately out of apparel: care labelling and clothing flammability are
         scoped to wearing apparel and do not reach them.
-20. [ ] **Child age band as a product attribute.** Several CPSC rules are scoped
+20. [x] **Child age band as a product attribute.** Several CPSC rules are scoped
         to under-3s (small parts, 16 CFR 1501) or to under-14s (the toy
         standard), but the only age fact we collect is kids/adults/both. So
         small-parts currently fires for a 10-year-old's t-shirt. The fix is an

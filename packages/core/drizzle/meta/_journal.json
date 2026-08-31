@@ -50,6 +50,13 @@
       "when": 1788155524418,
       "tag": "0006_yielding_gwen_stacy",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788155939662,
+      "tag": "0007_closed_patch",
+      "breakpoints": true
     }
   ]
 }

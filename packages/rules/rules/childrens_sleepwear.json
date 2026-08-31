@@ -37,7 +37,31 @@
       "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-D/part-1615",
       "self_check_hint": "If you are relying on the tight-fitting route, get the actual measurements against every dimension in the specification - all of them, not most - and check the required permanent label is on the garment. If you are relying on flame resistance, check the report covers the trims and seams too, not just the main fabric.",
       "conditions": {
-        "audience": "kids"
+        "age_band_any": [
+          "under_3",
+          "3_to_12"
+        ],
+        "text_matches_any": [
+          "pyjama",
+          "pajama",
+          "pjs",
+          "nightgown",
+          "nightdress",
+          "nightie",
+          "nightshirt",
+          "sleepwear",
+          "sleep set",
+          "sleepsuit",
+          "sleeper",
+          "loungewear",
+          "lounge set",
+          "playwear",
+          "onesie",
+          "romper",
+          "robe",
+          "dressing gown",
+          "bedtime"
+        ]
       },
       "cfr": [
         {

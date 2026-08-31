@@ -162,6 +162,19 @@ describe("evaluateRequirement - unresolved vs excluded", () => {
     expect(evaluateRequirement(firearm, { ...nightLight, name: "TOY PISTOL SET" })).toBe("applies");
   });
 
+  it("scopes by age band, so an under-3 rule does not reach a 10-year-old's shirt", () => {
+    const smallParts = {
+      id: "small-parts", agency: "CPSC", title: "Small parts",
+      plain_english: "x", source_url: "https://example.com", severity: "critical" as const,
+      conditions: { age_band_any: ["under_3" as const] },
+    };
+    expect(evaluateRequirement(smallParts, { ...nightLight, ageBand: "under_3" })).toBe("applies");
+    expect(evaluateRequirement(smallParts, { ...nightLight, ageBand: "3_to_12" })).toBe("excluded");
+    expect(evaluateRequirement(smallParts, { ...nightLight, ageBand: "not_for_children" })).toBe("excluded");
+    // Not asked is not the same as "no" - a critical rule stays visible.
+    expect(evaluateRequirement(smallParts, { ...nightLight, ageBand: null })).toBe("unresolved");
+  });
+
   it("requirementApplies stays strict, so unresolved is never counted as a match", () => {
     expect(requirementApplies(buttonCell, { ...nightLight, hasButtonCell: null })).toBe(false);
   });

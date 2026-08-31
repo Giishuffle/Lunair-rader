@@ -20,7 +20,7 @@ interface Draft {
   name: string;
   description: string;
   materials: string;
-  audience: "" | "kids" | "adults" | "both";
+  ageBand: "" | "under_3" | "3_to_12" | "13_plus" | "not_for_children";
   hasBattery: boolean;
   hasPlug: boolean;
   hasButtonCell: boolean;
@@ -36,7 +36,7 @@ const EMPTY: Draft = {
   name: "",
   description: "",
   materials: "",
-  audience: "",
+  ageBand: "",
   hasBattery: false,
   hasPlug: false,
   hasButtonCell: false,
@@ -73,7 +73,7 @@ export function PassportWizard() {
         name: draft.name,
         description: draft.description || undefined,
         materials: draft.materials ? draft.materials.split(",").map((m) => m.trim()).filter(Boolean) : undefined,
-        audience: draft.audience || undefined,
+        ageBand: draft.ageBand || undefined,
         hasBattery: draft.hasBattery,
         hasPlug: draft.hasPlug,
         hasButtonCell: draft.hasButtonCell,
@@ -265,14 +265,24 @@ export function PassportWizard() {
       ),
     },
     {
-      title: "Who uses it?",
-      why: "Products for children carry an entirely separate set of federal requirements.",
-      ready: draft.audience !== "",
+      title: "What age is it made for?",
+      why: "Children's products carry a separate set of federal requirements, and the exact age matters - some rules only reach under-3s, others everything up to 12.",
+      ready: draft.ageBand !== "",
       body: (
         <div className="choices">
-          {(["adults", "kids", "both"] as const).map((a) => (
-            <button key={a} type="button" className={`choice ${draft.audience === a ? "on" : ""}`} onClick={() => set("audience", a)}>
-              {a === "adults" ? "Adults" : a === "kids" ? "Children" : "Both"}
+          {([
+            ["under_3", "Children under 3"],
+            ["3_to_12", "Children 3 to 12"],
+            ["13_plus", "Teens 13+"],
+            ["not_for_children", "Adults, or not aimed at children"],
+          ] as const).map(([v, label]) => (
+            <button
+              key={v}
+              type="button"
+              className={`choice ${draft.ageBand === v ? "on" : ""}`}
+              onClick={() => set("ageBand", v)}
+            >
+              {label}
             </button>
           ))}
         </div>

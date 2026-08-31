@@ -117,7 +117,7 @@ export interface PassportInput {
   name: string;
   description?: string;
   materials?: string[];
-  audience?: string;
+  ageBand?: "under_3" | "3_to_12" | "13_plus" | "not_for_children";
   hasBattery?: boolean;
   hasPlug?: boolean;
   hasButtonCell?: boolean;
@@ -174,7 +174,15 @@ export async function completePassport(input: PassportInput): Promise<PassportRe
     name,
     description: input.description?.slice(0, 1000) ?? null,
     materials: input.materials?.slice(0, 20) ?? null,
-    audience: input.audience ?? null,
+    ageBand: input.ageBand ?? null,
+    // Derived, not asked twice: the rules written against the coarse
+    // kids/adults distinction keep working, and the age band refines the ones
+    // that turn on a specific threshold.
+    audience: input.ageBand
+      ? input.ageBand === "under_3" || input.ageBand === "3_to_12"
+        ? "kids"
+        : "adults"
+      : null,
     hasBattery: input.hasBattery ?? null,
     hasPlug: input.hasPlug ?? null,
     hasButtonCell: input.hasButtonCell ?? null,
@@ -196,6 +204,7 @@ export async function completePassport(input: PassportInput): Promise<PassportRe
     description: profile.description,
     materials: profile.materials,
     audience: profile.audience,
+    ageBand: profile.ageBand,
     hasBattery: profile.hasBattery,
     hasPlug: profile.hasPlug,
     hasButtonCell: profile.hasButtonCell,

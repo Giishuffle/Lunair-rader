@@ -110,6 +110,8 @@ export const products = pgTable(
     imageUrl: text("image_url"),
     materials: jsonb("materials").$type<string[]>(),
     audience: text("audience"), // kids | adults | both
+    /** under_3 | 3_to_12 | 13_plus | not_for_children - null when not asked. */
+    ageBand: text("age_band"),
     hasBattery: boolean("has_battery"),
     hasPlug: boolean("has_plug"),
     /**

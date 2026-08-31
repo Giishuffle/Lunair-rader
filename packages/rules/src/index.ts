@@ -153,6 +153,8 @@ export const RequirementTemplate = z.object({
        * actually is rather than on any attribute we ask about directly.
        */
       text_matches_any: z.array(z.string()).optional(),
+      /** Age bands that satisfy this rule; any one match is enough. */
+      age_band_any: z.array(z.enum(["under_3", "3_to_12", "13_plus", "not_for_children"])).optional(),
       materials_any: z.array(z.string()).optional(),
     })
     .optional(),
