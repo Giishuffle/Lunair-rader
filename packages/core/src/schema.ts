@@ -197,6 +197,14 @@ export const events = pgTable("events", {
   effectiveDate: timestamp("effective_date", { withTimezone: true }),
   confidence: real("confidence").notNull(),
   reviewedBy: text("reviewed_by"), // set when a low-confidence event is human-approved
+  /**
+   * Set when a human decided this must never be sent.
+   *
+   * A separate column rather than a marker inside reviewed_by: isSendable()
+   * treats any reviewer as an approval, so encoding "rejected" in that field
+   * made rejection *enable* sending.
+   */
+  rejectedAt: timestamp("rejected_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

@@ -27,6 +27,33 @@ const w = (o: Partial<WatchLike> = {}): WatchLike => ({
   ...o,
 });
 
+/**
+ * Regression: rejection used to be encoded as "rejected:<email>" in reviewedBy,
+ * and isSendable() treats any reviewer as an approval - so rejecting an event
+ * made it sendable. A separate column, checked first, is the fix.
+ */
+describe("isSendable - rejection outranks everything", () => {
+  const base = { id: "e1", type: "recall", affectedHts: null, affectedCategories: null };
+
+  it("holds a low-confidence event with no reviewer", () => {
+    expect(isSendable({ ...base, confidence: 0.5 })).toBe(false);
+  });
+
+  it("sends once a human approves it", () => {
+    expect(isSendable({ ...base, confidence: 0.5, reviewedBy: "guy@wershuffle.com" })).toBe(true);
+  });
+
+  it("never sends a rejected event, even with a reviewer stamped on it", () => {
+    expect(
+      isSendable({ ...base, confidence: 0.5, reviewedBy: "guy@wershuffle.com", rejectedAt: new Date() }),
+    ).toBe(false);
+  });
+
+  it("never sends a rejected event that would otherwise clear the gate on score", () => {
+    expect(isSendable({ ...base, confidence: 0.99, rejectedAt: new Date() })).toBe(false);
+  });
+});
+
 describe("confidence gate", () => {
   it("blocks low-confidence events from reaching anyone", () => {
     expect(isSendable(ev({ confidence: 0.5 }))).toBe(false);

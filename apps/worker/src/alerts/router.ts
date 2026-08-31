@@ -67,6 +67,7 @@ export async function dispatchAlerts(db: Db, limit = 50): Promise<DispatchResult
       affectedCategories: schema.events.affectedCategories,
       confidence: schema.events.confidence,
       reviewedBy: schema.events.reviewedBy,
+      rejectedAt: schema.events.rejectedAt,
       effectiveDate: schema.events.effectiveDate,
     })
     .from(schema.events)

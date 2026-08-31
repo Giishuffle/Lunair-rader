@@ -43,6 +43,13 @@
       "when": 1787926888690,
       "tag": "0005_familiar_leper_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1788155524418,
+      "tag": "0006_yielding_gwen_stacy",
+      "breakpoints": true
     }
   ]
 }

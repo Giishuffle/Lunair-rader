@@ -16,6 +16,8 @@ export interface EventLike {
   affectedCategories: string[] | null;
   confidence: number;
   reviewedBy?: string | null;
+  /** A human said no. Outranks both the confidence gate and any reviewer. */
+  rejectedAt?: Date | null;
 }
 
 export interface WatchLike {
@@ -30,6 +32,9 @@ export interface WatchLike {
 export const AUTO_SEND_CONFIDENCE = 0.8;
 
 export function isSendable(event: EventLike): boolean {
+  // Checked first: a rejection is a decision, and no confidence score or
+  // reviewer stamp may override it.
+  if (event.rejectedAt) return false;
   return event.confidence >= AUTO_SEND_CONFIDENCE || Boolean(event.reviewedBy);
 }
 
