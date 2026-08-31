@@ -1,0 +1,178 @@
+{
+  "category_key": "apparel_textiles",
+  "label": "Apparel & textiles",
+  "hts_prefixes": [
+    "6101",
+    "6102",
+    "6103",
+    "6104",
+    "6105",
+    "6106",
+    "6107",
+    "6108",
+    "6109",
+    "6110",
+    "6111",
+    "6112",
+    "6114",
+    "6115",
+    "6116",
+    "6117",
+    "6201",
+    "6202",
+    "6203",
+    "6204",
+    "6205",
+    "6206",
+    "6207",
+    "6208",
+    "6209",
+    "6210",
+    "6211",
+    "6212",
+    "6213",
+    "6214",
+    "6215",
+    "6216",
+    "6217"
+  ],
+  "requirements": [
+    {
+      "id": "textile-fiber-labeling",
+      "agency": "FTC",
+      "title": "Fibre content, country and company on the label",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_sale"
+      ],
+      "evidence": [
+        "Label artwork showing generic fibre names with percentages, country of origin, and the company identity or RN number"
+      ],
+      "enforcement_effect": [
+        "relabeling",
+        "sale_prohibition",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "Textile clothing has to carry a label giving what it is made of by generic fibre name with percentages, where it was made, and who is responsible for it. The one that catches people is fibre naming: a marketing name is not a generic name, so rayon made from bamboo has to be labelled as rayon rather than as bamboo.",
+      "source_url": "https://www.ftc.gov/business-guidance/resources/threading-your-way-through-labeling-requirements-under-textile-wool-acts",
+      "self_check_hint": "Check the percentages on the label actually match the mill's composition report, and that every fibre uses its generic name. If you sell under your own brand, check the RN or the full company name is on the label.",
+      "cfr": [
+        {
+          "title": 16,
+          "part": "303",
+          "label": "Rules and Regulations Under the Textile Fiber Products Identification Act"
+        }
+      ]
+    },
+    {
+      "id": "care-labeling",
+      "agency": "FTC",
+      "title": "Care instructions label",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_sale"
+      ],
+      "evidence": [
+        "Permanently attached care label",
+        "A reasonable basis for the instructions given, on file"
+      ],
+      "enforcement_effect": [
+        "relabeling",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "medium",
+      "plain_english": "Wearing apparel needs a permanent care label, and you are supposed to have a reasonable basis for what it says rather than copying a plausible-looking instruction from another product. Advising a gentler treatment than necessary is still a false instruction.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-I/subchapter-D/part-423",
+      "self_check_hint": "Ask your supplier what testing or evidence backs the care instruction. Check the label is permanently attached and legible for the life of the garment, not printed on a hang tag.",
+      "cfr": [
+        {
+          "title": 16,
+          "part": "423",
+          "label": "Care Labeling of Textile Wearing Apparel"
+        }
+      ]
+    },
+    {
+      "id": "apparel-flammability",
+      "agency": "CPSC",
+      "title": "General clothing flammability",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Flammability test report, or documented eligibility for an exemption by fabric class",
+        "Guaranty of compliance where relied on"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Clothing textiles have to meet a federal flammability standard. Some fabrics are exempt by construction and weight, but the exemption is technical - it is decided by the fabric class, not by whether the garment seems ordinary. Sheer, brushed or napped fabrics are the ones that most often fail.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-D/part-1610",
+      "self_check_hint": "If your supplier claims an exemption, ask which class of fabric it falls under and why. For anything raised, brushed or fluffy on the surface, ask for an actual test report.",
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1610",
+          "label": "Standard for the Flammability of Clothing Textiles"
+        },
+        {
+          "title": 16,
+          "part": "1611",
+          "label": "Standard for the Flammability of Vinyl Plastic Film"
+        }
+      ]
+    },
+    {
+      "id": "origin-marking",
+      "agency": "CBP",
+      "title": "Country of origin marking",
+      "authority_layer": "federal_customs",
+      "legal_status": "statute",
+      "timing": [
+        "before_import",
+        "at_entry"
+      ],
+      "evidence": [
+        "Origin marking on the article itself, legible and permanent enough to reach the buyer"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Imported goods generally have to be marked with their country of origin so the person who buys them can see it. For clothing this usually means a sewn-in label rather than a sticker or a mark on the polybag, because the marking has to survive to the ultimate purchaser.",
+      "source_url": "https://www.ecfr.gov/current/title-19/chapter-I/part-134",
+      "self_check_hint": "Check the origin is on the garment itself and would still be there in a shop. A mark only on the outer carton or a removable sticker is the usual reason goods get held.",
+      "cfr": [
+        {
+          "title": 19,
+          "part": "134",
+          "label": "Country of Origin Marking"
+        }
+      ],
+      "statute": [
+        "19 U.S.C. 1304"
+      ]
+    }
+  ]
+}

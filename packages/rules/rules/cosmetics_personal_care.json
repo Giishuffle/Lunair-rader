@@ -1,0 +1,151 @@
+{
+  "category_key": "cosmetics_personal_care",
+  "label": "Cosmetics & personal care",
+  "hts_prefixes": [
+    "3303",
+    "3304",
+    "3305",
+    "3306",
+    "3307",
+    "3401"
+  ],
+  "requirements": [
+    {
+      "id": "cosmetic-drug-line",
+      "agency": "FDA",
+      "title": "Whether your claims turn it into a drug",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_sale",
+        "at_listing",
+        "ongoing"
+      ],
+      "evidence": [
+        "A record of the claims used on the label, website, marketplace listing and social posts",
+        "Where a drug claim is intended: the applicable drug pathway, such as an OTC monograph"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "The first question is not what your product contains, it is what you say it does. Claiming a cream treats acne or eczema, relieves pain, restores hair or kills bacteria makes it a drug in regulatory terms, whatever the formula. Marketplace listings and social posts count, not just the carton. This is the most common way a cosmetics importer ends up with a detained shipment.",
+      "source_url": "https://www.fda.gov/cosmetics/cosmetics-laws-regulations/it-cosmetic-drug-or-both-or-it-soap",
+      "self_check_hint": "Read your own listing copy and ads as a regulator would. Any claim about treating a condition, or about an effect on the structure of the body, is a drug claim - and SPF claims have their own pathway.",
+      "statute": [
+        "21 U.S.C. 321(i)",
+        "21 U.S.C. 331"
+      ]
+    },
+    {
+      "id": "cosmetic-labeling",
+      "agency": "FDA",
+      "title": "Cosmetic label content",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_sale"
+      ],
+      "evidence": [
+        "Label artwork with the identity, net quantity, responsible company and full ingredient declaration in descending order"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "relabeling",
+        "sale_prohibition"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "A US cosmetic label has its own required content: what the product is, how much is in it, who is responsible, and every ingredient in descending order of quantity using US naming. An EU or Asian label carried over unchanged will usually be wrong on ingredient nomenclature and on the responsible-party statement.",
+      "source_url": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-G/part-701",
+      "self_check_hint": "Compare your artwork against a US retail equivalent rather than against the supplier's export label, and check the ingredient names use the US convention.",
+      "cfr": [
+        {
+          "title": 21,
+          "part": "701",
+          "label": "Cosmetic Labeling"
+        },
+        {
+          "title": 21,
+          "part": "740",
+          "label": "Cosmetic Product Warning Statements"
+        }
+      ]
+    },
+    {
+      "id": "color-additives",
+      "agency": "FDA",
+      "title": "Colour additives",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "The colour's listing and permitted use",
+        "Batch certification lot numbers where the colour requires certification"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Colours are the one part of a cosmetic FDA does approve in advance. Each permitted colour is listed for particular uses, and some have to be certified batch by batch. A colour that is fine in a body lotion may not be permitted near the eyes, and using a certifiable colour from an uncertified batch makes the product adulterated.",
+      "source_url": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-73",
+      "self_check_hint": "For each colour, check it is permitted for the specific area of use - eyes and lips are the usual traps - and if it needs certification, get the certified lot number rather than a general statement.",
+      "cfr": [
+        {
+          "title": 21,
+          "part": "73",
+          "label": "Listing of Color Additives Exempt from Certification"
+        },
+        {
+          "title": 21,
+          "part": "74",
+          "label": "Listing of Color Additives Subject to Certification"
+        }
+      ]
+    },
+    {
+      "id": "mocra-registration-listing",
+      "agency": "FDA",
+      "title": "Facility registration & product listing (MoCRA)",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_sale",
+        "ongoing"
+      ],
+      "evidence": [
+        "Facility registration for the manufacturing or processing site",
+        "Product listing for each marketed cosmetic",
+        "Records supporting the safety of the product",
+        "A US contact route for adverse-event reports on the label"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "civil_penalty"
+      ],
+      "review_status": "conditional",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "MoCRA added duties that sit with a named responsible person rather than with the factory: the facility is registered, each product is listed, safety has to be substantiated with records you can produce, and serious adverse events have to be reported. Two things sellers get wrong - a registered factory does not mean your product is listed, and none of this is FDA approval of the product.",
+      "source_url": "https://www.fda.gov/cosmetics/cosmetics-laws-regulations/modernization-cosmetics-regulation-act-2022-mocra",
+      "self_check_hint": "Check who the responsible person actually is for your brand - if you import and sell under your own label, it is probably you, not the factory. Then check the listing is current after any reformulation or brand change. Deadlines and exemptions here move, so confirm the current position on FDA's own page.",
+      "statute": [
+        "21 U.S.C. 364 et seq."
+      ]
+    }
+  ]
+}

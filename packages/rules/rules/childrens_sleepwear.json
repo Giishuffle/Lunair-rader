@@ -1,0 +1,56 @@
+{
+  "category_key": "childrens_sleepwear",
+  "label": "Children's sleepwear",
+  "hts_prefixes": [
+    "6107",
+    "6108",
+    "6207",
+    "6208",
+    "6111",
+    "6209"
+  ],
+  "requirements": [
+    {
+      "id": "childrens-sleepwear-flammability",
+      "agency": "CPSC",
+      "title": "Children's sleepwear flammability",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Flammability test report for the specific fabric, seam and trim construction",
+        "For the tight-fitting route: the garment dimensions measured against the specification, plus the required permanent label"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Sleepwear in children's sizes has to be either flame resistant or tight-fitting to a precise specification. This is the single most misunderstood rule in children's clothing, and the mistake is almost always the same: calling a garment loungewear or playwear does not take it out of scope. What decides it is how the garment is designed, sized, marketed and likely to be used - if it reads as something a child sleeps in, it is sleepwear.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-D/part-1615",
+      "self_check_hint": "If you are relying on the tight-fitting route, get the actual measurements against every dimension in the specification - all of them, not most - and check the required permanent label is on the garment. If you are relying on flame resistance, check the report covers the trims and seams too, not just the main fabric.",
+      "conditions": {
+        "audience": "kids"
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1615",
+          "label": "Flammability of Children's Sleepwear: Sizes 0 Through 6X"
+        },
+        {
+          "title": 16,
+          "part": "1616",
+          "label": "Flammability of Children's Sleepwear: Sizes 7 Through 14"
+        }
+      ]
+    }
+  ]
+}

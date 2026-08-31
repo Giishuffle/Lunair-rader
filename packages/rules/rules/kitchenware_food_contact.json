@@ -1,0 +1,101 @@
+{
+  "category_key": "kitchenware_food_contact",
+  "label": "Kitchenware & food-contact items",
+  "hts_prefixes": [
+    "6911",
+    "6912",
+    "7013",
+    "7323",
+    "7615",
+    "8210",
+    "8211",
+    "8215",
+    "3924",
+    "4419"
+  ],
+  "requirements": [
+    {
+      "id": "food-contact-authorization",
+      "agency": "FDA",
+      "title": "Each food-contact substance has to be lawful for the use",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "For each material touching food: the authorisation route - a food-additive regulation, an effective Food Contact Notification, GRAS status or prior sanction",
+        "Confirmation the authorisation covers the actual conditions of use"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "There is no such thing as a general FDA food-grade certificate, and a supplier offering one is a warning sign rather than reassurance. What matters is that every substance that can migrate into food - the resin, colourant, coating, adhesive, printing ink, glaze - is lawful for that specific use. Conditions matter too: a plastic cleared for cold storage is not automatically cleared for a hot fill or a dishwasher.",
+      "source_url": "https://www.fda.gov/food/food-ingredients-packaging/food-contact-substances-fcs",
+      "self_check_hint": "Ask for the authorisation route per substance, not one certificate for the product. If an FCN is cited, check it names your actual manufacturer and covers your temperature, food type and repeat-use conditions - an FCN is specific to the notifier.",
+      "cfr": [
+        {
+          "title": 21,
+          "part": "175",
+          "label": "Indirect Food Additives: Adhesives and Components of Coatings"
+        },
+        {
+          "title": 21,
+          "part": "177",
+          "label": "Indirect Food Additives: Polymers"
+        },
+        {
+          "title": 21,
+          "part": "170",
+          "label": "Food Additives"
+        }
+      ],
+      "statute": [
+        "21 U.S.C. 348"
+      ]
+    },
+    {
+      "id": "ceramic-lead-cadmium",
+      "agency": "FDA",
+      "title": "Lead & cadmium leaching from ceramics and glazes",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "guidance_or_enforcement_policy",
+      "timing": [
+        "before_import"
+      ],
+      "evidence": [
+        "Leach test results for the specific glaze and firing, by vessel category",
+        "A permanent non-food-use marking where the article is decorative only"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "recall",
+        "sale_prohibition"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Glazed ceramics, enamelware and some decorated glass can leach lead or cadmium into food, and FDA applies leach limits that differ by vessel type - a flat plate, a small hollow item and a pitcher are treated differently, with pitchers strictest. Decorative-only ware can be sold, but it has to carry a permanent non-food-use marking; a removable sticker is not enough.",
+      "source_url": "https://www.fda.gov/food/environmental-contaminants-food/lead-food-and-foodwares",
+      "self_check_hint": "Get leach results for the actual glaze and firing you are importing, tested in the right vessel category. Watch decoration on the rim, lip or interior - that is where enforcement focuses, and a change of glaze supplier means retesting.",
+      "conditions": {
+        "materials_any": [
+          "ceramic",
+          "porcelain",
+          "stoneware",
+          "earthenware",
+          "glaze",
+          "enamel",
+          "pottery",
+          "china"
+        ]
+      }
+    }
+  ]
+}

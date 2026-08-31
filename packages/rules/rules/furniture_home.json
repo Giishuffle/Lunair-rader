@@ -1,0 +1,200 @@
+{
+  "category_key": "furniture_home",
+  "label": "Furniture & home furnishings",
+  "hts_prefixes": [
+    "9401",
+    "9403",
+    "9404"
+  ],
+  "requirements": [
+    {
+      "id": "composite-wood-formaldehyde",
+      "agency": "EPA",
+      "title": "Formaldehyde in composite wood (TSCA Title VI)",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_import",
+        "at_entry"
+      ],
+      "evidence": [
+        "Panel certification from a TSCA Title VI third-party certified producer",
+        "Compliant-language statements on invoices or bills of lading",
+        "The TSCA import certification made at entry",
+        "Records kept for three years"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal",
+        "civil_penalty",
+        "sale_prohibition"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Furniture containing hardwood plywood, MDF or particleboard has to be made from panels certified under the federal formaldehyde rule, with compliance statements travelling on the paperwork and a certification made to CBP at entry. Two traps: CARB Phase 2 alone is not the federal file, and hidden panel - the MDF back of a piece marketed as solid wood - is still in scope.",
+      "source_url": "https://www.epa.gov/formaldehyde/how-comply-formaldehyde-standards-composite-wood-products-act",
+      "self_check_hint": "Ask which certified panel producer supplied the board and get their certificate. Then check your invoices and bills of lading actually carry the compliance statement, and that your broker is making the TSCA certification at entry.",
+      "conditions": {
+        "materials_any": [
+          "plywood",
+          "mdf",
+          "particleboard",
+          "composite wood",
+          "fiberboard",
+          "fibreboard",
+          "engineered wood",
+          "veneer"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 40,
+          "part": "770",
+          "label": "Formaldehyde Standards for Composite Wood Products"
+        }
+      ]
+    },
+    {
+      "id": "upholstered-furniture-flammability",
+      "agency": "CPSC",
+      "title": "Upholstered furniture flammability",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import",
+        "before_sale"
+      ],
+      "evidence": [
+        "Records showing the cover fabric, barrier, filling and decking meet the standard",
+        "The required permanent label"
+      ],
+      "enforcement_effect": [
+        "sale_prohibition",
+        "recall",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "high",
+      "plain_english": "Upholstered furniture has a federal flammability standard, and the label is not the compliance - the components are. Changing foam, ticking, barrier, thread or construction can put a previously compliant piece outside the standard. Note this is separate from California's chemical flame-retardant labelling, which people often confuse with it.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1640",
+      "self_check_hint": "Ask what evidence sits behind the label for the exact construction you are importing, and re-check after any component change. A label alone with no supporting records is the common failure.",
+      "conditions": {
+        "text_matches_any": [
+          "sofa",
+          "couch",
+          "armchair",
+          "recliner",
+          "loveseat",
+          "ottoman",
+          "upholstered",
+          "settee",
+          "futon"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1640",
+          "label": "Standard for the Flammability of Upholstered Furniture"
+        }
+      ]
+    },
+    {
+      "id": "mattress-flammability",
+      "agency": "CPSC",
+      "title": "Mattress flammability",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Cigarette-ignition and open-flame test records for the prototype and confirmation testing",
+        "General Certificate of Conformity",
+        "The required permanent label"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Mattresses and mattress pads have to meet two separate flammability standards, one for cigarette ignition and one for open flame. Being compressed or roll-packed does not put a mattress outside the rules, which is a common assumption with boxed mattresses sold online.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-D/part-1632",
+      "self_check_hint": "Check the test records match your exact construction - foam, ticking, quilting, adhesive and barrier all count - and that you hold the certificate rather than the factory holding it.",
+      "conditions": {
+        "text_matches_any": [
+          "mattress",
+          "mattress pad",
+          "bed-in-a-box",
+          "futon mattress"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1632",
+          "label": "Flammability of Mattresses and Mattress Pads"
+        },
+        {
+          "title": 16,
+          "part": "1633",
+          "label": "Flammability (Open Flame) of Mattress Sets"
+        }
+      ]
+    },
+    {
+      "id": "clothing-storage-tipover",
+      "agency": "CPSC",
+      "title": "Clothing storage unit stability (STURDY)",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import",
+        "before_sale"
+      ],
+      "evidence": [
+        "Stability test report against the performance standard",
+        "Warning and identification labels",
+        "General Certificate of Conformity, with data eFiled at entry"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Dressers, chests and similar clothing storage units have to pass a tip-over stability standard, because furniture falling on children has killed them. Two things sellers get wrong: renaming a dresser a cabinet or nightstand does not decide scope - the product type, dimensions and storage function do - and including a wall-anchor kit does not substitute for passing the test.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1261",
+      "self_check_hint": "Check the test covers the exact size and drawer configuration you import, not a similar model, and that the required warning and identification labels are on the production units.",
+      "conditions": {
+        "text_matches_any": [
+          "dresser",
+          "chest of drawers",
+          "clothing storage",
+          "armoire",
+          "wardrobe",
+          "nightstand",
+          "bureau",
+          "chifforobe"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1261",
+          "label": "Safety Standard for Clothing Storage Units"
+        }
+      ]
+    }
+  ]
+}

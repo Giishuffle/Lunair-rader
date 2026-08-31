@@ -155,9 +155,9 @@
       ]
     },
     {
-      "id": "phthalates-toys-childcare",
+      "id": "phthalates-toys",
       "agency": "CPSC",
-      "title": "Phthalate limits in toys & child-care articles",
+      "title": "Phthalate limits in children's toys",
       "authority_layer": "federal_product_safety",
       "legal_status": "regulation",
       "timing": [
@@ -175,11 +175,64 @@
       "review_status": "confirmed",
       "reviewed_on": "2026-08-28",
       "severity": "critical",
-      "plain_english": "Phthalate limits are narrower than people assume: they cover children's toys and child-care articles, and they bite on accessible plasticized parts rather than on every children's product. A child-care article here means something used by a child 3 or under for sleeping, feeding, sucking or teething. Watch the soft bits that are easy to overlook - vinyl decals, grips, inks, artificial leather, tubing and flexible coatings.",
+      "plain_english": "Children's toys have limits on specified phthalates, and the limits bite on accessible plasticized parts rather than on the whole product. Watch the soft bits that are easy to overlook - vinyl decals, grips, inks, artificial leather, tubing and flexible coatings.",
       "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
       "self_check_hint": "First ask whether your product is actually a toy or a child-care article. If it is, check the report covers every accessible plasticized component, not only the obvious soft PVC.",
       "conditions": {
-        "audience": "kids"
+        "audience": "kids",
+        "is_toy": true
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1307",
+          "label": "Prohibition of Children's Toys and Child Care Articles Containing Specified Phthalates"
+        }
+      ],
+      "statute": [
+        "15 U.S.C. 2057c"
+      ]
+    },
+    {
+      "id": "phthalates-childcare-articles",
+      "agency": "CPSC",
+      "title": "Phthalate limits in child-care articles",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Lab test report covering each accessible plasticized component"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-28",
+      "severity": "critical",
+      "plain_english": "Child-care articles - things that help a child aged 3 or under sleep, feed, suck or teethe - have limits on specified phthalates on their accessible plasticized parts. This is narrower than \"anything for a child\": it turns on what the article is for, so a teether or a feeding bottle is in scope where a t-shirt is not.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+      "self_check_hint": "First check whether the article really is for sleeping, feeding, sucking or teething by a child of 3 or under. If it is, check the report covers every accessible plasticized component.",
+      "conditions": {
+        "audience": "kids",
+        "text_matches_any": [
+          "teether",
+          "teething",
+          "pacifier",
+          "dummy",
+          "bib",
+          "bottle",
+          "sippy",
+          "feeding",
+          "sleep sack",
+          "swaddle",
+          "bassinet",
+          "crib"
+        ]
       },
       "cfr": [
         {
