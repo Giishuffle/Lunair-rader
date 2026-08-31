@@ -89,6 +89,7 @@ export function welcomeTemplate(appUrl: string): { subject: string; html: string
     "regulations behind your products - not on a schedule. Quiet means nothing moved.",
     "",
     "Reply to this email if anything is unclear. A person reads it.",
+    `Common questions: ${appUrl}/help`,
     "",
     "Lunair World is an informational monitoring service built on official US",
     "government sources. It is not legal, customs-brokerage, or professional advice.",
@@ -121,7 +122,8 @@ export function welcomeTemplate(appUrl: string): { subject: string; html: string
       </p>
 
       <p style="margin:0;color:#8493AE;font-size:13px;line-height:1.6">
-        Reply to this email if anything is unclear - a person reads it.<br><br>
+        Reply to this email if anything is unclear - a person reads it.<br>
+        Common questions: <a href="${appUrl}/help" style="color:#8493AE">${appUrl}/help</a><br><br>
         Informational monitoring built on official US government sources. Not legal,
         customs-brokerage, or professional advice.<br>
         Wershuffle Inc, 169 Madison Avenue, Suite 11073, New York, NY 10016

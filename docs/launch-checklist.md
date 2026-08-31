@@ -41,7 +41,7 @@ this list top to bottom, one at a time. Tick items as they land.
         needing their own module.
 15. [ ] **AI assistant** - sold on Voyage, never built.
 16. [~] **CSV export** shipped; team seats and client workspaces still unbuilt (removed from pricing) - sold on Fleet/Lighthouse.
-17. [ ] **Support channel + refund runbook**.
+17. [x] **Support channel + refund runbook** - /help page, one inbox, runbook.
 18. [ ] **Durable infant & toddler products** - one module per product type,
         each with its own CFR part and trigger.
 19. [ ] **Household textiles** (blankets, bed linen, towels - HTS 6301/6302).

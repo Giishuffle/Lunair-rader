@@ -48,6 +48,9 @@ export default function Home() {
           <Link href="/pricing" style={{ color: "var(--muted)" }}>
             Pricing
           </Link>
+          <Link href="/help" style={{ color: "var(--muted)" }}>
+            Help
+          </Link>
           <Link href="/terms" style={{ color: "var(--muted)" }}>
             Terms
           </Link>

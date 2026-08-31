@@ -126,3 +126,61 @@ Copy the printed `whsec_...` into `STRIPE_WEBHOOK_SECRET`, then
 Annual checkout looks up the buyer's waitlist position; positions 1-50 get the
 `FOUNDING50` promotion code applied automatically, so they never have to remember
 a code. Verified live: annual Voyage came to $145.00 instead of $290.00.
+
+## Support & refunds
+
+There is one inbox: **guy@wershuffle.com**. It is on the landing page, in every
+alert, in the welcome email, and on /help. No ticketing system - at this size a
+person reading email is faster and better than a helpdesk.
+
+### The 14-day refund
+
+Promised in the Terms and on the settings page: 14 days, no questions, on any
+paid plan. "No questions" means exactly that - do not ask why, do not counter-offer,
+do not route them to a call. Asking a customer to justify a promised refund is how
+a refund becomes a chargeback and a review.
+
+1. Refund in the Stripe dashboard: find the customer, open the payment, Refund,
+   full amount. Reason "requested_by_customer".
+2. Cancel the subscription in the same place, or tell them to cancel in the
+   billing portal. **A refund does not cancel a subscription** - miss this and
+   they get billed again next period, which is the worst possible follow-up to a
+   refund.
+3. Reply confirming the amount and that the subscription is stopped. Say when the
+   money lands: card refunds typically take 5-10 business days, and that is Stripe
+   and their bank, not us.
+4. If they ask, their data stays until they delete the account themselves at
+   /app/settings. Do not delete it for them - it is theirs, and deletion is
+   irreversible.
+
+Outside 14 days there is no automatic right to a refund, but use judgement: a
+duplicate charge, a subscription nobody used, or our own outage is worth refunding
+without argument. The cost of a refund is smaller than the cost of arguing.
+
+### Someone says an alert was wrong
+
+This is the one that matters most - it is a claim about accuracy, which is the
+whole product.
+
+1. Get the product and the alert. The alert links to the product page; the event
+   and its sources are on it.
+2. Decide which of three it is:
+   - **The source moved and we reported it correctly.** Explain, link the source.
+   - **We surfaced a rule that does not reach their product.** A scoping bug. Fix
+     the condition in `packages/rules/rules/*.json`, ideally with a test.
+   - **We missed something, or the requirement is wrong.** The serious one. Fix
+     the entry, and if it turns on domain judgement rather than a mis-typed
+     citation, it goes to the broker rather than being guessed at.
+3. Never defend an entry you have not re-checked against its primary source. The
+   whole posture is "here is the regulation, check us" - so check.
+
+### Someone asks whether they are compliant
+
+They will. The answer is that we cannot tell them, and why: we show what appears
+to apply and cite the source, and a licensed customs broker is who signs off on a
+specific shipment. Say it plainly and offer what we can do - point at the exact
+requirement, its citation, and the self-check hint.
+
+Never write "you are compliant", "you are covered", or "you do not need X" about a
+specific shipment. `findUnhedgedBannedCopy()` stops that reaching the product; in
+an email there is only you.
