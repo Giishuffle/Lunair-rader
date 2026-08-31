@@ -14,6 +14,12 @@ interface Tier {
   monthly: number | null;
   annual: number | null;
   features: string[];
+  /**
+   * Sold by conversation, not by card. Lighthouse's white-label feed and client
+   * workspaces are still being built, and taking $199 up front for them through
+   * self-serve checkout would be selling something that does not exist yet.
+   */
+  contactOnly?: boolean;
 }
 
 const TIERS: Tier[] = [
@@ -24,9 +30,9 @@ const TIERS: Tier[] = [
     monthly: 0,
     annual: 0,
     features: [
-      "1 Product Passport",
-      "HTS suggestion & current duty snapshot",
-      "Requirement list, details partially locked",
+      "1 product",
+      "Candidate customs codes, each with the CBP ruling behind it",
+      "See which requirements appear to apply - names only",
       "Weekly newsletter",
     ],
   },
@@ -38,24 +44,22 @@ const TIERS: Tier[] = [
     annual: 290,
     features: [
       "10 products",
-      "Full baseline audit, nothing locked",
-      "Real-time alerts by email",
-      "Dollar-impact math per requirement",
-      "Compliance self-checklist tracking",
+      "The full audit: every requirement, unlocked, with its citation",
+      "Real-time alerts by email and Telegram",
+      "Estimated dollar impact when a duty rate moves",
+      "We read the regulations themselves, daily",
     ],
   },
   {
     plan: "fleet",
     name: "Fleet",
-    tagline: "For a team managing many SKUs",
+    tagline: "For a bigger catalog you need to report on",
     monthly: 79,
     annual: 790,
     features: [
       "50 products",
       "Everything in Voyage",
-      "SKU breakeven & pricing impact",
-      "3 team seats",
-      "CSV export & priority data refresh",
+      "CSV export of every product and watch",
     ],
   },
   {
@@ -64,11 +68,11 @@ const TIERS: Tier[] = [
     tagline: "For brokers, forwarders & sourcing agents",
     monthly: 199,
     annual: 1990,
+    contactOnly: true,
     features: [
-      "50 products, 3 team seats",
       "Everything in Fleet",
-      "White-label alert feed",
-      "10 client workspaces included (+$10/mo per extra)",
+      "White-label alerts for your client book",
+      "Client workspaces",
     ],
   },
 ];
@@ -174,13 +178,17 @@ export function PricingCards({
                   "Free"
                 ) : (
                   <>
+                    {tier.contactOnly && <span className="tier-from">from </span>}
                     ${interval === "annual" ? perMonthEquivalent : price}
                     <span className="tier-per">/mo</span>
                   </>
                 )}
               </p>
-              {price !== 0 && interval === "annual" && (
+              {price !== 0 && interval === "annual" && !tier.contactOnly && (
                 <p className="tier-billed">${price}/yr, billed annually</p>
+              )}
+              {tier.contactOnly && (
+                <p className="tier-billed">Being built with our first partners - talk to us.</p>
               )}
               {tier.plan === "voyage" && founding && interval === "annual" && (
                 <p className="tier-founding">Founding-50 discount applies at checkout</p>
@@ -192,7 +200,14 @@ export function PricingCards({
                 ))}
               </ul>
 
-              {tier.plan === "harbor" ? (
+              {tier.contactOnly ? (
+                <a
+                  className="btn-tier"
+                  href="mailto:guy@wershuffle.com?subject=Lunair%20World%20Lighthouse%20(partner%20tier)&body=Tell%20us%20roughly%20how%20many%20clients%20you%20look%20after%20and%20what%20you%20would%20want%20them%20to%20see."
+                >
+                  Talk to us
+                </a>
+              ) : tier.plan === "harbor" ? (
                 isCurrent ? (
                   <span className="tier-current">Your current plan</span>
                 ) : (

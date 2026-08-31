@@ -86,3 +86,5 @@
   margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line);
   color: var(--muted); font-size: 13px; max-width: 68ch; margin-left: auto; margin-right: auto; text-align: center;
 }
+
+.tier-from { font-size: 15px; font-weight: 500; color: var(--muted); }

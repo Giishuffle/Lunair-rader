@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { eq } from "drizzle-orm";
-import { schema, telegramLinkPayload } from "@lunair/core";
+import { PLAN_LIMITS, schema, telegramLinkPayload, type Plan } from "@lunair/core";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ManageBillingButton } from "./manage-billing-button";
@@ -73,6 +73,18 @@ export default async function SettingsPage() {
           </div>
         )}
       </div>
+
+      {PLAN_LIMITS[user.plan as Plan].csvExport && (
+        <section style={{ marginTop: 36 }}>
+          <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 6 }}>Export your data</h2>
+          <p className="quota-note" style={{ marginBottom: 12 }}>
+            Every product and the watches on it, as a spreadsheet.
+          </p>
+          <a href="/api/export/products" className="btn-amber" download>
+            Download CSV
+          </a>
+        </section>
+      )}
 
       <section style={{ marginTop: 36 }}>
         <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 6 }}>Telegram alerts</h2>

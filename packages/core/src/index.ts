@@ -8,4 +8,5 @@ export * from "./alerts/match.js";
 export * from "./newsletter/issue.js";
 export * from "./newsletter/token.js";
 export * from "./http.js";
+export * from "./csv.js";
 export { createDb, type Db } from "./db.js";
