@@ -3,7 +3,8 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import Google from "next-auth/providers/google";
 import { schema } from "@lunair/core";
 import { db } from "./db";
-import { sendMagicLink } from "./email";
+import { sendEmail, sendMagicLink, welcomeTemplate } from "./email";
+import { appUrl } from "./site";
 
 /**
  * Sign-in: passwordless magic link, plus Google once credentials exist.
@@ -76,6 +77,22 @@ export function buildAuthConfig(): NextAuthConfig {
           isAdmin: Boolean(u.isAdmin),
         } as typeof session.user;
         return session;
+      },
+    },
+    events: {
+      /**
+       * Fires once, when the adapter first creates the row - so this cannot go
+       * out again on later sign-ins. Failure is logged and swallowed on purpose:
+       * a welcome email that cannot send must never block someone signing in.
+       */
+      async createUser({ user }) {
+        if (!user.email) return;
+        try {
+          const { subject, html, text } = welcomeTemplate(appUrl());
+          await sendEmail({ to: user.email, subject, html, text });
+        } catch (err) {
+          console.error("[auth] welcome email failed", err);
+        }
       },
     },
     trustHost: true,
