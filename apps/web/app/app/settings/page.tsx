@@ -5,6 +5,7 @@ import { PLAN_LIMITS, schema, telegramLinkPayload, type Plan } from "@lunair/cor
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ManageBillingButton } from "./manage-billing-button";
+import { DangerZone } from "./danger-zone";
 
 export const metadata: Metadata = { title: "Account settings - Lunair World", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -87,6 +88,16 @@ export default async function SettingsPage() {
       )}
 
       <section style={{ marginTop: 36 }}>
+        <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 6 }}>Your data</h2>
+        <p className="quota-note" style={{ marginBottom: 12 }}>
+          Everything we hold about your account, as a JSON file.
+        </p>
+        <a href="/api/account/export" className="btn-tier" style={{ width: "auto", display: "inline-block" }} download>
+          Download my data
+        </a>
+      </section>
+
+      <section style={{ marginTop: 36 }}>
         <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 6 }}>Telegram alerts</h2>
         {user.telegramChatId ? (
           <p className="quota-note">
@@ -130,6 +141,7 @@ export default async function SettingsPage() {
           a full baseline audit, and real-time alerts.
         </p>
       )}
+      <DangerZone email={user.email} />
     </main>
   );
 }
