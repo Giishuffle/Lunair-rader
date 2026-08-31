@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 import { adminOverview, pendingReview } from "@/lib/admin";
 import { ReviewActions } from "./review-actions";
 
@@ -15,6 +17,13 @@ function hoursAgo(d: Date | null): string {
 }
 
 export default async function AdminPage() {
+  // The layout guards this too, but layout and page render in parallel - so
+  // without its own check the page's queries run first and throw, which logged
+  // an error on every signed-out hit even though the redirect was correct.
+  const session = await auth();
+  if (!session?.user) redirect("/signin?callbackUrl=/admin");
+  if (!session.user.isAdmin) redirect("/app");
+
   const [overview, queue] = await Promise.all([adminOverview(), pendingReview()]);
 
   return (
