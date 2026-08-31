@@ -130,6 +130,12 @@ export const RequirementTemplate = z.object({
       note: z.string().optional(),
     })
     .optional(),
+  /**
+   * Set only where the obligation follows the product rather than the tariff
+   * code - a children's rule reaching a night light classified as a lamp, or a
+   * battery rule reaching anything with a cell in it. Default is code-scoped.
+   */
+  cross_category: z.boolean().optional(),
   /** Conditions narrowing when this appears to apply (all optional = always) */
   conditions: z
     .object({

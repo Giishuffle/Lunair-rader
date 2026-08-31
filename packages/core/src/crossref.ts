@@ -89,6 +89,14 @@ export interface RequirementLike {
   plain_english: string;
   source_url: string;
   severity: "low" | "medium" | "high" | "critical";
+  /**
+   * Whether this requirement can reach products outside its category's tariff
+   * codes. True only where the law genuinely does: CPSC children's rules follow
+   * the child, not the code, so a night light classified as a lamp still needs a
+   * CPC. Marketing guides for jewellery do not travel that way, and letting them
+   * would hand a dog chew a lecture about gemstone descriptions.
+   */
+  cross_category?: boolean;
   conditions?: {
     audience?: "kids" | "adults" | "both";
     has_battery?: boolean;
@@ -231,8 +239,11 @@ export function matchCategories(
     const byCode = cat.hts_prefixes.some((pre) => codes.some((c) => c.startsWith(digits(pre))));
     // Attribute-driven reach: any requirement whose conditions match the product
     // pulls its category in, whatever the tariff code says.
+    // Only requirements that opt in, and only on a definite match - never on an
+    // unresolved one, or a product with unanswered questions would pull in every
+    // category at once.
     const byAttribute = cat.requirements.some(
-      (r) => r.conditions !== undefined && requirementApplies(r, p),
+      (r) => r.cross_category === true && evaluateRequirement(r, p) === "applies",
     );
     if (byCode || byAttribute) matched.set(cat.category_key, cat);
   }

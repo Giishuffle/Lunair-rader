@@ -1,0 +1,186 @@
+{
+  "category_key": "pet_consumables",
+  "label": "Pet food, treats & edible chews",
+  "hts_prefixes": [
+    "2309"
+  ],
+  "requirements": [
+    {
+      "id": "pet-food-fsvp",
+      "agency": "FDA",
+      "title": "Foreign Supplier Verification Program",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_import",
+        "at_entry",
+        "ongoing"
+      ],
+      "evidence": [
+        "A written FSVP for each foreign supplier and each food",
+        "Hazard analysis and supplier evaluation records, in English",
+        "The FSVP importer's name and identifier declared at entry"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Importing food for animals makes you an FSVP importer with duties of your own, and this is the one people are most often caught by. A factory audit or a registration certificate is not an FSVP: you need your own written programme, per supplier and per food, evaluating the specific hazards, and the records have to be in English and produceable promptly when FDA asks.",
+      "source_url": "https://www.fda.gov/food/importing-food-products-united-states/foreign-supplier-verification-programs-fsvp-importers",
+      "self_check_hint": "Ask who is named as the FSVP importer on your entries - if it is you, ask to see the written programme. \"Our supplier is FDA registered\" is not an answer to this.",
+      "cfr": [
+        {
+          "title": 21,
+          "part": "1",
+          "label": "General enforcement regulations; Subpart L covers FSVP"
+        }
+      ]
+    },
+    {
+      "id": "pet-food-prohibited-substances",
+      "agency": "FDA",
+      "title": "Ingredients and prohibited substances",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "regulation",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Full ingredient list with the legal status of each",
+        "Documentation on any ruminant-derived material"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "recall",
+        "sale_prohibition"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Animal food ingredients have to be lawful for that use, and some materials are prohibited outright - notably certain ruminant-derived proteins, under the rules aimed at BSE. An ingredient that is ordinary in human food is not automatically acceptable in animal food.",
+      "source_url": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-E/part-589",
+      "self_check_hint": "Go through the ingredient list one line at a time and ask what makes each lawful in animal food. Pay attention to anything derived from cattle or sheep.",
+      "cfr": [
+        {
+          "title": 21,
+          "part": "589",
+          "label": "Substances Prohibited from Use in Animal Food or Feed"
+        }
+      ]
+    },
+    {
+      "id": "pet-treat-animal-origin",
+      "agency": "USDA APHIS",
+      "title": "Animal-origin import restrictions",
+      "authority_layer": "federal_customs",
+      "legal_status": "regulation",
+      "timing": [
+        "before_import",
+        "at_entry"
+      ],
+      "evidence": [
+        "APHIS permit where required",
+        "Certificate covering species, country of origin and processing",
+        "Evidence of the treatment or processing relied on"
+      ],
+      "enforcement_effect": [
+        "cbp_hold",
+        "detention_or_refusal",
+        "transport_rejection"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Chews and treats made from animal material - hide, bone, ear, hoof, dried protein - face restrictions that depend on the species, the country it came from, that country's disease status, and how it was processed. The country the factory sits in is not necessarily the country the animal material came from, and that distinction is what usually causes a shipment to be held.",
+      "source_url": "https://www.aphis.usda.gov/aphis/ourfocus/importexport/animal-product-imports",
+      "self_check_hint": "Ask for the species and the country of origin of the animal material itself, not of the factory, and sort out any permit before the goods ship rather than after.",
+      "conditions": {
+        "text_matches_any": [
+          "rawhide",
+          "hide",
+          "bully stick",
+          "pizzle",
+          "chew",
+          "bone",
+          "antler",
+          "hoof",
+          "ear",
+          "tendon",
+          "jerky",
+          "dried",
+          "treat"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 9,
+          "part": "94",
+          "label": "Disease-related import restrictions"
+        },
+        {
+          "title": 9,
+          "part": "95",
+          "label": "Sanitary Control of Animal Byproducts"
+        }
+      ]
+    },
+    {
+      "id": "pet-pesticidal-claims",
+      "agency": "EPA",
+      "title": "Flea, tick and antimicrobial claims",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_import",
+        "before_sale",
+        "at_listing"
+      ],
+      "evidence": [
+        "EPA registration number where the product is a pesticide",
+        "Approved labelling matching the registration"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "civil_penalty"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Claiming a product repels, kills or prevents fleas, ticks, mosquitoes or bacteria generally makes it a pesticide, which has to be registered before it can be sold. This catches ordinary-looking accessories - a collar, a spray, a shampoo, a wipe - and the claim can be enough on its own even where the ingredients are marketed as natural.",
+      "source_url": "https://www.epa.gov/pets",
+      "self_check_hint": "Read your listing copy for any claim about repelling or killing pests or germs. If a claim like that is there, check for an EPA registration number and that the label matches what was registered.",
+      "conditions": {
+        "text_matches_any": [
+          "flea",
+          "tick",
+          "repel",
+          "antimicrobial",
+          "antibacterial",
+          "insect",
+          "mosquito",
+          "parasite",
+          "deworm",
+          "sanitiz",
+          "sanitis",
+          "disinfect"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 40,
+          "part": "152",
+          "label": "Pesticide Registration and Classification Procedures"
+        }
+      ],
+      "statute": [
+        "7 U.S.C. 136 et seq."
+      ]
+    }
+  ]
+}

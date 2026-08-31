@@ -34,10 +34,11 @@ this list top to bottom, one at a time. Tick items as they land.
 11. [x] **CPSC certificate eFiling** - mandatory since 8 Jul 2026, unmentioned.
 12. [x] **Prop 65 / state overlays** as a separate authority layer.
 13. [x] **Incorporated-standard edition watching** - eCFR cannot see an ASTM edition change.
-14. [~] **More categories** - apparel, children's sleepwear, cosmetics,
-        food-contact kitchenware and furniture shipped (8 categories, 34
-        requirements). Still to do from the broker's list: children's jewelry,
-        pet food & edible chews, ordinary pet accessories.
+14. [x] **More categories** - the broker's full launch list is in: apparel,
+        children's sleepwear, cosmetics, food-contact kitchenware, furniture,
+        children's jewelry and pet consumables. 10 categories, 41 requirements.
+        Ordinary pet accessories fold into the cross-category rules rather than
+        needing their own module.
 15. [ ] **AI assistant** - sold on Voyage, never built.
 16. [~] **CSV export** shipped; team seats and client workspaces still unbuilt (removed from pricing) - sold on Fleet/Lighthouse.
 17. [ ] **Support channel + refund runbook**.

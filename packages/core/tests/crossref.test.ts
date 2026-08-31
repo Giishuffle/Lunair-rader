@@ -23,6 +23,9 @@ const LIBRARY: RuleCategoryLike[] = [
         plain_english: "Appears to apply to products for children 12 and under.",
         source_url: "https://www.cpsc.gov/cpc",
         severity: "high",
+        // Children's rules follow the child rather than the tariff code, which
+        // is what lets them reach a night light classified as a lamp.
+        cross_category: true,
         conditions: { audience: "kids" },
       },
     ],
@@ -47,6 +50,7 @@ const LIBRARY: RuleCategoryLike[] = [
         plain_english: "Appears to apply to products containing lithium batteries.",
         source_url: "https://www.phmsa.dot.gov/lithiumbatteries",
         severity: "medium",
+        cross_category: true,
         conditions: { has_battery: true },
       },
     ],
@@ -190,6 +194,25 @@ describe("matchCategories", () => {
     const keys = matchCategories(nightLight, LIBRARY, ["940540"]).map((c) => c.category_key);
     expect(keys).toContain("electronics_consumer"); // by tariff code
     expect(keys).toContain("toys_children"); // by audience, despite the code
+  });
+
+  it("does not let a category reach beyond its codes unless a rule opts in", () => {
+    // Marketing rules for one trade do not follow the product the way a safety
+    // rule does: without this, a dog chew was being handed jewellery guidance.
+    const jewellery: RuleCategoryLike = {
+      category_key: "jewelry_accessories",
+      label: "Jewellery",
+      hts_prefixes: ["7117"],
+      requirements: [
+        {
+          id: "precious-metal-marking", agency: "FTC", title: "Gold and gemstone claims",
+          plain_english: "x", source_url: "https://example.com", severity: "medium",
+          conditions: { audience: "adults" },
+        },
+      ],
+    };
+    const chew: ProductProfile = { name: "Beef rawhide dog chew", audience: "adults", materials: ["beef hide"] };
+    expect(matchCategories(chew, [jewellery], ["230910"]).map((c) => c.category_key)).toEqual([]);
   });
 
   it("does not pull in children's rules for an adult product", () => {

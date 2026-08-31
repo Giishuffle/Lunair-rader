@@ -1,0 +1,118 @@
+{
+  "category_key": "jewelry_accessories",
+  "label": "Jewellery & fashion accessories",
+  "hts_prefixes": [
+    "7113",
+    "7114",
+    "7116",
+    "7117",
+    "7118",
+    "9606",
+    "9615"
+  ],
+  "requirements": [
+    {
+      "id": "childrens-jewelry-lead",
+      "agency": "CPSC",
+      "title": "Lead in children's jewellery",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "statute",
+      "timing": [
+        "before_manufacture",
+        "before_import"
+      ],
+      "evidence": [
+        "Lab test report per accessible component - each charm, clasp, bead, plating and solder joint"
+      ],
+      "enforcement_effect": [
+        "detention_or_refusal",
+        "sale_prohibition",
+        "recall"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "critical",
+      "plain_english": "Jewellery made for children 12 and under is a children's product, and the lead limits apply to each accessible component rather than to an average of the piece. Testing a composite sample is the classic mistake here - it dilutes a non-compliant clasp or solder joint into a passing number.",
+      "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Lead",
+      "self_check_hint": "Get results component by component, not one figure for the item. Ask specifically about the clasp, the solder, the plating and any painted or coated bead.",
+      "conditions": {
+        "age_band_any": [
+          "under_3",
+          "3_to_12"
+        ]
+      },
+      "cfr": [
+        {
+          "title": 16,
+          "part": "1303",
+          "label": "Ban of Lead-Containing Paint and Certain Consumer Products Bearing Lead-Containing Paint"
+        }
+      ],
+      "statute": [
+        "15 U.S.C. 1278a"
+      ]
+    },
+    {
+      "id": "jewelry-cadmium-state",
+      "agency": "States",
+      "title": "Cadmium limits are state law, not one federal rule",
+      "authority_layer": "state",
+      "legal_status": "statute",
+      "timing": [
+        "before_sale",
+        "at_listing"
+      ],
+      "evidence": [
+        "Cadmium test results where a state limit applies",
+        "A record of which states you sell into"
+      ],
+      "enforcement_effect": [
+        "state_notice",
+        "civil_penalty",
+        "commercial_rejection"
+      ],
+      "review_status": "conditional",
+      "reviewed_on": "2026-08-29",
+      "severity": "medium",
+      "plain_english": "There is no single federal cadmium limit covering all jewellery. Several states set their own numerical limits, and the widely quoted 100 ppm figure comes from a standard and from state law rather than from one federal rule. CPSC can still act where a product presents a hazard, but that is a different route with a different test.",
+      "source_url": "https://oehha.ca.gov/proposition-65",
+      "self_check_hint": "Check which states you actually sell into and what each requires, rather than applying one remembered number. If a supplier cites 100 ppm, ask which authority they mean."
+    },
+    {
+      "id": "precious-metal-marking",
+      "agency": "FTC",
+      "title": "Gold, silver and gemstone claims",
+      "authority_layer": "federal_product_safety",
+      "legal_status": "guidance_or_enforcement_policy",
+      "timing": [
+        "before_sale",
+        "at_listing"
+      ],
+      "evidence": [
+        "Quality mark accompanied by a maker's trademark or name",
+        "Substantiation for fineness, plating thickness and gemstone descriptions"
+      ],
+      "enforcement_effect": [
+        "relabeling",
+        "civil_penalty",
+        "commercial_rejection"
+      ],
+      "review_status": "confirmed",
+      "reviewed_on": "2026-08-29",
+      "severity": "medium",
+      "plain_english": "If you describe an item as gold, silver, platinum, plated or gemstone-set, the description has to be accurate and the terms have specific meanings. Solid, vermeil, filled, bonded, plated and flashed are not interchangeable. A quality stamp also has to be accompanied by a maker's mark - a fineness stamp on its own is not enough. Laboratory-grown and treated stones have to be disclosed as such.",
+      "source_url": "https://www.ecfr.gov/current/title-16/chapter-I/subchapter-B/part-23",
+      "self_check_hint": "Read your listing title and bullets as claims. Check any quality stamp is paired with a trademark, and that plated goods are not described in a way that implies solid metal.",
+      "cfr": [
+        {
+          "title": 16,
+          "part": "23",
+          "label": "Guides for the Jewelry, Precious Metals, and Pewter Industries"
+        }
+      ],
+      "statute": [
+        "15 U.S.C. 291-300"
+      ]
+    }
+  ]
+}

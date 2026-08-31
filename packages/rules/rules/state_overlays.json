@@ -29,6 +29,7 @@
       "plain_english": "California requires a warning before knowingly exposing people to any of a long list of chemicals, and it reaches most consumer products sold there - including through online listings. Two things worth being clear about: this is a California requirement, not a condition of bringing goods into the United States, so it will not stop your shipment at the port. But it is enforced largely through private lawsuits, which is why sellers meet it as settlement demands rather than as customs problems.",
       "source_url": "https://oehha.ca.gov/proposition-65",
       "self_check_hint": "Work out whether any listed chemical is actually present and whether exposure exceeds the safe-harbour level - a warning added \"just in case\" carries its own risk, and so does omitting one. This is the area where a toxicologist or Prop 65 counsel earns their fee.",
+      "cross_category": true,
       "conditions": {}
     }
   ]

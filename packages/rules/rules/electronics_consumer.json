@@ -38,6 +38,7 @@
       "plain_english": "Consumer products that contain or are designed to use button or coin cells have their own safety rule, because a swallowed coin cell can cause serious internal injuries quickly. It covers how securely the battery compartment closes, testing for the kind of handling a product actually gets, and specific warnings on the product, the packaging and the instructions. This is separate from the shipping rules for batteries - meeting the transport rules does nothing for this one.",
       "source_url": "https://www.cpsc.gov/Business--Manufacturing/Business-Education/Button-Cell-or-Coin-Batteries",
       "self_check_hint": "Check the compartment needs a tool or two independent actions to open, not just a push. Then check the required warnings are actually on the product, the box and the instructions - and that you hold the right certificate for it.",
+      "cross_category": true,
       "conditions": {
         "has_button_cell": true
       },
@@ -80,6 +81,7 @@
       "plain_english": "If your product deliberately sends out a radio signal - Wi-Fi, Bluetooth, cellular, a radio remote, RFID - it generally needs to be certified before import and sale, and it carries an FCC ID. Two traps worth knowing. Using a pre-certified radio module does not automatically cover your product: the module's approval comes with conditions about the antenna, the host device and the labelling, and you have to meet them. And CE marking or RoHS from a European supplier is not FCC authorization - different country, different rule.",
       "source_url": "https://www.fcc.gov/engineering-technology/laboratory-division/general/equipment-authorization",
       "self_check_hint": "Find the FCC ID printed on the device and look it up in the FCC's public database - check it names the right product and that the grant covers how you are actually using the radio. If you changed the antenna, enclosure, RF layout, power or firmware, ask whether the existing grant still holds.",
+      "cross_category": true,
       "conditions": {
         "has_radio": true
       },
@@ -122,6 +124,7 @@
       "plain_english": "A product with no radio in it can still fall under FCC rules. Anything with a clock or a microprocessor gives off a small amount of radio noise as a side effect, and that is regulated too - usually through a Supplier's Declaration of Conformity rather than full certification. \"No wireless\" does not mean \"no FCC\". One thing sellers miss: an SDoC needs a responsible party located in the United States, which for an importer is normally you.",
       "source_url": "https://www.ecfr.gov/current/title-47/chapter-I/subchapter-A/part-15/subpart-B/section-15.101",
       "self_check_hint": "Ask your supplier which route the product took - SDoC or certification - and get the document plus the test report behind it. Check the test covers the actual power supply, board and cable configuration you ship, and that a US party is named.",
+      "cross_category": true,
       "conditions": {
         "has_radio": false,
         "is_digital_device": true
@@ -157,6 +160,7 @@
       "plain_english": "Lithium batteries are regulated in transport, and the rules change depending on whether the battery ships on its own, packed alongside the product, or installed inside it. Watch the state of charge for air shipments, the packaging and marking, and the paperwork that has to travel with the shipment. One thing worth being clear on: the UN 38.3 test summary proves the battery design was tested. It is evidence you need, but it is not the same as your shipment being packed and documented correctly.",
       "source_url": "https://www.phmsa.dot.gov/lithiumbatteries",
       "self_check_hint": "Get the UN 38.3 test summary and check it names the exact cell or pack model you are actually shipping. Then ask your forwarder to confirm the packing, marking and documents match how it ships - installed, packed with, or loose - and whether air adds a state-of-charge limit.",
+      "cross_category": true,
       "conditions": {
         "has_battery": true
       },
@@ -196,6 +200,7 @@
       "plain_english": "If your product needs a CPSC certificate - and a product using button or coin cells generally does - the data from that certificate has to be filed electronically with your customs entry through ACE, at the time of filing. It applies to de minimis shipments and Foreign Trade Zone withdrawals too, and goods arriving by mail go into CPSC's Product Registry before arrival instead. Your customs broker normally transmits it, but only if you have given them the certificate data.",
       "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1110/section-1110.13",
       "self_check_hint": "Ask your customs broker directly whether they are transmitting CPSC certificate data in your entries, and confirm they hold current certificate details for each SKU. A certificate sitting in your own files does not get filed by itself - and \"we've always just held the certificate\" is the answer that means it is not being filed.",
+      "cross_category": true,
       "conditions": {
         "has_button_cell": true
       },
